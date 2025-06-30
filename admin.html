@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tea Station - Order Menu</title>
+    <title>Tea Station Admin - Order Management</title>
     <style>
         * {
             margin: 0;
@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
             background: white;
             border-radius: 15px;
@@ -48,6 +48,30 @@
             padding: 30px;
         }
 
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #a8c4a8, #8fb88f);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            opacity: 0.9;
+        }
+
         .section {
             margin-bottom: 40px;
         }
@@ -60,180 +84,193 @@
             padding-bottom: 10px;
         }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .menu-item {
-            border: 2px solid #e8dcc0;
+        .orders-container {
+            background: linear-gradient(135deg, #f8f6f2, #f0f4f0);
             border-radius: 10px;
             padding: 20px;
-            transition: all 0.3s ease;
+            border: 1px solid #e8dcc0;
         }
 
-        .menu-item:hover {
-            border-color: #a8c4a8;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(168, 196, 168, 0.2);
+        .order-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border-left: 5px solid #a8c4a8;
         }
 
-        .menu-item.sold-out {
-            opacity: 0.6;
-            background: #f8f9fa;
+        .order-card.preparing {
+            border-left-color: #d4a5a5;
         }
 
-        .item-header {
+        .order-card.ready {
+            border-left-color: #a8c4a8;
+        }
+
+        .order-card.completed {
+            border-left-color: #e8dcc0;
+        }
+
+        .order-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .item-name {
+        .order-info {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .customer-name {
             font-weight: bold;
             font-size: 1.2em;
             color: #5f6b6d;
         }
 
-        .item-price {
-            color: #a8c4a8;
-            font-weight: bold;
-            font-size: 1.1em;
-        }
-
-        .item-description {
+        .order-time {
             color: #7f8c8d;
-            margin-bottom: 15px;
-            line-height: 1.4;
+            font-size: 0.9em;
         }
 
-        .item-controls {
+        .order-total {
+            background: #a8c4a8;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .order-items {
+            margin-bottom: 15px;
+        }
+
+        .order-item {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
         }
 
-        .stock-info {
-            font-size: 0.9em;
-            color: #7f8c8d;
+        .order-item:last-child {
+            border-bottom: none;
         }
 
-        .sold-out-label {
-            color: #d4a5a5;
+        .special-requests {
+            background: #f8f6f2;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #e8dcc0;
+        }
+
+        .special-requests strong {
+            color: #5f6b6d;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .status-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
             font-weight: bold;
+            transition: all 0.3s ease;
         }
 
-        .quantity-controls {
+        .status-btn.new {
+            background: #a8c4a8;
+            color: white;
+        }
+
+        .status-btn.preparing {
+            background: #d4a5a5;
+            color: white;
+        }
+
+        .status-btn.ready {
+            background: #a8c4a8;
+            color: white;
+        }
+
+        .status-btn.completed {
+            background: #e8dcc0;
+            color: #5f6b6d;
+        }
+
+        .status-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .inventory-section {
+            background: #f8f6f2;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e8dcc0;
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .inventory-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e8dcc0;
+        }
+
+        .inventory-item h4 {
+            color: #5f6b6d;
+            margin-bottom: 10px;
+        }
+
+        .stock-control {
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .qty-btn {
-            background: #a8c4a8;
+        .stock-input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #e8dcc0;
+            border-radius: 3px;
+        }
+
+        .update-btn {
+            background: #d4a5a5;
             color: white;
             border: none;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
+            padding: 6px 12px;
+            border-radius: 3px;
             cursor: pointer;
-            font-weight: bold;
+            font-size: 0.9em;
             transition: background 0.3s ease;
         }
 
-        .qty-btn:hover {
-            background: #8fb88f;
+        .update-btn:hover {
+            background: #c49494;
         }
 
-        .qty-btn:disabled {
-            background: #e8dcc0;
-            cursor: not-allowed;
-        }
-
-        .quantity {
-            font-weight: bold;
-            min-width: 20px;
+        .loading {
             text-align: center;
-            color: #5f6b6d;
-        }
-
-        .cart-section {
-            background: linear-gradient(135deg, #f8f6f2, #f0f4f0);
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-            border: 1px solid #e8dcc0;
-        }
-
-        .cart-items {
-            margin-bottom: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #e8dcc0;
-        }
-
-        .cart-total {
-            font-size: 1.3em;
-            font-weight: bold;
-            color: #5f6b6d;
-            text-align: right;
-            margin-bottom: 20px;
-        }
-
-        .order-form {
-            display: grid;
-            gap: 15px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #5f6b6d;
-        }
-
-        .form-group input {
-            padding: 10px;
-            border: 2px solid #e8dcc0;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #a8c4a8;
-        }
-
-        .submit-btn {
-            background: linear-gradient(45deg, #a8c4a8, #8fb88f);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 5px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            background: linear-gradient(45deg, #8fb88f, #7da67d);
-            transform: translateY(-1px);
-        }
-
-        .submit-btn:disabled {
-            background: #e8dcc0;
-            cursor: not-allowed;
+            padding: 40px;
+            color: #7f8c8d;
         }
 
         .message {
@@ -256,77 +293,132 @@
             border: 1px solid #d4a5a5;
         }
 
-        .empty-cart {
+        .no-orders {
             text-align: center;
             color: #7f8c8d;
             font-style: italic;
+            padding: 40px;
         }
 
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #7f8c8d;
+        .filter-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #a8c4a8;
+            background: white;
+            color: #a8c4a8;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #a8c4a8;
+            color: white;
+        }
+
+        .customer-link {
+            background: #a8c4a8;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.9em;
+            transition: background 0.3s ease;
+        }
+
+        .customer-link:hover {
+            background: #8fb88f;
+        }
+
+        @media (max-width: 768px) {
+            .order-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .order-info {
+                justify-content: space-between;
+            }
+            
+            .order-actions {
+                justify-content: center;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>🍵 Tea Station</h1>
-            <p>Welcome to our cozy apartment tea corner!</p>
+            <h1>🔧 Tea Station Admin</h1>
+            <p>Order Management Dashboard</p>
         </div>
 
         <div class="main-content">
             <!-- Loading State -->
             <div class="loading" id="loading">
-                Loading menu...
+                Loading orders and inventory...
             </div>
 
             <!-- Main Content (hidden until loaded) -->
             <div id="main-app" style="display: none;">
-                <!-- Caffeinated Tea Menu Section -->
-                <div class="section">
-                    <h2>☕ Caffeinated Teas</h2>
-                    <div class="menu-grid" id="caffeinated-menu">
-                        <!-- Caffeinated tea items will be populated from Firebase -->
+                
+                <!-- Stats Section -->
+                <div class="stats-section">
+                    <div class="stat-card">
+                        <h3 id="total-orders">0</h3>
+                        <p>Total Orders Today</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="pending-orders">0</h3>
+                        <p>Pending Orders</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="daily-revenue">$0</h3>
+                        <p>Today's Revenue</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="low-stock-items">0</h3>
+                        <p>Low Stock Items</p>
                     </div>
                 </div>
 
-                <!-- Decaf Tea Menu Section -->
-                <div class="section">
-                    <h2>🌙 Decaf & Herbal Teas</h2>
-                    <div class="menu-grid" id="decaf-menu">
-                        <!-- Decaf tea items will be populated from Firebase -->
-                    </div>
+                <!-- Customer App Link -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <a href="index.html" class="customer-link">📱 View Customer App</a>
                 </div>
 
-                <!-- Accompaniments Section -->
+                <!-- Orders Section -->
                 <div class="section">
-                    <h2>🍯 Accompaniments</h2>
-                    <div class="menu-grid" id="accompaniments-menu">
-                        <!-- Accompaniment items will be populated from Firebase -->
-                    </div>
-                </div>
-
-                <!-- Cart Section -->
-                <div class="cart-section">
-                    <h2>Your Order</h2>
-                    <div class="cart-items" id="cart-items">
-                        <div class="empty-cart">Your cart is empty</div>
-                    </div>
-                    <div class="cart-total" id="cart-total">Total: $0.00</div>
+                    <h2>📋 Recent Orders</h2>
                     
-                    <form class="order-form" id="order-form">
-                        <div class="form-group">
-                            <label for="customer-name">Your Name:</label>
-                            <input type="text" id="customer-name" required>
+                    <!-- Filter Buttons -->
+                    <div class="filter-section">
+                        <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
+                        <button class="filter-btn" onclick="filterOrders('new')">New</button>
+                        <button class="filter-btn" onclick="filterOrders('preparing')">Preparing</button>
+                        <button class="filter-btn" onclick="filterOrders('ready')">Ready</button>
+                        <button class="filter-btn" onclick="filterOrders('completed')">Completed</button>
+                    </div>
+
+                    <div class="orders-container" id="orders-container">
+                        <div class="no-orders">No orders yet today</div>
+                    </div>
+                </div>
+
+                <!-- Inventory Management Section -->
+                <div class="section">
+                    <h2>📦 Inventory Management</h2>
+                    <div class="inventory-section">
+                        <div class="inventory-grid" id="inventory-grid">
+                            <!-- Inventory items will be populated here -->
                         </div>
-                        <div class="form-group">
-                            <label for="special-requests">Special Requests:</label>
-                            <input type="text" id="special-requests" placeholder="Extra honey, no sugar, etc.">
-                        </div>
-                        <button type="submit" class="submit-btn" id="submit-order" disabled>Place Order</button>
-                    </form>
+                    </div>
                 </div>
             </div>
 
@@ -344,8 +436,10 @@
             doc, 
             getDocs, 
             updateDoc, 
-            addDoc, 
-            onSnapshot 
+            onSnapshot,
+            query,
+            orderBy,
+            where
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // Firebase configuration
@@ -361,357 +455,40 @@
 
         // Initialize Firebase
         let app, db;
+        let orders = [];
         let inventory = { teas: [], accompaniments: [] };
-        let cart = [];
+        let currentFilter = 'all';
 
-        // Try to initialize Firebase
         try {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
-            
-            // Initialize the app with demo data
             await initializeData();
-            
         } catch (error) {
             console.error('Firebase initialization error:', error);
-            
-            // Fall back to demo data
-            initializeDemoData();
+            showMessage('Error connecting to database', 'error');
         }
 
-        // Initialize with real data (for when Firebase isn't configured)
-        function initializeDemoData() {
-            inventory = {
-                teas: [
-                    {
-                        id: 'chai-tea',
-                        name: 'Chai Tea',
-                        description: 'Traditional Indian spiced tea blend with warming cardamom, cinnamon, and ginger.',
-                        price: 3.25,
-                        stock: 8,
-                        category: 'tea'
-                    },
-                    {
-                        id: 'green-tea',
-                        name: 'Green Tea',
-                        description: 'Pure Japanese green tea with fresh, grassy notes and natural antioxidants.',
-                        price: 3.25,
-                        stock: 9,
-                        category: 'tea'
-                    },
-                    {
-                        id: 'butterfly-pea',
-                        name: 'Butterfly Pea',
-                        description: 'Magical Thai herbal tea that changes color! Naturally blue, turns purple with lemon.',
-                        price: 3.50,
-                        stock: 4,
-                        category: 'tea'
-                    }
-                ],
-                accompaniments: [
-                    {
-                        id: 'local-honey',
-                        name: 'Local Honey',
-                        description: 'Sweet wildflower honey from local beekeepers.',
-                        price: 0.50,
-                        stock: 15,
-                        category: 'accompaniment'
-                    },
-                    {
-                        id: 'fresh-lemon',
-                        name: 'Fresh Lemon',
-                        description: 'Bright citrus wedge - creates color-changing magic with Butterfly Pea!',
-                        price: 0.25,
-                        stock: 12,
-                        category: 'accompaniment'
-                    }
-                ]
-            };
-            
-            hideLoading();
-            renderMenu();
-            renderCart();
-        }
-
-        // Initialize Firebase data
         async function initializeData() {
             try {
-                // Check if we have existing data
-                const teaSnapshot = await getDocs(collection(db, 'teas'));
-                const accompanimentSnapshot = await getDocs(collection(db, 'accompaniments'));
+                // Load inventory
+                await loadInventory();
                 
-                if (teaSnapshot.empty && accompanimentSnapshot.empty) {
-                    // No data exists, create real tea inventory
-                    console.log('No existing data found, creating your tea inventory...');
-                    await createDemoData();
-                }
+                // Load orders
+                await loadOrders();
                 
-                // Load data from Firebase
-                await loadInventoryFromFirebase();
-                
-                // Set up real-time listeners for inventory changes
+                // Set up real-time listeners
                 setupRealtimeListeners();
                 
-            } catch (error) {
-                console.error('Error initializing data:', error);
-                initializeDemoData();
-            }
-        }
-
-        // Create real tea inventory
-        async function createDemoData() {
-            const realTeas = [
-                // Caffeinated Teas
-                {
-                    id: 'chai-tea',
-                    name: 'Chai Tea',
-                    description: 'Traditional Indian spiced tea blend with warming cardamom, cinnamon, and ginger.',
-                    price: 3.25,
-                    stock: 8,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Indian'
-                },
-                {
-                    id: 'cinnamon-apple-spice',
-                    name: 'Cinnamon Apple Spice',
-                    description: 'Cozy American blend with sweet apple pieces and warming cinnamon spices.',
-                    price: 3.00,
-                    stock: 6,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'American'
-                },
-                {
-                    id: 'thai-tea-red',
-                    name: 'Thai Tea (Red)',
-                    description: 'Bold and vibrant Thai black tea with distinctive orange color and sweet flavor.',
-                    price: 3.50,
-                    stock: 5,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'thai-tea-yellow',
-                    name: 'Thai Tea (Yellow)',
-                    description: 'Smooth Thai tea blend with a mellow, golden flavor profile.',
-                    price: 3.50,
-                    stock: 4,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'royal-blend',
-                    name: 'Royal Blend',
-                    description: 'Classic British black tea blend, perfect for a proper afternoon tea.',
-                    price: 3.75,
-                    stock: 7,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'British'
-                },
-                {
-                    id: 'green-tea',
-                    name: 'Green Tea',
-                    description: 'Pure Japanese green tea with fresh, grassy notes and natural antioxidants.',
-                    price: 3.25,
-                    stock: 9,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Japanese'
-                },
-                {
-                    id: 'oolong-tea',
-                    name: 'Oolong Tea',
-                    description: 'Traditional Japanese oolong with complex, semi-oxidized flavor profile.',
-                    price: 4.00,
-                    stock: 3,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Japanese'
-                },
-                {
-                    id: 'hojicha',
-                    name: 'Hojicha',
-                    description: 'Roasted Japanese green tea with nutty, caramel-like flavor and lower caffeine.',
-                    price: 3.75,
-                    stock: 5,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Japanese'
-                },
+                hideLoading();
+                updateStats();
                 
-                // Decaf/Herbal Teas
-                {
-                    id: 'chamomile',
-                    name: 'Chamomile',
-                    description: 'Soothing herbal tea with gentle floral notes, perfect for evening relaxation.',
-                    price: 2.75,
-                    stock: 8,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'American'
-                },
-                {
-                    id: 'lemon-ginger',
-                    name: 'Lemon Ginger',
-                    description: 'Zesty French herbal blend with bright lemon and warming ginger spice.',
-                    price: 3.00,
-                    stock: 6,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'French'
-                },
-                {
-                    id: 'butterfly-pea',
-                    name: 'Butterfly Pea',
-                    description: 'Magical Thai herbal tea that changes color! Naturally blue, turns purple with lemon.',
-                    price: 3.50,
-                    stock: 4,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'ssanghwacha',
-                    name: 'Ssanghwacha',
-                    description: 'Traditional Korean herbal blend with warming properties and earthy flavor.',
-                    price: 3.25,
-                    stock: 3,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Korean'
-                },
-                {
-                    id: 'mint',
-                    name: 'Mint',
-                    description: 'Refreshing American peppermint tea, naturally caffeine-free and cooling.',
-                    price: 2.50,
-                    stock: 10,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'American'
-                },
-                {
-                    id: 'lemongrass-pandan',
-                    name: 'Lemongrass Pandan',
-                    description: 'Exotic Thai blend with citrusy lemongrass and sweet, nutty pandan leaf.',
-                    price: 3.25,
-                    stock: 5,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'lemongrass',
-                    name: 'Lemongrass',
-                    description: 'Pure Thai lemongrass tea with bright, citrusy flavor and digestive benefits.',
-                    price: 2.75,
-                    stock: 7,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'corn-silk',
-                    name: 'Corn Silk',
-                    description: 'Traditional Korean herbal tea known for its subtle sweetness and wellness properties.',
-                    price: 2.75,
-                    stock: 4,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Korean'
-                },
-                {
-                    id: 'earl-gray-decaf',
-                    name: 'Earl Gray (Decaf)',
-                    description: 'Classic British bergamot-scented tea, decaffeinated for evening enjoyment.',
-                    price: 3.00,
-                    stock: 6,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'British'
-                },
-                {
-                    id: 'sleepytime',
-                    name: 'Sleepytime',
-                    description: 'Calming American herbal blend with chamomile and lavender for peaceful rest.',
-                    price: 2.75,
-                    stock: 8,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'American'
-                }
-            ];
-
-            const teaAccompaniments = [
-                {
-                    id: 'local-honey',
-                    name: 'Local Honey',
-                    description: 'Sweet wildflower honey from local beekeepers. Perfect natural sweetener.',
-                    price: 0.50,
-                    stock: 15,
-                    category: 'accompaniment'
-                },
-                {
-                    id: 'fresh-lemon',
-                    name: 'Fresh Lemon',
-                    description: 'Bright citrus wedge to enhance your tea and create color-changing magic with Butterfly Pea!',
-                    price: 0.25,
-                    stock: 12,
-                    category: 'accompaniment'
-                },
-                {
-                    id: 'steamed-milk',
-                    name: 'Steamed Milk',
-                    description: 'Creamy steamed milk, perfect for chai and black teas.',
-                    price: 0.75,
-                    stock: 8,
-                    category: 'accompaniment'
-                },
-                {
-                    id: 'brown-sugar',
-                    name: 'Brown Sugar',
-                    description: 'Rich brown sugar crystals for a deeper, molasses sweetness.',
-                    price: 0.25,
-                    stock: 20,
-                    category: 'accompaniment'
-                },
-                {
-                    id: 'fresh-ginger',
-                    name: 'Fresh Ginger',
-                    description: 'Sliced fresh ginger root for an extra warming kick.',
-                    price: 0.50,
-                    stock: 6,
-                    category: 'accompaniment'
-                },
-                {
-                    id: 'homemade-cookies',
-                    name: 'Homemade Cookies',
-                    description: 'Freshly baked shortbread cookies, perfect tea companions.',
-                    price: 1.50,
-                    stock: 12,
-                    category: 'accompaniment'
-                }
-            ];
-
-            // Add teas to Firebase
-            for (const tea of realTeas) {
-                await addDoc(collection(db, 'teas'), tea);
+            } catch (error) {
+                console.error('Error initializing admin dashboard:', error);
+                showMessage('Error loading data', 'error');
             }
-
-            // Add accompaniments to Firebase
-            for (const accompaniment of teaAccompaniments) {
-                await addDoc(collection(db, 'accompaniments'), accompaniment);
-            }
-
-            console.log('Real tea inventory created in Firebase!');
         }
 
-        // Load inventory from Firebase
-        async function loadInventoryFromFirebase() {
+        async function loadInventory() {
             try {
                 // Load teas
                 const teaSnapshot = await getDocs(collection(db, 'teas'));
@@ -727,86 +504,147 @@
                     inventory.accompaniments.push({ firebaseId: doc.id, ...doc.data() });
                 });
 
-                hideLoading();
-                renderMenu();
-                renderCart();
-                
-                console.log('Inventory loaded from Firebase:', inventory);
+                renderInventory();
                 
             } catch (error) {
                 console.error('Error loading inventory:', error);
-                showMessage('Error loading inventory from database', 'error');
             }
         }
 
-        // Set up real-time listeners
+        async function loadOrders() {
+            try {
+                const ordersSnapshot = await getDocs(
+                    query(collection(db, 'orders'), orderBy('timestamp', 'desc'))
+                );
+                
+                orders = [];
+                ordersSnapshot.forEach((doc) => {
+                    orders.push({ firebaseId: doc.id, ...doc.data() });
+                });
+
+                renderOrders();
+                
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
+        }
+
         function setupRealtimeListeners() {
-            // Listen for tea changes
-            onSnapshot(collection(db, 'teas'), (snapshot) => {
-                inventory.teas = [];
-                snapshot.forEach((doc) => {
-                    inventory.teas.push({ firebaseId: doc.id, ...doc.data() });
-                });
-                renderMenu();
-            });
+            // Listen for new orders
+            onSnapshot(
+                query(collection(db, 'orders'), orderBy('timestamp', 'desc')),
+                (snapshot) => {
+                    orders = [];
+                    snapshot.forEach((doc) => {
+                        orders.push({ firebaseId: doc.id, ...doc.data() });
+                    });
+                    renderOrders();
+                    updateStats();
+                    
+                    // Check for new orders (basic notification)
+                    const newOrders = orders.filter(order => 
+                        order.status === 'placed' && 
+                        new Date(order.timestamp).getTime() > Date.now() - 30000 // Last 30 seconds
+                    );
+                    
+                    if (newOrders.length > 0) {
+                        showMessage(`🔔 New order from ${newOrders[0].customer}!`, 'success');
+                        // You could add sound notification here
+                    }
+                }
+            );
 
-            // Listen for accompaniment changes
-            onSnapshot(collection(db, 'accompaniments'), (snapshot) => {
-                inventory.accompaniments = [];
-                snapshot.forEach((doc) => {
-                    inventory.accompaniments.push({ firebaseId: doc.id, ...doc.data() });
-                });
-                renderMenu();
-            });
+            // Listen for inventory changes
+            onSnapshot(collection(db, 'teas'), () => loadInventory());
+            onSnapshot(collection(db, 'accompaniments'), () => loadInventory());
         }
 
-        function hideLoading() {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-        }
-
-        // Function to render menu items
-        function renderMenu() {
-            // Separate teas by caffeine content
-            const caffeinatedTeas = inventory.teas.filter(tea => tea.type === 'caffeinated');
-            const decafTeas = inventory.teas.filter(tea => tea.type === 'decaf');
+        function renderOrders() {
+            const container = document.getElementById('orders-container');
             
-            renderSection('caffeinated-menu', caffeinatedTeas);
-            renderSection('decaf-menu', decafTeas);
-            renderSection('accompaniments-menu', inventory.accompaniments);
+            let filteredOrders = orders;
+            if (currentFilter !== 'all') {
+                filteredOrders = orders.filter(order => 
+                    order.status === currentFilter || 
+                    (currentFilter === 'new' && order.status === 'placed')
+                );
+            }
+
+            if (filteredOrders.length === 0) {
+                container.innerHTML = '<div class="no-orders">No orders found for this filter</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            
+            filteredOrders.forEach(order => {
+                const orderDiv = document.createElement('div');
+                const orderDate = new Date(order.timestamp);
+                const statusClass = order.status === 'placed' ? 'new' : order.status;
+                
+                orderDiv.className = `order-card ${statusClass}`;
+                orderDiv.innerHTML = `
+                    <div class="order-header">
+                        <div class="order-info">
+                            <span class="customer-name">${order.customer}</span>
+                            <span class="order-time">${orderDate.toLocaleDateString()} ${orderDate.toLocaleTimeString()}</span>
+                        </div>
+                        <span class="order-total">$${order.total.toFixed(2)}</span>
+                    </div>
+                    
+                    <div class="order-items">
+                        ${order.items.map(item => `
+                            <div class="order-item">
+                                <span>${item.name} × ${item.quantity}</span>
+                                <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    ${order.specialRequests ? `
+                        <div class="special-requests">
+                            <strong>Special Requests:</strong> ${order.specialRequests}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="order-actions">
+                        <button class="status-btn ${order.status === 'placed' ? 'preparing' : 'preparing'}" 
+                                onclick="updateOrderStatus('${order.firebaseId}', 'preparing')"
+                                ${order.status === 'preparing' ? 'disabled' : ''}>
+                            ${order.status === 'placed' ? 'Start Preparing' : 'Preparing'}
+                        </button>
+                        <button class="status-btn ready" 
+                                onclick="updateOrderStatus('${order.firebaseId}', 'ready')"
+                                ${order.status !== 'preparing' ? 'disabled' : ''}>
+                            Mark Ready
+                        </button>
+                        <button class="status-btn completed" 
+                                onclick="updateOrderStatus('${order.firebaseId}', 'completed')"
+                                ${order.status !== 'ready' ? 'disabled' : ''}>
+                            Complete Order
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(orderDiv);
+            });
         }
 
-        function renderSection(containerId, items) {
-            const container = document.getElementById(containerId);
+        function renderInventory() {
+            const container = document.getElementById('inventory-grid');
             container.innerHTML = '';
 
-            items.forEach(item => {
+            [...inventory.teas, ...inventory.accompaniments].forEach(item => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = `menu-item ${item.stock === 0 ? 'sold-out' : ''}`;
-                
-                const cartItem = cart.find(c => c.id === item.id);
-                const cartQuantity = cartItem ? cartItem.quantity : 0;
+                itemDiv.className = 'inventory-item';
                 
                 itemDiv.innerHTML = `
-                    <div class="item-header">
-                        <span class="item-name">${item.name}</span>
-                        <span class="item-price">$${item.price.toFixed(2)}</span>
-                    </div>
-                    <div class="item-description">${item.description}</div>
-                    <div class="item-controls">
-                        <div class="stock-info">
-                            ${item.stock === 0 ? 
-                                '<span class="sold-out-label">OUT OF STOCK</span>' : 
-                                '<span style="color: #a8c4a8; font-weight: bold;">Available</span>'
-                            }
-                        </div>
-                        ${item.stock > 0 ? `
-                            <div class="quantity-controls">
-                                <button class="qty-btn" onclick="updateCart('${item.id}', -1)" ${cartQuantity === 0 ? 'disabled' : ''}>-</button>
-                                <span class="quantity">${cartQuantity}</span>
-                                <button class="qty-btn" onclick="updateCart('${item.id}', 1)" ${cartQuantity >= item.stock ? 'disabled' : ''}>+</button>
-                            </div>
-                        ` : ''}
+                    <h4>${item.name}</h4>
+                    <p style="color: #7f8c8d; margin-bottom: 10px;">$${item.price.toFixed(2)}</p>
+                    <div class="stock-control">
+                        <span>Stock:</span>
+                        <input type="number" class="stock-input" value="${item.stock}" min="0" id="stock-${item.id}">
+                        <button class="update-btn" onclick="updateStock('${item.id}')">Update</button>
                     </div>
                 `;
                 
@@ -814,139 +652,87 @@
             });
         }
 
-        // Function to update cart
-        window.updateCart = function(itemId, change) {
-            // Find the item in inventory
-            const item = [...inventory.teas, ...inventory.accompaniments].find(i => i.id === itemId);
-            if (!item) return;
-
-            // Find existing cart item
-            const cartItemIndex = cart.findIndex(c => c.id === itemId);
+        function updateStats() {
+            const today = new Date().toDateString();
+            const todayOrders = orders.filter(order => 
+                new Date(order.timestamp).toDateString() === today
+            );
             
-            if (cartItemIndex >= 0) {
-                // Update existing cart item
-                cart[cartItemIndex].quantity += change;
-                if (cart[cartItemIndex].quantity <= 0) {
-                    cart.splice(cartItemIndex, 1);
-                }
-            } else if (change > 0) {
-                // Add new item to cart
-                cart.push({
-                    id: itemId,
-                    name: item.name,
-                    price: item.price,
-                    quantity: change
-                });
-            }
+            const pendingOrders = orders.filter(order => 
+                order.status === 'placed' || order.status === 'preparing'
+            );
+            
+            const dailyRevenue = todayOrders.reduce((sum, order) => sum + order.total, 0);
+            
+            const lowStockItems = [...inventory.teas, ...inventory.accompaniments]
+                .filter(item => item.stock <= 3).length;
 
-            renderMenu();
-            renderCart();
+            document.getElementById('total-orders').textContent = todayOrders.length;
+            document.getElementById('pending-orders').textContent = pendingOrders.length;
+            document.getElementById('daily-revenue').textContent = `$${dailyRevenue.toFixed(2)}`;
+            document.getElementById('low-stock-items').textContent = lowStockItems;
         }
 
-        // Function to render cart
-        function renderCart() {
-            const cartContainer = document.getElementById('cart-items');
-            const cartTotal = document.getElementById('cart-total');
-            const submitBtn = document.getElementById('submit-order');
-
-            if (cart.length === 0) {
-                cartContainer.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
-                cartTotal.textContent = 'Total: $0.00';
-                submitBtn.disabled = true;
-                return;
-            }
-
-            cartContainer.innerHTML = '';
-            let total = 0;
-
-            cart.forEach(item => {
-                const cartItemDiv = document.createElement('div');
-                cartItemDiv.className = 'cart-item';
-                
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                
-                cartItemDiv.innerHTML = `
-                    <span>${item.name} × ${item.quantity}</span>
-                    <span>$${itemTotal.toFixed(2)}</span>
-                `;
-                
-                cartContainer.appendChild(cartItemDiv);
-            });
-
-            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
-            submitBtn.disabled = false;
-        }
-
-        // Function to handle order submission
-        document.getElementById('order-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const customerName = document.getElementById('customer-name').value;
-            const specialRequests = document.getElementById('special-requests').value;
-            
-            // Create the order object
-            const order = {
-                id: Date.now(),
-                customer: customerName,
-                items: [...cart],
-                specialRequests: specialRequests,
-                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-                timestamp: new Date().toISOString(),
-                status: 'placed'
-            };
-
+        window.updateOrderStatus = async function(orderId, newStatus) {
             try {
-                // Save order to Firebase
-                if (db) {
-                    await addDoc(collection(db, 'orders'), order);
-                }
-
-                // Update inventory (subtract ordered quantities)
-                for (const cartItem of cart) {
-                    let item = inventory.teas.find(t => t.id === cartItem.id);
-                    let collection_name = 'teas';
-                    
-                    if (!item) {
-                        item = inventory.accompaniments.find(a => a.id === cartItem.id);
-                        collection_name = 'accompaniments';
-                    }
-                    
-                    if (item) {
-                        const newStock = item.stock - cartItem.quantity;
-                        
-                        if (db && item.firebaseId) {
-                            // Update in Firebase
-                            await updateDoc(doc(db, collection_name, item.firebaseId), {
-                                stock: newStock
-                            });
-                        } else {
-                            // Update locally for demo mode
-                            item.stock = newStock;
-                        }
-                    }
-                }
-
-                // Clear cart and reset form
-                cart = [];
-                this.reset();
+                await updateDoc(doc(db, 'orders', orderId), {
+                    status: newStatus,
+                    updatedAt: new Date().toISOString()
+                });
                 
-                // Update display
-                renderMenu();
-                renderCart();
-                
-                // Show success message
-                showMessage(`Thank you ${customerName}! Your order has been placed. Total: $${order.total.toFixed(2)}`, 'success');
-                
-                console.log('Order placed:', order);
+                showMessage(`Order status updated to ${newStatus}`, 'success');
                 
             } catch (error) {
-                console.error('Error placing order:', error);
-                showMessage('Error placing order. Please try again.', 'error');
+                console.error('Error updating order status:', error);
+                showMessage('Error updating order status', 'error');
             }
-        });
+        }
 
-        // Function to show messages
+        window.updateStock = async function(itemId) {
+            const input = document.getElementById(`stock-${itemId}`);
+            const newStock = parseInt(input.value) || 0;
+            
+            // Find the item
+            let item = inventory.teas.find(t => t.id === itemId);
+            let collection_name = 'teas';
+            
+            if (!item) {
+                item = inventory.accompaniments.find(a => a.id === itemId);
+                collection_name = 'accompaniments';
+            }
+            
+            if (item && item.firebaseId) {
+                try {
+                    await updateDoc(doc(db, collection_name, item.firebaseId), {
+                        stock: newStock
+                    });
+                    
+                    showMessage(`Updated ${item.name} stock to ${newStock}`, 'success');
+                    
+                } catch (error) {
+                    console.error('Error updating stock:', error);
+                    showMessage('Error updating stock', 'error');
+                }
+            }
+        }
+
+        window.filterOrders = function(filter) {
+            currentFilter = filter;
+            
+            // Update button states
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderOrders();
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+        }
+
         function showMessage(text, type) {
             const messageArea = document.getElementById('message-area');
             messageArea.innerHTML = `<div class="message ${type}">${text}</div>`;
@@ -955,9 +741,6 @@
                 messageArea.innerHTML = '';
             }, 5000);
         }
-
-        // Make functions available globally
-        window.showMessage = showMessage;
     </script>
 </body>
 </html>
