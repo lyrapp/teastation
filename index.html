@@ -231,42 +231,7 @@
             cursor: not-allowed;
         }
 
-        .admin-section {
-            background: #fff3cd;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 30px;
-            border: 2px solid #ffeaa7;
-        }
 
-        .admin-controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .stock-control {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stock-input {
-            width: 60px;
-            padding: 5px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-        }
-
-        .update-btn {
-            background: #f39c12;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
 
         .message {
             padding: 15px;
@@ -300,25 +265,7 @@
             color: #7f8c8d;
         }
 
-        .firebase-status {
-            background: #e7f3ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 2px solid #b3d9ff;
-        }
 
-        .firebase-status.connected {
-            background: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-        }
-
-        .firebase-status.error {
-            background: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
-        }
     </style>
 </head>
 <body>
@@ -329,29 +276,32 @@
         </div>
 
         <div class="main-content">
-            <!-- Firebase Status -->
-            <div class="firebase-status" id="firebase-status">
-                <strong>🔥 Firebase Status:</strong> <span id="firebase-status-text">Connecting...</span>
-            </div>
-
             <!-- Loading State -->
             <div class="loading" id="loading">
-                Loading menu from database...
+                Loading menu...
             </div>
 
             <!-- Main Content (hidden until loaded) -->
             <div id="main-app" style="display: none;">
-                <!-- Tea Menu Section -->
+                <!-- Caffeinated Tea Menu Section -->
                 <div class="section">
-                    <h2>Tea Menu</h2>
-                    <div class="menu-grid" id="tea-menu">
-                        <!-- Menu items will be populated from Firebase -->
+                    <h2>☕ Caffeinated Teas</h2>
+                    <div class="menu-grid" id="caffeinated-menu">
+                        <!-- Caffeinated tea items will be populated from Firebase -->
+                    </div>
+                </div>
+
+                <!-- Decaf Tea Menu Section -->
+                <div class="section">
+                    <h2>🌙 Decaf & Herbal Teas</h2>
+                    <div class="menu-grid" id="decaf-menu">
+                        <!-- Decaf tea items will be populated from Firebase -->
                     </div>
                 </div>
 
                 <!-- Accompaniments Section -->
                 <div class="section">
-                    <h2>Accompaniments</h2>
+                    <h2>🍯 Accompaniments</h2>
                     <div class="menu-grid" id="accompaniments-menu">
                         <!-- Accompaniment items will be populated from Firebase -->
                     </div>
@@ -376,15 +326,6 @@
                         </div>
                         <button type="submit" class="submit-btn" id="submit-order" disabled>Place Order</button>
                     </form>
-                </div>
-
-                <!-- Admin Section -->
-                <div class="admin-section">
-                    <h2>🔧 Inventory Management (Admin)</h2>
-                    <p>Update your tea inventory here (changes save to Firebase automatically):</p>
-                    <div class="admin-controls" id="admin-controls">
-                        <!-- Admin controls will be populated from Firebase -->
-                    </div>
                 </div>
             </div>
 
@@ -426,25 +367,15 @@
         try {
             app = initializeApp(firebaseConfig);
             db = getFirestore(app);
-            updateFirebaseStatus('connected', 'Connected to Firebase! 🎉');
             
             // Initialize the app with demo data
             await initializeData();
             
         } catch (error) {
             console.error('Firebase initialization error:', error);
-            updateFirebaseStatus('error', 'Firebase setup needed - using demo mode for now');
             
             // Fall back to demo data
             initializeDemoData();
-        }
-
-        function updateFirebaseStatus(status, message) {
-            const statusDiv = document.getElementById('firebase-status');
-            const statusText = document.getElementById('firebase-status-text');
-            
-            statusDiv.className = `firebase-status ${status}`;
-            statusText.textContent = message;
         }
 
         // Initialize with real data (for when Firebase isn't configured)
@@ -522,7 +453,6 @@
                 
             } catch (error) {
                 console.error('Error initializing data:', error);
-                updateFirebaseStatus('error', 'Error loading from Firebase - using demo mode');
                 initializeDemoData();
             }
         }
@@ -836,9 +766,13 @@
 
         // Function to render menu items
         function renderMenu() {
-            renderSection('tea-menu', inventory.teas);
+            // Separate teas by caffeine content
+            const caffeinatedTeas = inventory.teas.filter(tea => tea.type === 'caffeinated');
+            const decafTeas = inventory.teas.filter(tea => tea.type === 'decaf');
+            
+            renderSection('caffeinated-menu', caffeinatedTeas);
+            renderSection('decaf-menu', decafTeas);
             renderSection('accompaniments-menu', inventory.accompaniments);
-            renderAdminControls();
         }
 
         function renderSection(containerId, items) {
@@ -855,14 +789,14 @@
                 itemDiv.innerHTML = `
                     <div class="item-header">
                         <span class="item-name">${item.name}</span>
-                        <span class="item-price">$${item.price.toFixed(2)}</span>
+                        <span class="item-price">${item.price.toFixed(2)}</span>
                     </div>
                     <div class="item-description">${item.description}</div>
                     <div class="item-controls">
                         <div class="stock-info">
                             ${item.stock === 0 ? 
-                                '<span class="sold-out-label">SOLD OUT</span>' : 
-                                `Stock: ${item.stock}`
+                                '<span class="sold-out-label">OUT OF STOCK</span>' : 
+                                '<span style="color: #27ae60; font-weight: bold;">Available</span>'
                             }
                         </div>
                         ${item.stock > 0 ? `
@@ -943,61 +877,7 @@
             submitBtn.disabled = false;
         }
 
-        // Function to render admin controls
-        function renderAdminControls() {
-            const container = document.getElementById('admin-controls');
-            container.innerHTML = '';
 
-            [...inventory.teas, ...inventory.accompaniments].forEach(item => {
-                const controlDiv = document.createElement('div');
-                controlDiv.className = 'stock-control';
-                
-                controlDiv.innerHTML = `
-                    <span>${item.name}:</span>
-                    <input type="number" class="stock-input" value="${item.stock}" min="0" id="stock-${item.id}">
-                    <button class="update-btn" onclick="updateStock('${item.id}')">Update</button>
-                `;
-                
-                container.appendChild(controlDiv);
-            });
-        }
-
-        // Function to update stock in Firebase
-        window.updateStock = async function(itemId) {
-            const input = document.getElementById(`stock-${itemId}`);
-            const newStock = parseInt(input.value) || 0;
-            
-            // Find the item
-            let item = inventory.teas.find(t => t.id === itemId);
-            let collection_name = 'teas';
-            
-            if (!item) {
-                item = inventory.accompaniments.find(a => a.id === itemId);
-                collection_name = 'accompaniments';
-            }
-            
-            if (item && item.firebaseId) {
-                try {
-                    // Update in Firebase
-                    await updateDoc(doc(db, collection_name, item.firebaseId), {
-                        stock: newStock
-                    });
-                    
-                    showMessage(`Updated ${item.name} stock to ${newStock}`, 'success');
-                    
-                } catch (error) {
-                    console.error('Error updating stock:', error);
-                    showMessage('Error updating stock in database', 'error');
-                }
-            } else {
-                // Fallback for demo mode
-                if (item) {
-                    item.stock = newStock;
-                    renderMenu();
-                    showMessage(`Updated ${item.name} stock to ${newStock} (demo mode)`, 'success');
-                }
-            }
-        }
 
         // Function to handle order submission
         document.getElementById('order-form').addEventListener('submit', async function(e) {
