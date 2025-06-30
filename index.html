@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tea Station - Order Menu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,152 +12,101 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2d5a5b 0%, #1a4445 100%);
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #d4a5a5 0%, #e8dcc0 50%, #a8c4a8 100%);
             min-height: 100vh;
-            padding: 15px;
-            line-height: 1.6;
+            padding: 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            background: #fefefe;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(45, 90, 91, 0.3);
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #2d5a5b 0%, #3a6b6c 100%);
+            background: linear-gradient(45deg, #5f6b6d, #a8c4a8);
             color: white;
-            padding: 40px 30px;
+            padding: 30px;
             text-align: center;
-            position: relative;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            opacity: 0.3;
         }
 
         .header h1 {
-            font-size: 3em;
-            margin-bottom: 8px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
 
         .header p {
             opacity: 0.9;
-            font-size: 1.2em;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
+            font-size: 1.1em;
         }
 
         .main-content {
-            padding: 40px 30px;
-            background: #fefefe;
+            padding: 30px;
         }
 
         .section {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .section h2 {
-            color: #2d5a5b;
-            margin-bottom: 25px;
-            font-size: 2em;
-            font-weight: 400;
-            text-align: center;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .section h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #7fb069, #a8c686);
-            border-radius: 2px;
+            color: #5f6b6d;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #d4a5a5;
+            padding-bottom: 10px;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            justify-items: center;
-            max-width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
         .menu-item {
-            border: 1px solid #e8f3f0;
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.4s ease;
-            background: white;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 0 4px 20px rgba(45, 90, 91, 0.08);
+            border: 2px solid #e8dcc0;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
         }
 
         .menu-item:hover {
-            border-color: #7fb069;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(45, 90, 91, 0.15);
+            border-color: #a8c4a8;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(168, 196, 168, 0.2);
         }
 
         .menu-item.sold-out {
-            opacity: 0.5;
+            opacity: 0.6;
             background: #f8f9fa;
-            border-color: #dee2e6;
-        }
-
-        .menu-item.sold-out:hover {
-            transform: none;
-            box-shadow: 0 4px 20px rgba(45, 90, 91, 0.08);
         }
 
         .item-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            gap: 15px;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .item-name {
-            font-weight: 500;
-            font-size: 1.3em;
-            color: #2d5a5b;
-            line-height: 1.3;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #5f6b6d;
         }
 
         .item-price {
-            color: #7fb069;
-            font-weight: 600;
-            font-size: 1.2em;
-            white-space: nowrap;
+            color: #a8c4a8;
+            font-weight: bold;
+            font-size: 1.1em;
         }
 
         .item-description {
-            color: #6c7b7d;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            font-size: 0.95em;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
 
         .item-controls {
@@ -169,102 +117,78 @@
 
         .stock-info {
             font-size: 0.9em;
-            color: #6c7b7d;
+            color: #7f8c8d;
         }
 
         .sold-out-label {
-            color: #dc3545;
-            font-weight: 600;
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #d4a5a5;
+            font-weight: bold;
         }
 
         .quantity-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .qty-btn {
-            background: linear-gradient(135deg, #7fb069, #a8c686);
+            background: #a8c4a8;
             color: white;
             border: none;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: bold;
+            transition: background 0.3s ease;
         }
 
         .qty-btn:hover {
-            background: linear-gradient(135deg, #6fa055, #97b575);
-            transform: scale(1.05);
+            background: #8fb88f;
         }
 
         .qty-btn:disabled {
-            background: #bdc3c7;
+            background: #e8dcc0;
             cursor: not-allowed;
-            transform: none;
         }
 
         .quantity {
-            font-weight: 600;
-            min-width: 25px;
+            font-weight: bold;
+            min-width: 20px;
             text-align: center;
-            color: #2d5a5b;
-            font-size: 1.1em;
+            color: #5f6b6d;
         }
 
         .cart-section {
-            background: linear-gradient(135deg, #f8fffe, #f1f8f6);
-            padding: 30px;
-            border-radius: 15px;
-            margin-top: 40px;
-            border: 1px solid #e8f3f0;
-        }
-
-        .cart-section h2 {
-            color: #2d5a5b;
-            margin-bottom: 25px;
-            font-size: 1.8em;
-            font-weight: 400;
+            background: linear-gradient(135deg, #f8f6f2, #f0f4f0);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border: 1px solid #e8dcc0;
         }
 
         .cart-items {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .cart-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e8f3f0;
-            color: #2d5a5b;
-        }
-
-        .cart-item:last-child {
-            border-bottom: none;
+            padding: 10px 0;
+            border-bottom: 1px solid #e8dcc0;
         }
 
         .cart-total {
-            font-size: 1.4em;
-            font-weight: 600;
-            color: #2d5a5b;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #5f6b6d;
             text-align: right;
-            margin-bottom: 25px;
-            padding: 15px 0;
-            border-top: 2px solid #7fb069;
+            margin-bottom: 20px;
         }
 
         .order-form {
             display: grid;
-            gap: 20px;
+            gap: 15px;
         }
 
         .form-group {
@@ -273,159 +197,75 @@
         }
 
         .form-group label {
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #2d5a5b;
-            font-size: 1.05em;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #5f6b6d;
         }
 
         .form-group input {
-            padding: 15px;
-            border: 2px solid #e8f3f0;
-            border-radius: 10px;
+            padding: 10px;
+            border: 2px solid #e8dcc0;
+            border-radius: 5px;
             font-size: 1em;
-            transition: border-color 0.3s ease;
-            font-family: inherit;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #7fb069;
-            box-shadow: 0 0 0 3px rgba(127, 176, 105, 0.1);
+            border-color: #a8c4a8;
         }
 
         .submit-btn {
-            background: linear-gradient(135deg, #7fb069, #a8c686);
+            background: linear-gradient(45deg, #a8c4a8, #8fb88f);
             color: white;
             border: none;
-            padding: 18px;
-            border-radius: 10px;
-            font-size: 1.15em;
-            font-weight: 600;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-family: inherit;
         }
 
         .submit-btn:hover {
-            background: linear-gradient(135deg, #6fa055, #97b575);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(127, 176, 105, 0.3);
+            background: linear-gradient(45deg, #8fb88f, #7da67d);
+            transform: translateY(-1px);
         }
 
         .submit-btn:disabled {
-            background: #bdc3c7;
+            background: #e8dcc0;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
 
         .message {
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
             text-align: center;
-            font-weight: 500;
+            font-weight: bold;
         }
 
         .success {
-            background: linear-gradient(135deg, #d4edda, #c3e6cb);
-            color: #155724;
-            border: 1px solid #7fb069;
+            background: #e8f5e8;
+            color: #4a7c4a;
+            border: 1px solid #a8c4a8;
         }
 
         .error {
-            background: linear-gradient(135deg, #f8d7da, #f5c6cb);
-            color: #721c24;
-            border: 1px solid #dc3545;
+            background: #f8e8e8;
+            color: #8a5a5a;
+            border: 1px solid #d4a5a5;
         }
 
         .empty-cart {
             text-align: center;
-            color: #6c7b7d;
+            color: #7f8c8d;
             font-style: italic;
-            padding: 20px;
         }
 
         .loading {
             text-align: center;
-            padding: 50px;
-            color: #6c7b7d;
-            font-size: 1.1em;
-        }
-
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                border-radius: 15px;
-            }
-            
-            .header {
-                padding: 30px 20px;
-            }
-            
-            .header h1 {
-                font-size: 2.2em;
-            }
-            
-            .main-content {
-                padding: 30px 20px;
-            }
-            
-            .menu-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                justify-items: center;
-            }
-            
-            .menu-item {
-                max-width: 100%;
-                width: 100%;
-            }
-            
-            .item-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-            
-            .item-price {
-                align-self: flex-end;
-            }
-            
-            .cart-section {
-                padding: 25px 20px;
-            }
-            
-            .section h2 {
-                font-size: 1.7em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .header p {
-                font-size: 1em;
-            }
-            
-            .main-content {
-                padding: 20px 15px;
-            }
-            
-            .menu-item {
-                padding: 20px;
-            }
-            
-            .cart-section {
-                padding: 20px 15px;
-            }
+            padding: 40px;
+            color: #7f8c8d;
         }
     </style>
 </head>
@@ -460,9 +300,9 @@
                     </div>
                 </div>
 
-                <!-- Extras Section -->
+                <!-- Accompaniments Section -->
                 <div class="section">
-                    <h2>🍯 Extras</h2>
+                    <h2>🍯 Accompaniments</h2>
                     <div class="menu-grid" id="accompaniments-menu">
                         <!-- Accompaniment items will be populated from Firebase -->
                     </div>
@@ -478,7 +318,7 @@
                     
                     <form class="order-form" id="order-form">
                         <div class="form-group">
-                            <label for="customer-name">Name:</label>
+                            <label for="customer-name">Your Name:</label>
                             <input type="text" id="customer-name" required>
                         </div>
                         <div class="form-group">
@@ -957,7 +797,7 @@
                         <div class="stock-info">
                             ${item.stock === 0 ? 
                                 '<span class="sold-out-label">OUT OF STOCK</span>' : 
-                                ''
+                                '<span style="color: #a8c4a8; font-weight: bold;">Available</span>'
                             }
                         </div>
                         ${item.stock > 0 ? `
