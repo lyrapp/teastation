@@ -219,6 +219,7 @@
             padding: 20px;
             border-radius: 10px;
             border: 2px solid #e8dcc0;
+            margin-bottom: 20px;
         }
 
         .inventory-grid {
@@ -232,17 +233,26 @@
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #e8dcc0;
+            position: relative;
         }
 
         .inventory-item h4 {
             color: #5f6b6d;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+
+        .inventory-item-type {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+            font-style: italic;
         }
 
         .stock-control {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-top: 10px;
         }
 
         .stock-input {
@@ -253,7 +263,7 @@
         }
 
         .update-btn {
-            background: #d4a5a5;
+            background: #a8c4a8;
             color: white;
             border: none;
             padding: 6px 12px;
@@ -264,7 +274,117 @@
         }
 
         .update-btn:hover {
+            background: #8fb88f;
+        }
+
+        .delete-btn {
+            background: #d4a5a5;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.8em;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: background 0.3s ease;
+        }
+
+        .delete-btn:hover {
             background: #c49494;
+        }
+
+        /* Add Item Forms */
+        .add-item-section {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #a8c4a8;
+            margin-bottom: 20px;
+        }
+
+        .add-item-section h3 {
+            color: #5f6b6d;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e8dcc0;
+            padding-bottom: 5px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #5f6b6d;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 8px;
+            border: 1px solid #e8dcc0;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .form-group textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .add-btn {
+            background: #a8c4a8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+
+        .add-btn:hover {
+            background: #8fb88f;
+        }
+
+        .add-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .toggle-form-btn {
+            background: #d4a5a5;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 15px;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-form-btn:hover {
+            background: #c49494;
+        }
+
+        .form-container {
+            display: none;
+        }
+
+        .form-container.active {
+            display: block;
         }
 
         .loading {
@@ -336,6 +456,35 @@
             background: #8fb88f;
         }
 
+        .inventory-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border: 2px solid #a8c4a8;
+            background: white;
+            color: #a8c4a8;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #a8c4a8;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         @media (max-width: 768px) {
             .order-header {
                 flex-direction: column;
@@ -348,6 +497,10 @@
             
             .order-actions {
                 justify-content: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -414,9 +567,95 @@
                 <!-- Inventory Management Section -->
                 <div class="section">
                     <h2>📦 Inventory Management</h2>
-                    <div class="inventory-section">
-                        <div class="inventory-grid" id="inventory-grid">
-                            <!-- Inventory items will be populated here -->
+                    
+                    <!-- Add New Items Section -->
+                    <div class="add-item-section">
+                        <button class="toggle-form-btn" onclick="toggleAddForm('tea')">➕ Add New Tea</button>
+                        <div class="form-container" id="add-tea-form">
+                            <h3>Add New Tea</h3>
+                            <form onsubmit="addNewItem(event, 'tea')">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="tea-name">Tea Name *</label>
+                                        <input type="text" id="tea-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tea-price">Price *</label>
+                                        <input type="number" id="tea-price" step="0.01" min="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tea-stock">Initial Stock *</label>
+                                        <input type="number" id="tea-stock" min="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tea-type">Type *</label>
+                                        <select id="tea-type" required>
+                                            <option value="">Select Type</option>
+                                            <option value="caffeinated">Caffeinated</option>
+                                            <option value="decaf">Decaf/Herbal</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="tea-origin">Origin</label>
+                                        <input type="text" id="tea-origin" placeholder="e.g., Japanese, Thai, American">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tea-description">Description *</label>
+                                    <textarea id="tea-description" required placeholder="Describe the tea's flavor and characteristics"></textarea>
+                                </div>
+                                <button type="submit" class="add-btn">Add Tea</button>
+                            </form>
+                        </div>
+
+                        <button class="toggle-form-btn" onclick="toggleAddForm('accompaniment')">➕ Add New Accompaniment</button>
+                        <div class="form-container" id="add-accompaniment-form">
+                            <h3>Add New Accompaniment</h3>
+                            <form onsubmit="addNewItem(event, 'accompaniment')">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="acc-name">Accompaniment Name *</label>
+                                        <input type="text" id="acc-name" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="acc-price">Price *</label>
+                                        <input type="number" id="acc-price" step="0.01" min="0" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="acc-stock">Initial Stock *</label>
+                                        <input type="number" id="acc-stock" min="0" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="acc-description">Description *</label>
+                                    <textarea id="acc-description" required placeholder="Describe the accompaniment"></textarea>
+                                </div>
+                                <button type="submit" class="add-btn">Add Accompaniment</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Inventory Tabs -->
+                    <div class="inventory-tabs">
+                        <button class="tab-btn active" onclick="switchInventoryTab('teas')">Teas</button>
+                        <button class="tab-btn" onclick="switchInventoryTab('accompaniments')">Accompaniments</button>
+                    </div>
+
+                    <!-- Teas Inventory -->
+                    <div class="tab-content active" id="teas-tab">
+                        <div class="inventory-section">
+                            <div class="inventory-grid" id="teas-grid">
+                                <!-- Tea items will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Accompaniments Inventory -->
+                    <div class="tab-content" id="accompaniments-tab">
+                        <div class="inventory-section">
+                            <div class="inventory-grid" id="accompaniments-grid">
+                                <!-- Accompaniment items will be populated here -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -436,6 +675,8 @@
             doc, 
             getDocs, 
             updateDoc, 
+            addDoc,
+            deleteDoc,
             onSnapshot,
             query,
             orderBy,
@@ -549,7 +790,6 @@
                     
                     if (newOrders.length > 0) {
                         showMessage(`🔔 New order from ${newOrders[0].customer}!`, 'success');
-                        // You could add sound notification here
                     }
                 }
             );
@@ -631,16 +871,27 @@
         }
 
         function renderInventory() {
-            const container = document.getElementById('inventory-grid');
+            renderInventorySection('teas-grid', inventory.teas);
+            renderInventorySection('accompaniments-grid', inventory.accompaniments);
+        }
+
+        function renderInventorySection(containerId, items) {
+            const container = document.getElementById(containerId);
             container.innerHTML = '';
 
-            [...inventory.teas, ...inventory.accompaniments].forEach(item => {
+            items.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'inventory-item';
                 
+                // Show type and origin for teas
+                const typeInfo = item.type ? `<div class="inventory-item-type">${item.type}${item.origin ? ` • ${item.origin}` : ''}</div>` : '';
+                
                 itemDiv.innerHTML = `
+                    <button class="delete-btn" onclick="deleteItem('${item.firebaseId}', '${item.category}', '${item.name}')" title="Delete item">✕</button>
                     <h4>${item.name}</h4>
-                    <p style="color: #7f8c8d; margin-bottom: 10px;">$${item.price.toFixed(2)}</p>
+                    ${typeInfo}
+                    <p style="color: #7f8c8d; margin-bottom: 5px;">$${item.price.toFixed(2)}</p>
+                    <p style="color: #7f8c8d; font-size: 0.85em; margin-bottom: 10px;">${item.description}</p>
                     <div class="stock-control">
                         <span>Stock:</span>
                         <input type="number" class="stock-input" value="${item.stock}" min="0" id="stock-${item.id}">
@@ -650,6 +901,10 @@
                 
                 container.appendChild(itemDiv);
             });
+
+            if (items.length === 0) {
+                container.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">No items yet</div>';
+            }
         }
 
         function updateStats() {
@@ -671,6 +926,112 @@
             document.getElementById('pending-orders').textContent = pendingOrders.length;
             document.getElementById('daily-revenue').textContent = `$${dailyRevenue.toFixed(2)}`;
             document.getElementById('low-stock-items').textContent = lowStockItems;
+        }
+
+        // Add new item function
+        window.addNewItem = async function(event, type) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            let item;
+            
+            if (type === 'tea') {
+                // Generate ID from name
+                const name = document.getElementById('tea-name').value;
+                const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                
+                item = {
+                    id: id,
+                    name: name,
+                    description: document.getElementById('tea-description').value,
+                    price: parseFloat(document.getElementById('tea-price').value),
+                    stock: parseInt(document.getElementById('tea-stock').value),
+                    category: 'tea',
+                    type: document.getElementById('tea-type').value,
+                    origin: document.getElementById('tea-origin').value || ''
+                };
+            } else {
+                // Generate ID from name
+                const name = document.getElementById('acc-name').value;
+                const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                
+                item = {
+                    id: id,
+                    name: name,
+                    description: document.getElementById('acc-description').value,
+                    price: parseFloat(document.getElementById('acc-price').value),
+                    stock: parseInt(document.getElementById('acc-stock').value),
+                    category: 'accompaniment'
+                };
+            }
+            
+            try {
+                const collectionName = type === 'tea' ? 'teas' : 'accompaniments';
+                await addDoc(collection(db, collectionName), item);
+                
+                showMessage(`${item.name} added successfully!`, 'success');
+                
+                // Reset form and hide it
+                form.reset();
+                toggleAddForm(type);
+                
+            } catch (error) {
+                console.error('Error adding item:', error);
+                showMessage('Error adding item', 'error');
+            }
+        }
+
+        // Delete item function
+        window.deleteItem = async function(firebaseId, category, name) {
+            if (!confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) {
+                return;
+            }
+            
+            try {
+                const collectionName = category === 'tea' ? 'teas' : 'accompaniments';
+                await deleteDoc(doc(db, collectionName, firebaseId));
+                
+                showMessage(`${name} deleted successfully`, 'success');
+                
+            } catch (error) {
+                console.error('Error deleting item:', error);
+                showMessage('Error deleting item', 'error');
+            }
+        }
+
+        // Toggle add form visibility
+        window.toggleAddForm = function(type) {
+            const formId = `add-${type}-form`;
+            const form = document.getElementById(formId);
+            
+            // Hide all forms first
+            document.querySelectorAll('.form-container').forEach(f => {
+                f.classList.remove('active');
+            });
+            
+            // Toggle the selected form
+            if (form.classList.contains('active')) {
+                form.classList.remove('active');
+            } else {
+                form.classList.add('active');
+            }
+        }
+
+        // Switch inventory tabs
+        window.switchInventoryTab = function(tab) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`${tab}-tab`).classList.add('active');
         }
 
         window.updateOrderStatus = async function(orderId, newStatus) {
