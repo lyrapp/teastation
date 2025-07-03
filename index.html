@@ -221,19 +221,6 @@
             border-radius: 16px;
         }
 
-        .sold-out-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 16px;
-        }
-
         .item-controls {
             display: flex;
             justify-content: flex-start;
@@ -1400,14 +1387,13 @@
                                 <div class="stock-info">
                                     ${item.stock === 0 ? 
                                         '<span class="sold-out-label">OUT OF STOCK</span>' : 
-                                        `<span style="color: #a8c4a8; font-weight: 500;">Available</span>`
+                                        ''
                                     }
                                 </div>
                             </div>
                         </div>
                         <div class="item-image-container">
                             <img src="${imageUrl}" alt="${item.name}" class="item-image" />
-                            ${item.stock === 0 ? '<div class="sold-out-overlay"><span class="sold-out-label">OUT OF STOCK</span></div>' : ''}
                         </div>
                     </div>
                 `;
@@ -1500,7 +1486,6 @@
                         </div>
                         <div class="item-image-container">
                             <img src="${imageUrl}" alt="${item.name}" class="item-image" />
-                            ${item.stock === 0 ? '<div class="sold-out-overlay"><span class="sold-out-label">OUT OF STOCK</span></div>' : ''}
                         </div>
                     </div>
                 `;
