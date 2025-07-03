@@ -240,16 +240,11 @@
             overflow: hidden;
         }
 
-        .featured-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #d4a5a5, #c49494);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 0.8em;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .featured-extras {
+            color: #8a9a8c;
+            font-size: 0.85em;
+            font-style: italic;
+            margin-bottom: 8px;
         }
 
         .no-featured {
@@ -1712,26 +1707,41 @@
                 // Generate image for the item
                 const imageUrl = generatePlaceholderImage(item);
                 
+                // Calculate total price including extras
+                let totalPrice = item.price;
+                let extrasText = '';
+                
+                if (featuredItem.extras && featuredItem.extras.length > 0) {
+                    const extraItems = featuredItem.extras.map(extraId => {
+                        return inventory.accompaniments.find(a => a.id === extraId || a.firebaseId === extraId);
+                    }).filter(Boolean);
+                    
+                    totalPrice += extraItems.reduce((sum, extra) => sum + extra.price, 0);
+                    extrasText = `with ${extraItems.map(e => e.name).join(', ')}`;
+                }
+                
+                const displayName = featuredItem.customName || item.name;
+                
                 featuredDiv.innerHTML = `
                     <div class="featured-image-container">
-                        <img src="${imageUrl}" alt="${item.name}" class="featured-image" />
+                        <img src="${imageUrl}" alt="${displayName}" class="featured-image" />
                     </div>
                     <div class="featured-content">
-                        <div class="featured-name">${item.name}</div>
-                        <div class="featured-price">$${item.price.toFixed(2)}</div>
+                        <div class="featured-name">${displayName}</div>
+                        <div class="featured-price">${totalPrice.toFixed(2)}</div>
+                        ${extrasText ? `<div class="featured-extras">${extrasText}</div>` : ''}
                         <div class="featured-description">${item.description}</div>
-                        <div class="featured-badge">Featured</div>
                     </div>
                 `;
 
                 // Add click handler
                 if (item.stock > 0) {
                     if (item.category === 'tea') {
-                        featuredDiv.addEventListener('click', () => openCustomizationModal(item));
+                        featuredDiv.addEventListener('click', () => openCustomizationModal(item, featuredItem));
                     } else {
                         featuredDiv.addEventListener('click', () => {
                             updateExtrasCart(item.id, 1);
-                            showMessage(`Added ${item.name} to cart!`, 'success');
+                            showMessage(`Added ${featuredItem.customName || item.name} to cart!`, 'success');
                         });
                     }
                 }
@@ -1885,7 +1895,7 @@
         }
 
         // Function to open customization modal
-        function openCustomizationModal(tea) {
+        function openCustomizationModal(tea, featuredConfig = null) {
             // Check if store is open
             if (!storeStatus.isOpen) {
                 showMessage("We're closed right now, but come back soon! 🍵", 'error');
@@ -1896,9 +1906,15 @@
             selectedExtras = [];
             modalQuantity = 1;
 
-            // Populate modal with tea info
-            document.getElementById('modal-tea-name').textContent = tea.name;
-            document.getElementById('modal-tea-price').textContent = `$${tea.price.toFixed(2)}`;
+            // If this is a featured item, pre-select the extras
+            if (featuredConfig && featuredConfig.extras) {
+                selectedExtras = [...featuredConfig.extras];
+            }
+
+            // Populate modal with tea info (use custom name if featured)
+            const displayName = featuredConfig?.customName || tea.name;
+            document.getElementById('modal-tea-name').textContent = displayName;
+            document.getElementById('modal-tea-price').textContent = `${tea.price.toFixed(2)}`;
             document.getElementById('modal-tea-description').textContent = tea.description;
             document.getElementById('modal-quantity').textContent = modalQuantity;
 
@@ -1909,17 +1925,24 @@
             inventory.accompaniments.filter(item => item.stock > 0).forEach(extra => {
                 const extraDiv = document.createElement('div');
                 extraDiv.className = 'extra-item';
+                
+                // Pre-select if this is part of the featured configuration
+                const isPreSelected = selectedExtras.includes(extra.id) || selectedExtras.includes(extra.firebaseId);
+                if (isPreSelected) {
+                    extraDiv.classList.add('selected');
+                }
+                
                 extraDiv.onclick = () => toggleExtra(extra.id);
 
                 extraDiv.innerHTML = `
                     <div class="extra-info">
-                        <div class="extra-checkbox"></div>
+                        <div class="extra-checkbox">${isPreSelected ? '✓' : ''}</div>
                         <div class="extra-details">
                             <div class="extra-name">${extra.name}</div>
                             <div class="extra-description">${extra.description}</div>
                         </div>
                     </div>
-                    <div class="extra-price">+$${extra.price.toFixed(2)}</div>
+                    <div class="extra-price">+${extra.price.toFixed(2)}</div>
                 `;
 
                 extrasGrid.appendChild(extraDiv);
