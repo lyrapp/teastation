@@ -1421,31 +1421,43 @@
             });
         }
 
-        // Function to generate placeholder images for different teas
+        // Function to get local image paths for teas and accompaniments
         function generatePlaceholderImage(item) {
-            // Create tea-specific placeholder images based on name and type
-            const teaImages = {
-                'chai-tea': 'https://picsum.photos/200/200?random=1&blur=0',
-                'green-tea': 'https://picsum.photos/200/200?random=2&blur=0', 
-                'butterfly-pea': 'https://picsum.photos/200/200?random=3&blur=0',
-                'cinnamon-apple-spice': 'https://picsum.photos/200/200?random=4&blur=0',
-                'thai-tea-red': 'https://picsum.photos/200/200?random=5&blur=0',
-                'thai-tea-yellow': 'https://picsum.photos/200/200?random=6&blur=0',
-                'royal-blend': 'https://picsum.photos/200/200?random=7&blur=0',
-                'oolong-tea': 'https://picsum.photos/200/200?random=8&blur=0',
-                'hojicha': 'https://picsum.photos/200/200?random=9&blur=0',
-                'chamomile': 'https://picsum.photos/200/200?random=10&blur=0',
-                'lemon-ginger': 'https://picsum.photos/200/200?random=11&blur=0',
-                'ssanghwacha': 'https://picsum.photos/200/200?random=12&blur=0',
-                'mint': 'https://picsum.photos/200/200?random=13&blur=0',
-                'lemongrass-pandan': 'https://picsum.photos/200/200?random=14&blur=0',
-                'lemongrass': 'https://picsum.photos/200/200?random=15&blur=0',
-                'corn-silk': 'https://picsum.photos/200/200?random=16&blur=0',
-                'earl-gray-decaf': 'https://picsum.photos/200/200?random=17&blur=0',
-                'sleepytime': 'https://picsum.photos/200/200?random=18&blur=0'
+            // Map each tea and accompaniment to its local image file
+            const itemImages = {
+                // Caffeinated Teas
+                'chai-tea': './images/chai-tea.jpg',
+                'cinnamon-apple-spice': './images/cinnamon-apple-spice.jpg',
+                'thai-tea-red': './images/thai-tea-red.jpg',
+                'thai-tea-yellow': './images/thai-tea-yellow.jpg',
+                'royal-blend': './images/royal-blend.jpg',
+                'green-tea': './images/green-tea.jpg',
+                'oolong-tea': './images/oolong-tea.jpg',
+                'hojicha': './images/hojicha.jpg',
+                
+                // Decaf & Herbal Teas
+                'chamomile': './images/chamomile.jpg',
+                'lemon-ginger': './images/lemon-ginger.jpg',
+                'butterfly-pea': './images/butterfly-pea.jpg',
+                'ssanghwacha': './images/ssanghwacha.jpg',
+                'mint': './images/mint.jpg',
+                'lemongrass-pandan': './images/lemongrass-pandan.jpg',
+                'lemongrass': './images/lemongrass.jpg',
+                'corn-silk': './images/corn-silk.jpg',
+                'earl-gray-decaf': './images/earl-gray-decaf.jpg',
+                'sleepytime': './images/sleepytime.jpg',
+                
+                // Accompaniments
+                'local-honey': './images/local-honey.jpg',
+                'fresh-lemon': './images/fresh-lemon.jpg',
+                'steamed-milk': './images/steamed-milk.jpg',
+                'brown-sugar': './images/brown-sugar.jpg',
+                'fresh-ginger': './images/fresh-ginger.jpg',
+                'homemade-cookies': './images/homemade-cookies.jpg'
             };
 
-            return teaImages[item.id] || 'https://picsum.photos/200/200?random=99&blur=0';
+            // Return the specific image path, or a default if not found
+            return itemImages[item.id] || './images/default-tea.jpg';
         }
 
         function renderExtrasSection(containerId, items) {
@@ -1459,26 +1471,37 @@
                 const cartItem = cart.find(c => c.id === item.id);
                 const cartQuantity = cartItem ? cartItem.quantity : 0;
                 
+                // Generate image for accompaniments too
+                const imageUrl = generatePlaceholderImage(item);
+                
                 itemDiv.innerHTML = `
-                    <div class="item-header">
-                        <span class="item-name">${item.name}</span>
-                        <span class="item-price">$${item.price.toFixed(2)}</span>
-                    </div>
-                    <div class="item-description">${item.description}</div>
-                    <div class="item-controls">
-                        <div class="stock-info">
-                            ${item.stock === 0 ? 
-                                '<span class="sold-out-label">OUT OF STOCK</span>' : 
-                                ''
-                            }
-                        </div>
-                        ${item.stock > 0 ? `
-                            <div class="quantity-controls">
-                                <button class="qty-btn" onclick="updateExtrasCart('${item.id}', -1)" ${cartQuantity === 0 ? 'disabled' : ''}>-</button>
-                                <span class="quantity">${cartQuantity}</span>
-                                <button class="qty-btn" onclick="updateExtrasCart('${item.id}', 1)" ${cartQuantity >= item.stock ? 'disabled' : ''}>+</button>
+                    <div class="item-layout">
+                        <div class="item-content">
+                            <div class="item-header">
+                                <span class="item-name">${item.name}</span>
+                                <span class="item-price">${item.price.toFixed(2)}</span>
                             </div>
-                        ` : ''}
+                            <div class="item-description">${item.description}</div>
+                            <div class="item-controls">
+                                <div class="stock-info">
+                                    ${item.stock === 0 ? 
+                                        '<span class="sold-out-label">OUT OF STOCK</span>' : 
+                                        ''
+                                    }
+                                </div>
+                                ${item.stock > 0 ? `
+                                    <div class="quantity-controls">
+                                        <button class="qty-btn" onclick="updateExtrasCart('${item.id}', -1)" ${cartQuantity === 0 ? 'disabled' : ''}>-</button>
+                                        <span class="quantity">${cartQuantity}</span>
+                                        <button class="qty-btn" onclick="updateExtrasCart('${item.id}', 1)" ${cartQuantity >= item.stock ? 'disabled' : ''}>+</button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div class="item-image-container">
+                            <img src="${imageUrl}" alt="${item.name}" class="item-image" />
+                            ${item.stock === 0 ? '<div class="sold-out-overlay"><span class="sold-out-label">OUT OF STOCK</span></div>' : ''}
+                        </div>
                     </div>
                 `;
                 
