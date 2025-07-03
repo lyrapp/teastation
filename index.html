@@ -121,8 +121,20 @@
                 0 16px 24px rgba(95, 107, 109, 0.02);
         }
 
-        .menu-item:hover {
+        .menu-item.clickable {
+            cursor: pointer;
+        }
+
+        .menu-item.clickable:hover {
             transform: translateY(-4px);
+            box-shadow: 
+                0 4px 12px rgba(95, 107, 109, 0.12),
+                0 12px 32px rgba(95, 107, 109, 0.08),
+                0 24px 48px rgba(95, 107, 109, 0.04);
+        }
+
+        .menu-item:not(.clickable):hover {
+            transform: translateY(-2px);
             box-shadow: 
                 0 4px 12px rgba(95, 107, 109, 0.12),
                 0 12px 32px rgba(95, 107, 109, 0.08),
@@ -135,6 +147,7 @@
             box-shadow: 
                 0 1px 3px rgba(95, 107, 109, 0.04),
                 0 4px 12px rgba(95, 107, 109, 0.02);
+            cursor: not-allowed;
         }
 
         .menu-item.sold-out:hover {
@@ -192,6 +205,16 @@
             letter-spacing: 0.5px;
         }
 
+        .tap-to-customize {
+            color: #a8c4a8;
+            font-weight: 500;
+            font-size: 0.9em;
+            background: rgba(168, 196, 168, 0.1);
+            padding: 8px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(168, 196, 168, 0.2);
+        }
+
         .quantity-controls {
             display: flex;
             align-items: center;
@@ -237,6 +260,251 @@
             font-size: 1.1em;
         }
 
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 
+                0 10px 30px rgba(95, 107, 109, 0.2),
+                0 30px 60px rgba(95, 107, 109, 0.1);
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 1.8em;
+            color: #5f6b6d;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .modal-price {
+            font-size: 1.3em;
+            color: #a8c4a8;
+            font-weight: 600;
+        }
+
+        .modal-description {
+            color: #6c7b7d;
+            line-height: 1.5;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .extras-section {
+            margin-bottom: 25px;
+        }
+
+        .extras-title {
+            font-size: 1.2em;
+            color: #5f6b6d;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .extras-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .extra-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            border: 2px solid #f0f0f0;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .extra-item:hover {
+            border-color: #a8c4a8;
+            background: rgba(168, 196, 168, 0.05);
+        }
+
+        .extra-item.selected {
+            border-color: #a8c4a8;
+            background: rgba(168, 196, 168, 0.1);
+        }
+
+        .extra-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .extra-checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .extra-item.selected .extra-checkbox {
+            background: #a8c4a8;
+            border-color: #a8c4a8;
+            color: white;
+        }
+
+        .extra-details {
+            flex: 1;
+        }
+
+        .extra-name {
+            font-weight: 500;
+            color: #5f6b6d;
+            margin-bottom: 2px;
+        }
+
+        .extra-description {
+            font-size: 0.85em;
+            color: #6c7b7d;
+        }
+
+        .extra-price {
+            font-weight: 600;
+            color: #a8c4a8;
+        }
+
+        .quantity-section {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .quantity-title {
+            font-size: 1.2em;
+            color: #5f6b6d;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .modal-quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .modal-qty-btn {
+            background: #a8c4a8;
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.3em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-qty-btn:hover {
+            background: #8fb88f;
+            transform: scale(1.05);
+        }
+
+        .modal-qty-btn:disabled {
+            background: #e8dcc0;
+            cursor: not-allowed;
+            transform: none;
+            color: #999;
+        }
+
+        .modal-quantity {
+            font-weight: 600;
+            font-size: 1.5em;
+            color: #5f6b6d;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: space-between;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .modal-btn.cancel {
+            background: #f0f0f0;
+            color: #6c7b7d;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #e8dcc0;
+        }
+
+        .modal-btn.add-to-cart {
+            background: #a8c4a8;
+            color: white;
+        }
+
+        .modal-btn.add-to-cart:hover {
+            background: #8fb88f;
+            transform: translateY(-2px);
+            box-shadow: 
+                0 4px 12px rgba(168, 196, 168, 0.25),
+                0 12px 32px rgba(168, 196, 168, 0.15);
+        }
+
         .cart-section {
             background: #f8f6f2;
             padding: 32px;
@@ -261,15 +529,34 @@
         }
 
         .cart-item {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid #e8dcc0;
+        }
+
+        .cart-item-header {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #e8dcc0;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-name {
+            font-weight: 600;
             color: #5f6b6d;
         }
 
-        .cart-item:last-child {
-            border-bottom: none;
+        .cart-item-price {
+            font-weight: 600;
+            color: #a8c4a8;
+        }
+
+        .cart-item-extras {
+            color: #6c7b7d;
+            font-size: 0.9em;
+            line-height: 1.4;
         }
 
         .cart-total {
@@ -432,6 +719,16 @@
             .section h2 {
                 font-size: 1.7em;
             }
+
+            .modal {
+                margin: 10px;
+                padding: 25px;
+                border-radius: 20px;
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 480px) {
@@ -458,6 +755,12 @@
             }
             
             .container {
+                border-radius: 16px;
+            }
+
+            .modal {
+                margin: 5px;
+                padding: 20px;
                 border-radius: 16px;
             }
         }
@@ -528,6 +831,38 @@
         </div>
     </div>
 
+    <!-- Customization Modal -->
+    <div class="modal-overlay" id="customization-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="modal-tea-name">Tea Name</div>
+                <div class="modal-price" id="modal-tea-price">$0.00</div>
+            </div>
+            <div class="modal-description" id="modal-tea-description">Tea description</div>
+            
+            <div class="extras-section">
+                <div class="extras-title">Add Extras</div>
+                <div class="extras-grid" id="modal-extras-grid">
+                    <!-- Extras will be populated here -->
+                </div>
+            </div>
+
+            <div class="quantity-section">
+                <div class="quantity-title">Quantity</div>
+                <div class="modal-quantity-controls">
+                    <button class="modal-qty-btn" id="modal-qty-decrease">-</button>
+                    <span class="modal-quantity" id="modal-quantity">1</span>
+                    <button class="modal-qty-btn" id="modal-qty-increase">+</button>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn cancel" id="modal-cancel">Cancel</button>
+                <button class="modal-btn add-to-cart" id="modal-add-to-cart">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDKs -->
     <script type="module">
         // Import Firebase modules
@@ -557,6 +892,9 @@
         let app, db;
         let inventory = { teas: [], accompaniments: [] };
         let cart = [];
+        let currentTea = null;
+        let selectedExtras = [];
+        let modalQuantity = 1;
 
         // Try to initialize Firebase
         try {
@@ -583,7 +921,8 @@
                         description: 'Traditional Indian spiced tea blend with warming cardamom, cinnamon, and ginger.',
                         price: 3.25,
                         stock: 8,
-                        category: 'tea'
+                        category: 'tea',
+                        type: 'caffeinated'
                     },
                     {
                         id: 'green-tea',
@@ -591,7 +930,8 @@
                         description: 'Pure Japanese green tea with fresh, grassy notes and natural antioxidants.',
                         price: 3.25,
                         stock: 9,
-                        category: 'tea'
+                        category: 'tea',
+                        type: 'caffeinated'
                     },
                     {
                         id: 'butterfly-pea',
@@ -599,7 +939,8 @@
                         description: 'Magical Thai herbal tea that changes color! Naturally blue, turns purple with lemon.',
                         price: 3.50,
                         stock: 4,
-                        category: 'tea'
+                        category: 'tea',
+                        type: 'decaf'
                     }
                 ],
                 accompaniments: [
@@ -965,12 +1306,49 @@
             const caffeinatedTeas = inventory.teas.filter(tea => tea.type === 'caffeinated');
             const decafTeas = inventory.teas.filter(tea => tea.type === 'decaf');
             
-            renderSection('caffeinated-menu', caffeinatedTeas);
-            renderSection('decaf-menu', decafTeas);
-            renderSection('accompaniments-menu', inventory.accompaniments);
+            renderTeaSection('caffeinated-menu', caffeinatedTeas);
+            renderTeaSection('decaf-menu', decafTeas);
+            renderExtrasSection('accompaniments-menu', inventory.accompaniments);
         }
 
-        function renderSection(containerId, items) {
+        function renderTeaSection(containerId, items) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `menu-item ${item.stock === 0 ? 'sold-out' : 'clickable'}`;
+                
+                itemDiv.innerHTML = `
+                    <div class="item-header">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">$${item.price.toFixed(2)}</span>
+                    </div>
+                    <div class="item-description">${item.description}</div>
+                    <div class="item-controls">
+                        <div class="stock-info">
+                            ${item.stock === 0 ? 
+                                '<span class="sold-out-label">OUT OF STOCK</span>' : 
+                                ''
+                            }
+                        </div>
+                        ${item.stock > 0 ? 
+                            '<div class="tap-to-customize">Tap to customize</div>' : 
+                            ''
+                        }
+                    </div>
+                `;
+                
+                // Add click handler for tea items
+                if (item.stock > 0) {
+                    itemDiv.addEventListener('click', () => openCustomizationModal(item));
+                }
+                
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function renderExtrasSection(containerId, items) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
 
@@ -996,9 +1374,9 @@
                         </div>
                         ${item.stock > 0 ? `
                             <div class="quantity-controls">
-                                <button class="qty-btn" onclick="updateCart('${item.id}', -1)" ${cartQuantity === 0 ? 'disabled' : ''}>-</button>
+                                <button class="qty-btn" onclick="updateExtrasCart('${item.id}', -1)" ${cartQuantity === 0 ? 'disabled' : ''}>-</button>
                                 <span class="quantity">${cartQuantity}</span>
-                                <button class="qty-btn" onclick="updateCart('${item.id}', 1)" ${cartQuantity >= item.stock ? 'disabled' : ''}>+</button>
+                                <button class="qty-btn" onclick="updateExtrasCart('${item.id}', 1)" ${cartQuantity >= item.stock ? 'disabled' : ''}>+</button>
                             </div>
                         ` : ''}
                     </div>
@@ -1008,28 +1386,147 @@
             });
         }
 
-        // Function to update cart
-        window.updateCart = function(itemId, change) {
-            // Find the item in inventory
-            const item = [...inventory.teas, ...inventory.accompaniments].find(i => i.id === itemId);
+        // Function to open customization modal
+        function openCustomizationModal(tea) {
+            currentTea = tea;
+            selectedExtras = [];
+            modalQuantity = 1;
+
+            // Populate modal with tea info
+            document.getElementById('modal-tea-name').textContent = tea.name;
+            document.getElementById('modal-tea-price').textContent = `$${tea.price.toFixed(2)}`;
+            document.getElementById('modal-tea-description').textContent = tea.description;
+            document.getElementById('modal-quantity').textContent = modalQuantity;
+
+            // Populate extras
+            const extrasGrid = document.getElementById('modal-extras-grid');
+            extrasGrid.innerHTML = '';
+
+            inventory.accompaniments.filter(item => item.stock > 0).forEach(extra => {
+                const extraDiv = document.createElement('div');
+                extraDiv.className = 'extra-item';
+                extraDiv.onclick = () => toggleExtra(extra.id);
+
+                extraDiv.innerHTML = `
+                    <div class="extra-info">
+                        <div class="extra-checkbox"></div>
+                        <div class="extra-details">
+                            <div class="extra-name">${extra.name}</div>
+                            <div class="extra-description">${extra.description}</div>
+                        </div>
+                    </div>
+                    <div class="extra-price">+$${extra.price.toFixed(2)}</div>
+                `;
+
+                extrasGrid.appendChild(extraDiv);
+            });
+
+            // Show modal
+            document.getElementById('customization-modal').classList.add('active');
+        }
+
+        // Function to toggle extra selection
+        function toggleExtra(extraId) {
+            const index = selectedExtras.indexOf(extraId);
+            if (index > -1) {
+                selectedExtras.splice(index, 1);
+            } else {
+                selectedExtras.push(extraId);
+            }
+
+            // Update UI
+            const extraItems = document.querySelectorAll('.extra-item');
+            extraItems.forEach((item, i) => {
+                const extra = inventory.accompaniments.filter(item => item.stock > 0)[i];
+                if (selectedExtras.includes(extra.id)) {
+                    item.classList.add('selected');
+                    item.querySelector('.extra-checkbox').innerHTML = '✓';
+                } else {
+                    item.classList.remove('selected');
+                    item.querySelector('.extra-checkbox').innerHTML = '';
+                }
+            });
+        }
+
+        // Modal event listeners
+        document.getElementById('modal-qty-decrease').addEventListener('click', () => {
+            if (modalQuantity > 1) {
+                modalQuantity--;
+                document.getElementById('modal-quantity').textContent = modalQuantity;
+            }
+        });
+
+        document.getElementById('modal-qty-increase').addEventListener('click', () => {
+            if (modalQuantity < currentTea.stock) {
+                modalQuantity++;
+                document.getElementById('modal-quantity').textContent = modalQuantity;
+            }
+        });
+
+        document.getElementById('modal-cancel').addEventListener('click', () => {
+            document.getElementById('customization-modal').classList.remove('active');
+        });
+
+        document.getElementById('modal-add-to-cart').addEventListener('click', () => {
+            addCustomizedTeaToCart();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('customization-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'customization-modal') {
+                document.getElementById('customization-modal').classList.remove('active');
+            }
+        });
+
+        // Function to add customized tea to cart
+        function addCustomizedTeaToCart() {
+            if (!currentTea) return;
+
+            const extras = selectedExtras.map(extraId => {
+                return inventory.accompaniments.find(a => a.id === extraId);
+            }).filter(Boolean);
+
+            const cartItem = {
+                id: `${currentTea.id}-${Date.now()}`, // Unique ID for each customized tea
+                teaId: currentTea.id,
+                name: currentTea.name,
+                price: currentTea.price,
+                quantity: modalQuantity,
+                extras: extras,
+                totalPrice: (currentTea.price + extras.reduce((sum, extra) => sum + extra.price, 0)) * modalQuantity
+            };
+
+            cart.push(cartItem);
+
+            // Close modal
+            document.getElementById('customization-modal').classList.remove('active');
+
+            // Update display
+            renderMenu();
+            renderCart();
+
+            showMessage(`Added ${modalQuantity}x ${currentTea.name} to cart!`, 'success');
+        }
+
+        // Function to update extras cart (standalone extras)
+        window.updateExtrasCart = function(itemId, change) {
+            const item = inventory.accompaniments.find(i => i.id === itemId);
             if (!item) return;
 
-            // Find existing cart item
             const cartItemIndex = cart.findIndex(c => c.id === itemId);
             
             if (cartItemIndex >= 0) {
-                // Update existing cart item
                 cart[cartItemIndex].quantity += change;
                 if (cart[cartItemIndex].quantity <= 0) {
                     cart.splice(cartItemIndex, 1);
                 }
             } else if (change > 0) {
-                // Add new item to cart
                 cart.push({
                     id: itemId,
                     name: item.name,
                     price: item.price,
-                    quantity: change
+                    quantity: change,
+                    totalPrice: item.price * change
                 });
             }
 
@@ -1057,12 +1554,21 @@
                 const cartItemDiv = document.createElement('div');
                 cartItemDiv.className = 'cart-item';
                 
-                const itemTotal = item.price * item.quantity;
+                const itemTotal = item.totalPrice || (item.price * item.quantity);
                 total += itemTotal;
                 
+                // Build extras text
+                let extrasText = '';
+                if (item.extras && item.extras.length > 0) {
+                    extrasText = `<div class="cart-item-extras">Extras: ${item.extras.map(e => e.name).join(', ')}</div>`;
+                }
+                
                 cartItemDiv.innerHTML = `
-                    <span>${item.name} × ${item.quantity}</span>
-                    <span>$${itemTotal.toFixed(2)}</span>
+                    <div class="cart-item-header">
+                        <span class="cart-item-name">${item.name} × ${item.quantity}</span>
+                        <span class="cart-item-price">$${itemTotal.toFixed(2)}</span>
+                    </div>
+                    ${extrasText}
                 `;
                 
                 cartContainer.appendChild(cartItemDiv);
@@ -1079,13 +1585,31 @@
             const customerName = document.getElementById('customer-name').value;
             const specialRequests = document.getElementById('special-requests').value;
             
-            // Create the order object
+            // Convert cart to order format
+            const orderItems = cart.map(cartItem => {
+                if (cartItem.extras) {
+                    // Customized tea item
+                    return {
+                        name: `${cartItem.name}${cartItem.extras.length > 0 ? ` (+ ${cartItem.extras.map(e => e.name).join(', ')})` : ''}`,
+                        price: cartItem.totalPrice / cartItem.quantity,
+                        quantity: cartItem.quantity
+                    };
+                } else {
+                    // Regular item
+                    return {
+                        name: cartItem.name,
+                        price: cartItem.price,
+                        quantity: cartItem.quantity
+                    };
+                }
+            });
+
             const order = {
                 id: Date.now(),
                 customer: customerName,
-                items: [...cart],
+                items: orderItems,
                 specialRequests: specialRequests,
-                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                total: cart.reduce((sum, item) => sum + (item.totalPrice || (item.price * item.quantity)), 0),
                 timestamp: new Date().toISOString(),
                 status: 'placed'
             };
@@ -1098,25 +1622,48 @@
 
                 // Update inventory (subtract ordered quantities)
                 for (const cartItem of cart) {
-                    let item = inventory.teas.find(t => t.id === cartItem.id);
-                    let collection_name = 'teas';
-                    
-                    if (!item) {
-                        item = inventory.accompaniments.find(a => a.id === cartItem.id);
-                        collection_name = 'accompaniments';
-                    }
-                    
-                    if (item) {
-                        const newStock = item.stock - cartItem.quantity;
-                        
-                        if (db && item.firebaseId) {
-                            // Update in Firebase
-                            await updateDoc(doc(db, collection_name, item.firebaseId), {
-                                stock: newStock
-                            });
-                        } else {
-                            // Update locally for demo mode
-                            item.stock = newStock;
+                    if (cartItem.teaId) {
+                        // Customized tea - update tea stock
+                        const tea = inventory.teas.find(t => t.id === cartItem.teaId);
+                        if (tea && tea.firebaseId) {
+                            const newStock = tea.stock - cartItem.quantity;
+                            if (db) {
+                                await updateDoc(doc(db, 'teas', tea.firebaseId), {
+                                    stock: newStock
+                                });
+                            } else {
+                                tea.stock = newStock;
+                            }
+                        }
+
+                        // Update extras stock
+                        if (cartItem.extras) {
+                            for (const extra of cartItem.extras) {
+                                const accompaniment = inventory.accompaniments.find(a => a.id === extra.id);
+                                if (accompaniment && accompaniment.firebaseId) {
+                                    const newStock = accompaniment.stock - cartItem.quantity;
+                                    if (db) {
+                                        await updateDoc(doc(db, 'accompaniments', accompaniment.firebaseId), {
+                                            stock: newStock
+                                        });
+                                    } else {
+                                        accompaniment.stock = newStock;
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        // Regular accompaniment item
+                        const accompaniment = inventory.accompaniments.find(a => a.id === cartItem.id);
+                        if (accompaniment && accompaniment.firebaseId) {
+                            const newStock = accompaniment.stock - cartItem.quantity;
+                            if (db) {
+                                await updateDoc(doc(db, 'accompaniments', accompaniment.firebaseId), {
+                                    stock: newStock
+                                });
+                            } else {
+                                accompaniment.stock = newStock;
+                            }
                         }
                     }
                 }
