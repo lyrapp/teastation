@@ -110,6 +110,155 @@
             border-radius: 2px;
         }
 
+        /* Featured Section Styles */
+        .featured-section {
+            margin-bottom: 50px;
+        }
+
+        .featured-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #f8f6f2, #f0f4f0);
+            padding: 20px 0;
+        }
+
+        .featured-scroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            padding: 0 30px 20px 30px;
+            scrollbar-width: thin;
+            scrollbar-color: #d4a5a5 #f0f0f0;
+        }
+
+        .featured-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .featured-scroll::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin: 0 30px;
+        }
+
+        .featured-scroll::-webkit-scrollbar-thumb {
+            background: #d4a5a5;
+            border-radius: 4px;
+        }
+
+        .featured-scroll::-webkit-scrollbar-thumb:hover {
+            background: #c49494;
+        }
+
+        .featured-item {
+            flex: 0 0 280px;
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 
+                0 2px 8px rgba(95, 107, 109, 0.08),
+                0 8px 24px rgba(95, 107, 109, 0.04);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-item::before {
+            content: '⭐';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.2em;
+            color: #d4a5a5;
+        }
+
+        .featured-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 
+                0 8px 25px rgba(95, 107, 109, 0.15),
+                0 15px 45px rgba(95, 107, 109, 0.1);
+        }
+
+        .featured-item.sold-out {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .featured-item.sold-out:hover {
+            transform: translateY(-2px);
+        }
+
+        .featured-image-container {
+            width: 100%;
+            height: 140px;
+            background: #f0f4f0;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .featured-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .featured-content {
+            text-align: center;
+        }
+
+        .featured-name {
+            font-family: 'Merriweather', Georgia, serif;
+            font-size: 1.3em;
+            font-weight: 500;
+            color: #5f6b6d;
+            margin-bottom: 8px;
+        }
+
+        .featured-price {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #a8c4a8;
+            margin-bottom: 10px;
+        }
+
+        .featured-description {
+            color: #6c7b7d;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #d4a5a5, #c49494);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .no-featured {
+            text-align: center;
+            color: #6c7b7d;
+            font-style: italic;
+            padding: 40px;
+        }
+
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -760,6 +909,14 @@
             .main-content {
                 padding: 30px 20px;
             }
+
+            .featured-scroll {
+                padding: 0 20px 20px 20px;
+            }
+
+            .featured-item {
+                flex: 0 0 250px;
+            }
             
             .menu-grid {
                 grid-template-columns: 1fr;
@@ -823,6 +980,15 @@
             
             .main-content {
                 padding: 20px 15px;
+            }
+
+            .featured-scroll {
+                padding: 0 15px 20px 15px;
+            }
+
+            .featured-item {
+                flex: 0 0 220px;
+                padding: 20px;
             }
             
             .menu-item {
@@ -894,6 +1060,16 @@
 
                 <!-- Menu Content -->
                 <div id="menu-content">
+                    <!-- Featured Section -->
+                    <div class="featured-section" id="featured-section" style="display: none;">
+                        <h2>✨ Featured</h2>
+                        <div class="featured-container">
+                            <div class="featured-scroll" id="featured-scroll">
+                                <!-- Featured items will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Caffeinated Tea Menu Section -->
                     <div class="section">
                         <h2>☕ Caffeinated Teas</h2>
@@ -1007,6 +1183,7 @@
         // Initialize Firebase
         let app, db;
         let inventory = { teas: [], accompaniments: [] };
+        let featuredItems = [];
         let cart = [];
         let currentTea = null;
         let selectedExtras = [];
@@ -1083,8 +1260,15 @@
                 ]
             };
             
+            // Demo featured items
+            featuredItems = [
+                { itemId: 'butterfly-pea', itemType: 'tea' },
+                { itemId: 'chai-tea', itemType: 'tea' }
+            ];
+            
             hideLoading();
             renderMenu();
+            renderFeatured();
             renderCart();
         }
 
@@ -1106,6 +1290,7 @@
                 
                 // Load data from Firebase
                 await loadInventoryFromFirebase();
+                await loadFeaturedFromFirebase();
                 
                 // Set up real-time listeners for inventory changes
                 setupRealtimeListeners();
@@ -1135,6 +1320,21 @@
                 console.error('Error loading store status:', error);
                 storeStatus = { isOpen: true }; // Default to open on error
                 updateStoreUI();
+            }
+        }
+
+        async function loadFeaturedFromFirebase() {
+            try {
+                const featuredSnapshot = await getDocs(collection(db, 'featured'));
+                featuredItems = [];
+                featuredSnapshot.forEach((doc) => {
+                    featuredItems.push({ firebaseId: doc.id, ...doc.data() });
+                });
+
+                renderFeatured();
+                
+            } catch (error) {
+                console.error('Error loading featured items:', error);
             }
         }
 
@@ -1453,6 +1653,7 @@
                     inventory.teas.push({ firebaseId: doc.id, ...doc.data() });
                 });
                 renderMenu();
+                renderFeatured(); // Re-render featured when inventory changes
             });
 
             // Listen for accompaniment changes
@@ -1462,12 +1663,81 @@
                     inventory.accompaniments.push({ firebaseId: doc.id, ...doc.data() });
                 });
                 renderMenu();
+                renderFeatured(); // Re-render featured when inventory changes
+            });
+
+            // Listen for featured changes
+            onSnapshot(collection(db, 'featured'), (snapshot) => {
+                featuredItems = [];
+                snapshot.forEach((doc) => {
+                    featuredItems.push({ firebaseId: doc.id, ...doc.data() });
+                });
+                renderFeatured();
             });
         }
 
         function hideLoading() {
             document.getElementById('loading').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
+        }
+
+        // Function to render featured items
+        function renderFeatured() {
+            const featuredSection = document.getElementById('featured-section');
+            const featuredContainer = document.getElementById('featured-scroll');
+
+            if (featuredItems.length === 0) {
+                featuredSection.style.display = 'none';
+                return;
+            }
+
+            featuredSection.style.display = 'block';
+            featuredContainer.innerHTML = '';
+
+            featuredItems.forEach(featuredItem => {
+                let item = null;
+                
+                // Find the actual item from inventory
+                if (featuredItem.itemType === 'tea') {
+                    item = inventory.teas.find(t => t.id === featuredItem.itemId || t.firebaseId === featuredItem.itemId);
+                } else if (featuredItem.itemType === 'accompaniment') {
+                    item = inventory.accompaniments.find(a => a.id === featuredItem.itemId || a.firebaseId === featuredItem.itemId);
+                }
+
+                if (!item) return; // Skip if item not found
+
+                const featuredDiv = document.createElement('div');
+                featuredDiv.className = `featured-item ${item.stock === 0 ? 'sold-out' : ''}`;
+                
+                // Generate image for the item
+                const imageUrl = generatePlaceholderImage(item);
+                
+                featuredDiv.innerHTML = `
+                    <div class="featured-image-container">
+                        <img src="${imageUrl}" alt="${item.name}" class="featured-image" />
+                    </div>
+                    <div class="featured-content">
+                        <div class="featured-name">${item.name}</div>
+                        <div class="featured-price">$${item.price.toFixed(2)}</div>
+                        <div class="featured-description">${item.description}</div>
+                        <div class="featured-badge">Featured</div>
+                    </div>
+                `;
+
+                // Add click handler
+                if (item.stock > 0) {
+                    if (item.category === 'tea') {
+                        featuredDiv.addEventListener('click', () => openCustomizationModal(item));
+                    } else {
+                        featuredDiv.addEventListener('click', () => {
+                            updateExtrasCart(item.id, 1);
+                            showMessage(`Added ${item.name} to cart!`, 'success');
+                        });
+                    }
+                }
+
+                featuredContainer.appendChild(featuredDiv);
+            });
         }
 
         // Function to render menu items
@@ -1497,7 +1767,7 @@
                         <div class="item-content">
                             <div class="item-header">
                                 <span class="item-name">${item.name}</span>
-                                <span class="item-price">${item.price.toFixed(2)}</span>
+                                <span class="item-price">$${item.price.toFixed(2)}</span>
                             </div>
                             <div class="item-description">${item.description}</div>
                             <div class="item-controls">
@@ -1563,7 +1833,7 @@
             };
 
             // Return the specific image path, or a default if not found
-            return itemImages[item.id] || './images/default-tea.jpg';
+            return itemImages[item.id] || itemImages[item.firebaseId] || './images/default-tea.jpg';
         }
 
         function renderExtrasSection(containerId, items) {
@@ -1585,7 +1855,7 @@
                         <div class="item-content">
                             <div class="item-header">
                                 <span class="item-name">${item.name}</span>
-                                <span class="item-price">${item.price.toFixed(2)}</span>
+                                <span class="item-price">$${item.price.toFixed(2)}</span>
                             </div>
                             <div class="item-description">${item.description}</div>
                             <div class="item-controls">
@@ -1920,6 +2190,7 @@
                 
                 // Update display
                 renderMenu();
+                renderFeatured();
                 renderCart();
                 
                 // Show success message
