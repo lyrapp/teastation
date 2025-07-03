@@ -692,6 +692,42 @@
             font-size: 1.1em;
         }
 
+        .closed-message {
+            background: linear-gradient(135deg, #f8e8e8, #f0e0e0);
+            border: 2px solid #d4a5a5;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: 
+                0 4px 12px rgba(212, 165, 165, 0.2),
+                0 16px 48px rgba(212, 165, 165, 0.1);
+        }
+
+        .closed-message h2 {
+            color: #d4a5a5;
+            font-size: 2.2em;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .closed-message p {
+            color: #8a5a5a;
+            font-size: 1.3em;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .closed-message .tea-emoji {
+            font-size: 3em;
+            margin: 20px 0;
+        }
+
+        .menu-disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             body {
@@ -834,49 +870,63 @@
 
             <!-- Main Content (hidden until loaded) -->
             <div id="main-app" style="display: none;">
-                <!-- Caffeinated Tea Menu Section -->
-                <div class="section">
-                    <h2>☕ Caffeinated Teas</h2>
-                    <div class="menu-grid" id="caffeinated-menu">
-                        <!-- Caffeinated tea items will be populated from Firebase -->
-                    </div>
+                
+                <!-- Closed Message (shown when store is closed) -->
+                <div class="closed-message" id="closed-message" style="display: none;">
+                    <h2>We're Closed Right Now</h2>
+                    <div class="tea-emoji">🍵</div>
+                    <p>But come back soon!</p>
+                    <p style="font-size: 1em; color: #6c7b7d; margin-top: 20px;">
+                        We'll be back to serve you delicious teas soon. Check back later!
+                    </p>
                 </div>
 
-                <!-- Decaf Tea Menu Section -->
-                <div class="section">
-                    <h2>🌙 Decaf & Herbal Teas</h2>
-                    <div class="menu-grid" id="decaf-menu">
-                        <!-- Decaf tea items will be populated from Firebase -->
-                    </div>
-                </div>
-
-                <!-- Extras Section -->
-                <div class="section">
-                    <h2>🍯 Extras</h2>
-                    <div class="menu-grid" id="accompaniments-menu">
-                        <!-- Accompaniment items will be populated from Firebase -->
-                    </div>
-                </div>
-
-                <!-- Cart Section -->
-                <div class="cart-section">
-                    <h2>Your Order</h2>
-                    <div class="cart-items" id="cart-items">
-                        <div class="empty-cart">Your cart is empty</div>
-                    </div>
-                    <div class="cart-total" id="cart-total">Total: $0.00</div>
-                    
-                    <form class="order-form" id="order-form">
-                        <div class="form-group">
-                            <label for="customer-name">Name:</label>
-                            <input type="text" id="customer-name" required>
+                <!-- Menu Content -->
+                <div id="menu-content">
+                    <!-- Caffeinated Tea Menu Section -->
+                    <div class="section">
+                        <h2>☕ Caffeinated Teas</h2>
+                        <div class="menu-grid" id="caffeinated-menu">
+                            <!-- Caffeinated tea items will be populated from Firebase -->
                         </div>
-                        <div class="form-group">
-                            <label for="special-requests">Special Requests:</label>
-                            <input type="text" id="special-requests" placeholder="Extra honey, no sugar, etc.">
+                    </div>
+
+                    <!-- Decaf Tea Menu Section -->
+                    <div class="section">
+                        <h2>🌙 Decaf & Herbal Teas</h2>
+                        <div class="menu-grid" id="decaf-menu">
+                            <!-- Decaf tea items will be populated from Firebase -->
                         </div>
-                        <button type="submit" class="submit-btn" id="submit-order" disabled>Place Order</button>
-                    </form>
+                    </div>
+
+                    <!-- Extras Section -->
+                    <div class="section">
+                        <h2>🍯 Extras</h2>
+                        <div class="menu-grid" id="accompaniments-menu">
+                            <!-- Accompaniment items will be populated from Firebase -->
+                        </div>
+                    </div>
+
+                    <!-- Cart Section -->
+                    <div class="cart-section">
+                        <h2>Your Order</h2>
+                        <div class="cart-items" id="cart-items">
+                            <div class="empty-cart">Your cart is empty</div>
+                        </div>
+                        <div class="cart-total" id="cart-total">Total: $0.00</div>
+                        
+                        <form class="order-form" id="order-form">
+                            <div class="form-group">
+                                <label for="customer-name">Name:</label>
+                                <input type="text" id="customer-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="special-requests">Special Requests:</label>
+                                <input type="text" id="special-requests" placeholder="Extra honey, no sugar, etc.">
+                            </div>
+                            <button type="submit" class="submit-btn" id="submit-order" disabled>Place Order</button>
+                        </form>
+                    </div>
                 </div>
             </div>
 
@@ -927,7 +977,9 @@
             getDocs, 
             updateDoc, 
             addDoc, 
-            onSnapshot 
+            onSnapshot,
+            getDoc,
+            setDoc
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // Firebase configuration
@@ -948,6 +1000,7 @@
         let currentTea = null;
         let selectedExtras = [];
         let modalQuantity = 1;
+        let storeStatus = { isOpen: true }; // Default to open
 
         // Try to initialize Firebase
         try {
@@ -966,6 +1019,9 @@
 
         // Initialize with real data (for when Firebase isn't configured)
         function initializeDemoData() {
+            storeStatus = { isOpen: true }; // Default to open in demo mode
+            updateStoreUI();
+            
             inventory = {
                 teas: [
                     {
@@ -1024,6 +1080,9 @@
         // Initialize Firebase data
         async function initializeData() {
             try {
+                // Load store status first
+                await loadStoreStatus();
+                
                 // Check if we have existing data
                 const teaSnapshot = await getDocs(collection(db, 'teas'));
                 const accompanimentSnapshot = await getDocs(collection(db, 'accompaniments'));
@@ -1043,6 +1102,45 @@
             } catch (error) {
                 console.error('Error initializing data:', error);
                 initializeDemoData();
+            }
+        }
+
+        async function loadStoreStatus() {
+            try {
+                const statusRef = doc(db, 'settings', 'store-status');
+                const statusDoc = await getDoc(statusRef);
+                
+                if (statusDoc.exists()) {
+                    storeStatus = statusDoc.data();
+                } else {
+                    // Create default status if it doesn't exist
+                    storeStatus = { isOpen: true };
+                    await setDoc(statusRef, storeStatus);
+                }
+                
+                updateStoreUI();
+                
+            } catch (error) {
+                console.error('Error loading store status:', error);
+                storeStatus = { isOpen: true }; // Default to open on error
+                updateStoreUI();
+            }
+        }
+
+        function updateStoreUI() {
+            const closedMessage = document.getElementById('closed-message');
+            const menuContent = document.getElementById('menu-content');
+            
+            if (storeStatus.isOpen) {
+                closedMessage.style.display = 'none';
+                menuContent.style.display = 'block';
+                menuContent.classList.remove('menu-disabled');
+            } else {
+                closedMessage.style.display = 'block';
+                menuContent.style.display = 'none';
+                // Clear any ongoing orders when store closes
+                cart = [];
+                renderCart();
             }
         }
 
@@ -1329,6 +1427,14 @@
 
         // Set up real-time listeners
         function setupRealtimeListeners() {
+            // Listen for store status changes
+            onSnapshot(doc(db, 'settings', 'store-status'), (doc) => {
+                if (doc.exists()) {
+                    storeStatus = doc.data();
+                    updateStoreUI();
+                }
+            });
+
             // Listen for tea changes
             onSnapshot(collection(db, 'teas'), (snapshot) => {
                 inventory.teas = [];
@@ -1496,6 +1602,12 @@
 
         // Function to open customization modal
         function openCustomizationModal(tea) {
+            // Check if store is open
+            if (!storeStatus.isOpen) {
+                showMessage("We're closed right now, but come back soon! 🍵", 'error');
+                return;
+            }
+            
             currentTea = tea;
             selectedExtras = [];
             modalQuantity = 1;
@@ -1618,6 +1730,12 @@
 
         // Function to update extras cart (standalone extras)
         window.updateExtrasCart = function(itemId, change) {
+            // Check if store is open
+            if (!storeStatus.isOpen) {
+                showMessage("We're closed right now, but come back soon! 🍵", 'error');
+                return;
+            }
+            
             const item = inventory.accompaniments.find(i => i.id === itemId);
             if (!item) return;
 
@@ -1689,6 +1807,12 @@
         // Function to handle order submission
         document.getElementById('order-form').addEventListener('submit', async function(e) {
             e.preventDefault();
+            
+            // Check if store is open
+            if (!storeStatus.isOpen) {
+                showMessage("We're closed right now, but come back soon! 🍵", 'error');
+                return;
+            }
             
             const customerName = document.getElementById('customer-name').value;
             const specialRequests = document.getElementById('special-requests').value;
