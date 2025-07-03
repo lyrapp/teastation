@@ -48,6 +48,75 @@
             padding: 30px;
         }
 
+        /* Open/Closed Toggle Section */
+        .toggle-section {
+            background: linear-gradient(135deg, #f8f6f2, #f0f4f0);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 40px;
+            border: 2px solid #e8dcc0;
+            text-align: center;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .status-label {
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #5f6b6d;
+        }
+
+        .status-label.open {
+            color: #a8c4a8;
+        }
+
+        .status-label.closed {
+            color: #d4a5a5;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 80px;
+            height: 40px;
+            background: #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #a8c4a8;
+        }
+
+        .toggle-knob {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+
+        .toggle-switch.active .toggle-knob {
+            left: 44px;
+        }
+
+        .status-description {
+            color: #6c7b7d;
+            font-size: 1.1em;
+            font-style: italic;
+        }
+
         .stats-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -219,7 +288,6 @@
             padding: 20px;
             border-radius: 10px;
             border: 2px solid #e8dcc0;
-            margin-bottom: 20px;
         }
 
         .inventory-grid {
@@ -233,26 +301,17 @@
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #e8dcc0;
-            position: relative;
         }
 
         .inventory-item h4 {
             color: #5f6b6d;
-            margin-bottom: 5px;
-        }
-
-        .inventory-item-type {
-            font-size: 0.8em;
-            color: #7f8c8d;
-            margin-bottom: 5px;
-            font-style: italic;
+            margin-bottom: 10px;
         }
 
         .stock-control {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-top: 10px;
         }
 
         .stock-input {
@@ -263,7 +322,7 @@
         }
 
         .update-btn {
-            background: #a8c4a8;
+            background: #d4a5a5;
             color: white;
             border: none;
             padding: 6px 12px;
@@ -274,117 +333,7 @@
         }
 
         .update-btn:hover {
-            background: #8fb88f;
-        }
-
-        .delete-btn {
-            background: #d4a5a5;
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 0.8em;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            transition: background 0.3s ease;
-        }
-
-        .delete-btn:hover {
             background: #c49494;
-        }
-
-        /* Add Item Forms */
-        .add-item-section {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #a8c4a8;
-            margin-bottom: 20px;
-        }
-
-        .add-item-section h3 {
-            color: #5f6b6d;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #e8dcc0;
-            padding-bottom: 5px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .form-group label {
-            color: #5f6b6d;
-            font-weight: bold;
-            margin-bottom: 5px;
-            font-size: 0.9em;
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            padding: 8px;
-            border: 1px solid #e8dcc0;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-
-        .form-group textarea {
-            min-height: 60px;
-            resize: vertical;
-        }
-
-        .add-btn {
-            background: #a8c4a8;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.3s ease;
-        }
-
-        .add-btn:hover {
-            background: #8fb88f;
-        }
-
-        .add-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .toggle-form-btn {
-            background: #d4a5a5;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 15px;
-            transition: background 0.3s ease;
-        }
-
-        .toggle-form-btn:hover {
-            background: #c49494;
-        }
-
-        .form-container {
-            display: none;
-        }
-
-        .form-container.active {
-            display: block;
         }
 
         .loading {
@@ -456,35 +405,6 @@
             background: #8fb88f;
         }
 
-        .inventory-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .tab-btn {
-            padding: 10px 20px;
-            border: 2px solid #a8c4a8;
-            background: white;
-            color: #a8c4a8;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background: #a8c4a8;
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
         @media (max-width: 768px) {
             .order-header {
                 flex-direction: column;
@@ -499,8 +419,9 @@
                 justify-content: center;
             }
 
-            .form-grid {
-                grid-template-columns: 1fr;
+            .toggle-container {
+                flex-direction: column;
+                gap: 15px;
             }
         }
     </style>
@@ -515,12 +436,25 @@
         <div class="main-content">
             <!-- Loading State -->
             <div class="loading" id="loading">
-                Loading orders and inventory...
+                Loading admin dashboard...
             </div>
 
             <!-- Main Content (hidden until loaded) -->
             <div id="main-app" style="display: none;">
                 
+                <!-- Open/Closed Toggle Section -->
+                <div class="toggle-section">
+                    <div class="toggle-container">
+                        <div class="status-label" id="status-label">OPEN</div>
+                        <div class="toggle-switch" id="toggle-switch" onclick="toggleStoreStatus()">
+                            <div class="toggle-knob"></div>
+                        </div>
+                    </div>
+                    <div class="status-description" id="status-description">
+                        Your tea station is currently accepting orders
+                    </div>
+                </div>
+
                 <!-- Stats Section -->
                 <div class="stats-section">
                     <div class="stat-card">
@@ -567,95 +501,9 @@
                 <!-- Inventory Management Section -->
                 <div class="section">
                     <h2>📦 Inventory Management</h2>
-                    
-                    <!-- Add New Items Section -->
-                    <div class="add-item-section">
-                        <button class="toggle-form-btn" onclick="toggleAddForm('tea')">➕ Add New Tea</button>
-                        <div class="form-container" id="add-tea-form">
-                            <h3>Add New Tea</h3>
-                            <form onsubmit="addNewItem(event, 'tea')">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="tea-name">Tea Name *</label>
-                                        <input type="text" id="tea-name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tea-price">Price *</label>
-                                        <input type="number" id="tea-price" step="0.01" min="0" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tea-stock">Initial Stock *</label>
-                                        <input type="number" id="tea-stock" min="0" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tea-type">Type *</label>
-                                        <select id="tea-type" required>
-                                            <option value="">Select Type</option>
-                                            <option value="caffeinated">Caffeinated</option>
-                                            <option value="decaf">Decaf/Herbal</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="tea-origin">Origin</label>
-                                        <input type="text" id="tea-origin" placeholder="e.g., Japanese, Thai, American">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="tea-description">Description *</label>
-                                    <textarea id="tea-description" required placeholder="Describe the tea's flavor and characteristics"></textarea>
-                                </div>
-                                <button type="submit" class="add-btn">Add Tea</button>
-                            </form>
-                        </div>
-
-                        <button class="toggle-form-btn" onclick="toggleAddForm('accompaniment')">➕ Add New Accompaniment</button>
-                        <div class="form-container" id="add-accompaniment-form">
-                            <h3>Add New Accompaniment</h3>
-                            <form onsubmit="addNewItem(event, 'accompaniment')">
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="acc-name">Accompaniment Name *</label>
-                                        <input type="text" id="acc-name" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="acc-price">Price *</label>
-                                        <input type="number" id="acc-price" step="0.01" min="0" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="acc-stock">Initial Stock *</label>
-                                        <input type="number" id="acc-stock" min="0" required>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="acc-description">Description *</label>
-                                    <textarea id="acc-description" required placeholder="Describe the accompaniment"></textarea>
-                                </div>
-                                <button type="submit" class="add-btn">Add Accompaniment</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Inventory Tabs -->
-                    <div class="inventory-tabs">
-                        <button class="tab-btn active" onclick="switchInventoryTab('teas')">Teas</button>
-                        <button class="tab-btn" onclick="switchInventoryTab('accompaniments')">Accompaniments</button>
-                    </div>
-
-                    <!-- Teas Inventory -->
-                    <div class="tab-content active" id="teas-tab">
-                        <div class="inventory-section">
-                            <div class="inventory-grid" id="teas-grid">
-                                <!-- Tea items will be populated here -->
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Accompaniments Inventory -->
-                    <div class="tab-content" id="accompaniments-tab">
-                        <div class="inventory-section">
-                            <div class="inventory-grid" id="accompaniments-grid">
-                                <!-- Accompaniment items will be populated here -->
-                            </div>
+                    <div class="inventory-section">
+                        <div class="inventory-grid" id="inventory-grid">
+                            <!-- Inventory items will be populated here -->
                         </div>
                     </div>
                 </div>
@@ -675,12 +523,11 @@
             doc, 
             getDocs, 
             updateDoc, 
-            addDoc,
-            deleteDoc,
             onSnapshot,
             query,
             orderBy,
-            where
+            setDoc,
+            getDoc
         } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
 
         // Firebase configuration
@@ -699,6 +546,7 @@
         let orders = [];
         let inventory = { teas: [], accompaniments: [] };
         let currentFilter = 'all';
+        let storeStatus = { isOpen: true }; // Default to open
 
         try {
             app = initializeApp(firebaseConfig);
@@ -711,6 +559,9 @@
 
         async function initializeData() {
             try {
+                // Load store status first
+                await loadStoreStatus();
+                
                 // Load inventory
                 await loadInventory();
                 
@@ -726,6 +577,67 @@
             } catch (error) {
                 console.error('Error initializing admin dashboard:', error);
                 showMessage('Error loading data', 'error');
+            }
+        }
+
+        async function loadStoreStatus() {
+            try {
+                const statusRef = doc(db, 'settings', 'store-status');
+                const statusDoc = await getDoc(statusRef);
+                
+                if (statusDoc.exists()) {
+                    storeStatus = statusDoc.data();
+                } else {
+                    // Create default status if it doesn't exist
+                    storeStatus = { isOpen: true };
+                    await setDoc(statusRef, storeStatus);
+                }
+                
+                updateStatusUI();
+                
+            } catch (error) {
+                console.error('Error loading store status:', error);
+                storeStatus = { isOpen: true }; // Default to open on error
+                updateStatusUI();
+            }
+        }
+
+        function updateStatusUI() {
+            const statusLabel = document.getElementById('status-label');
+            const statusDescription = document.getElementById('status-description');
+            const toggleSwitch = document.getElementById('toggle-switch');
+            
+            if (storeStatus.isOpen) {
+                statusLabel.textContent = 'OPEN';
+                statusLabel.className = 'status-label open';
+                statusDescription.textContent = 'Your tea station is currently accepting orders';
+                toggleSwitch.classList.add('active');
+            } else {
+                statusLabel.textContent = 'CLOSED';
+                statusLabel.className = 'status-label closed';
+                statusDescription.textContent = 'Your tea station is currently closed to new orders';
+                toggleSwitch.classList.remove('active');
+            }
+        }
+
+        window.toggleStoreStatus = async function() {
+            try {
+                const newStatus = !storeStatus.isOpen;
+                
+                // Update in Firebase
+                const statusRef = doc(db, 'settings', 'store-status');
+                await updateDoc(statusRef, { isOpen: newStatus });
+                
+                // Update local state
+                storeStatus.isOpen = newStatus;
+                updateStatusUI();
+                
+                // Show confirmation message
+                showMessage(`Tea Station is now ${newStatus ? 'OPEN' : 'CLOSED'}`, 'success');
+                
+            } catch (error) {
+                console.error('Error updating store status:', error);
+                showMessage('Error updating store status', 'error');
             }
         }
 
@@ -771,6 +683,14 @@
         }
 
         function setupRealtimeListeners() {
+            // Listen for store status changes
+            onSnapshot(doc(db, 'settings', 'store-status'), (doc) => {
+                if (doc.exists()) {
+                    storeStatus = doc.data();
+                    updateStatusUI();
+                }
+            });
+
             // Listen for new orders
             onSnapshot(
                 query(collection(db, 'orders'), orderBy('timestamp', 'desc')),
@@ -790,6 +710,7 @@
                     
                     if (newOrders.length > 0) {
                         showMessage(`🔔 New order from ${newOrders[0].customer}!`, 'success');
+                        // You could add sound notification here
                     }
                 }
             );
@@ -871,27 +792,16 @@
         }
 
         function renderInventory() {
-            renderInventorySection('teas-grid', inventory.teas);
-            renderInventorySection('accompaniments-grid', inventory.accompaniments);
-        }
-
-        function renderInventorySection(containerId, items) {
-            const container = document.getElementById(containerId);
+            const container = document.getElementById('inventory-grid');
             container.innerHTML = '';
 
-            items.forEach(item => {
+            [...inventory.teas, ...inventory.accompaniments].forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'inventory-item';
                 
-                // Show type and origin for teas
-                const typeInfo = item.type ? `<div class="inventory-item-type">${item.type}${item.origin ? ` • ${item.origin}` : ''}</div>` : '';
-                
                 itemDiv.innerHTML = `
-                    <button class="delete-btn" onclick="deleteItem('${item.firebaseId}', '${item.category}', '${item.name}')" title="Delete item">✕</button>
                     <h4>${item.name}</h4>
-                    ${typeInfo}
-                    <p style="color: #7f8c8d; margin-bottom: 5px;">$${item.price.toFixed(2)}</p>
-                    <p style="color: #7f8c8d; font-size: 0.85em; margin-bottom: 10px;">${item.description}</p>
+                    <p style="color: #7f8c8d; margin-bottom: 10px;">$${item.price.toFixed(2)}</p>
                     <div class="stock-control">
                         <span>Stock:</span>
                         <input type="number" class="stock-input" value="${item.stock}" min="0" id="stock-${item.id}">
@@ -901,10 +811,6 @@
                 
                 container.appendChild(itemDiv);
             });
-
-            if (items.length === 0) {
-                container.innerHTML = '<div style="text-align: center; color: #7f8c8d; padding: 20px;">No items yet</div>';
-            }
         }
 
         function updateStats() {
@@ -926,112 +832,6 @@
             document.getElementById('pending-orders').textContent = pendingOrders.length;
             document.getElementById('daily-revenue').textContent = `$${dailyRevenue.toFixed(2)}`;
             document.getElementById('low-stock-items').textContent = lowStockItems;
-        }
-
-        // Add new item function
-        window.addNewItem = async function(event, type) {
-            event.preventDefault();
-            
-            const form = event.target;
-            const formData = new FormData(form);
-            
-            let item;
-            
-            if (type === 'tea') {
-                // Generate ID from name
-                const name = document.getElementById('tea-name').value;
-                const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                
-                item = {
-                    id: id,
-                    name: name,
-                    description: document.getElementById('tea-description').value,
-                    price: parseFloat(document.getElementById('tea-price').value),
-                    stock: parseInt(document.getElementById('tea-stock').value),
-                    category: 'tea',
-                    type: document.getElementById('tea-type').value,
-                    origin: document.getElementById('tea-origin').value || ''
-                };
-            } else {
-                // Generate ID from name
-                const name = document.getElementById('acc-name').value;
-                const id = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                
-                item = {
-                    id: id,
-                    name: name,
-                    description: document.getElementById('acc-description').value,
-                    price: parseFloat(document.getElementById('acc-price').value),
-                    stock: parseInt(document.getElementById('acc-stock').value),
-                    category: 'accompaniment'
-                };
-            }
-            
-            try {
-                const collectionName = type === 'tea' ? 'teas' : 'accompaniments';
-                await addDoc(collection(db, collectionName), item);
-                
-                showMessage(`${item.name} added successfully!`, 'success');
-                
-                // Reset form and hide it
-                form.reset();
-                toggleAddForm(type);
-                
-            } catch (error) {
-                console.error('Error adding item:', error);
-                showMessage('Error adding item', 'error');
-            }
-        }
-
-        // Delete item function
-        window.deleteItem = async function(firebaseId, category, name) {
-            if (!confirm(`Are you sure you want to delete "${name}"? This cannot be undone.`)) {
-                return;
-            }
-            
-            try {
-                const collectionName = category === 'tea' ? 'teas' : 'accompaniments';
-                await deleteDoc(doc(db, collectionName, firebaseId));
-                
-                showMessage(`${name} deleted successfully`, 'success');
-                
-            } catch (error) {
-                console.error('Error deleting item:', error);
-                showMessage('Error deleting item', 'error');
-            }
-        }
-
-        // Toggle add form visibility
-        window.toggleAddForm = function(type) {
-            const formId = `add-${type}-form`;
-            const form = document.getElementById(formId);
-            
-            // Hide all forms first
-            document.querySelectorAll('.form-container').forEach(f => {
-                f.classList.remove('active');
-            });
-            
-            // Toggle the selected form
-            if (form.classList.contains('active')) {
-                form.classList.remove('active');
-            } else {
-                form.classList.add('active');
-            }
-        }
-
-        // Switch inventory tabs
-        window.switchInventoryTab = function(tab) {
-            // Update tab buttons
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Update tab content
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(`${tab}-tab`).classList.add('active');
         }
 
         window.updateOrderStatus = async function(orderId, newStatus) {
