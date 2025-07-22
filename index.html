@@ -1804,46 +1804,18 @@
             });
         }
 
-        // Function to get local image paths for teas and accompaniments
+        // Function to automatically generate image paths based on item names
         function generatePlaceholderImage(item) {
-            // Map each tea and accompaniment to its local image file
-            const itemImages = {
-                // Caffeinated Teas
-                'chai-tea': './images/chai-tea.jpg',
-                'cinnamon-apple-spice': './images/cinnamon-apple-spice.jpg',
-                'thai-tea-red': './images/thai-tea-red.jpg',
-                'thai-tea-yellow': './images/thai-tea-yellow.jpg',
-                'royal-blend': './images/royal-blend.jpg',
-                'green-tea': './images/green-tea.jpg',
-                'oolong-tea': './images/oolong-tea.jpg',
-                'hojicha': './images/hojicha.jpg',
-                
-                // Decaf & Herbal Teas
-                'chamomile': './images/chamomile.jpg',
-                'lemon-ginger': './images/lemon-ginger.jpg',
-                'butterfly-pea': './images/butterfly-pea.jpg',
-                'ssanghwacha': './images/ssanghwacha.jpg',
-                'mint': './images/mint.jpg',
-                'lemongrass-pandan': './images/lemongrass-pandan.jpg',
-                'lemongrass': './images/lemongrass.jpg',
-                'corn-silk': './images/corn-silk.jpg',
-                'earl-gray-decaf': './images/earl-gray-decaf.jpg',
-                'sleepytime': './images/sleepytime.jpg',
-                
-                // Accompaniments
-                'local-honey': './images/local-honey.jpg',
-                'fresh-lemon': './images/fresh-lemon.jpg',
-                'steamed-milk': './images/steamed-milk.jpg',
-                'brown-sugar': './images/brown-sugar.jpg',
-                'fresh-ginger': './images/fresh-ginger.jpg',
-                'homemade-cookies': './images/homemade-cookies.jpg',
-                
-                // Custom added items (using Firebase document IDs)
-                'Q65pIGjyXGC4XXRCJ3Wr': './images/white-sugar.jpg'  // Your new Sugar item
-            };
-
-            // Return the specific image path, or a default if not found
-            return itemImages[item.id] || itemImages[item.firebaseId] || './images/default-tea.jpg';
+            // Convert item name to filename format
+            const filename = item.name
+                .toLowerCase()
+                .replace(/[^a-z0-9\s]/g, '') // Remove special characters except spaces
+                .replace(/\s+/g, '-') // Replace spaces with dashes
+                .replace(/-+/g, '-') // Replace multiple dashes with single dash
+                .replace(/^-|-$/g, ''); // Remove leading/trailing dashes
+            
+            // Return the automatically generated image path
+            return `./images/${filename}.jpg`;
         }
 
         function renderExtrasSection(containerId, items) {
