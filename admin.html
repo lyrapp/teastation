@@ -326,18 +326,30 @@
             font-size: 1.1em;
         }
 
-        .form-section input {
+        .form-section input, .form-section select, .form-section textarea {
             padding: 12px;
             border: 2px solid #e8dcc0;
             border-radius: 8px;
             font-size: 1em;
             transition: border-color 0.3s ease;
+            font-family: Georgia, serif;
         }
 
-        .form-section input:focus {
+        .form-section input:focus, .form-section select:focus, .form-section textarea:focus {
             outline: none;
             border-color: #d4a5a5;
             box-shadow: 0 0 0 3px rgba(212, 165, 165, 0.1);
+        }
+
+        .form-section textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
 
         .base-item-selection {
@@ -520,6 +532,15 @@
             transform: translateY(-2px);
         }
 
+        .modal-btn.delete {
+            background: #dc3545;
+            color: white;
+        }
+
+        .modal-btn.delete:hover {
+            background: #c82333;
+        }
+
         .orders-container {
             background: linear-gradient(135deg, #f8f6f2, #f0f4f0);
             border-radius: 10px;
@@ -657,35 +678,111 @@
             border: 2px solid #e8dcc0;
         }
 
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .inventory-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            padding: 8px 16px;
+            border: 2px solid #a8c4a8;
+            background: white;
+            color: #a8c4a8;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: #a8c4a8;
+            color: white;
+        }
+
+        .add-item-btn {
+            background: #a8c4a8;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .add-item-btn:hover {
+            background: #8fb88f;
+            transform: translateY(-2px);
+        }
+
         .inventory-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 15px;
         }
 
         .inventory-item {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
+            padding: 20px;
+            border-radius: 12px;
             border: 1px solid #e8dcc0;
+            position: relative;
         }
 
         .inventory-item h4 {
             color: #5f6b6d;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .inventory-item-price {
+            color: #a8c4a8;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .inventory-item-description {
+            color: #6c7b7d;
+            font-size: 0.9em;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .inventory-item-type {
+            background: #e8dcc0;
+            color: #5f6b6d;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: inline-block;
         }
 
         .stock-control {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 15px;
         }
 
         .stock-input {
-            width: 60px;
-            padding: 5px;
+            width: 70px;
+            padding: 6px;
             border: 1px solid #e8dcc0;
-            border-radius: 3px;
+            border-radius: 4px;
         }
 
         .update-btn {
@@ -693,7 +790,7 @@
             color: white;
             border: none;
             padding: 6px 12px;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 0.9em;
             transition: background 0.3s ease;
@@ -701,6 +798,39 @@
 
         .update-btn:hover {
             background: #c49494;
+        }
+
+        .inventory-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .edit-btn, .delete-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #a8c4a8;
+            color: white;
+        }
+
+        .edit-btn:hover {
+            background: #8fb88f;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
         }
 
         .loading {
@@ -791,12 +921,12 @@
                 gap: 15px;
             }
 
-            .featured-header {
+            .featured-header, .inventory-header {
                 flex-direction: column;
                 align-items: stretch;
             }
 
-            .featured-grid {
+            .featured-grid, .inventory-grid {
                 grid-template-columns: 1fr;
             }
 
@@ -807,6 +937,10 @@
 
             .modal-actions {
                 flex-direction: column;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -901,6 +1035,14 @@
                 <div class="section">
                     <h2>📦 Inventory Management</h2>
                     <div class="inventory-section">
+                        <div class="inventory-header">
+                            <div class="inventory-tabs">
+                                <button class="tab-btn active" onclick="switchInventoryTab('all')">All Items</button>
+                                <button class="tab-btn" onclick="switchInventoryTab('teas')">Teas</button>
+                                <button class="tab-btn" onclick="switchInventoryTab('extras')">Extras</button>
+                            </div>
+                            <button class="add-item-btn" onclick="openAddItemModal()">+ Add New Item</button>
+                        </div>
                         <div class="inventory-grid" id="inventory-grid">
                             <!-- Inventory items will be populated here -->
                         </div>
@@ -947,6 +1089,67 @@
         </div>
     </div>
 
+    <!-- Add/Edit Item Modal -->
+    <div class="modal-overlay" id="item-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title" id="item-modal-title">Add New Item</div>
+            </div>
+            
+            <div class="modal-form">
+                <div class="form-section">
+                    <label for="item-name">Name</label>
+                    <input type="text" id="item-name" placeholder="Enter item name" required>
+                </div>
+
+                <div class="form-section">
+                    <label for="item-description">Description</label>
+                    <textarea id="item-description" placeholder="Enter item description" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-section">
+                        <label for="item-price">Price ($)</label>
+                        <input type="number" id="item-price" step="0.01" min="0" placeholder="0.00" required>
+                    </div>
+                    <div class="form-section">
+                        <label for="item-stock">Initial Stock</label>
+                        <input type="number" id="item-stock" min="0" placeholder="0" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-section">
+                        <label for="item-category">Category</label>
+                        <select id="item-category" required>
+                            <option value="">Select category</option>
+                            <option value="tea">Tea</option>
+                            <option value="accompaniment">Extra/Accompaniment</option>
+                        </select>
+                    </div>
+                    <div class="form-section" id="tea-type-section" style="display: none;">
+                        <label for="item-type">Tea Type</label>
+                        <select id="item-type">
+                            <option value="caffeinated">Caffeinated</option>
+                            <option value="decaf">Decaf/Herbal</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <label for="item-origin">Origin (Optional)</label>
+                    <input type="text" id="item-origin" placeholder="e.g., Japanese, Indian, American">
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeItemModal()">Cancel</button>
+                <button class="modal-btn delete" id="item-delete-btn" onclick="deleteItem()" style="display: none;">Delete</button>
+                <button class="modal-btn confirm" id="item-save-btn" onclick="saveItem()">Save Item</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Firebase SDKs -->
     <script type="module">
         // Import Firebase modules
@@ -983,9 +1186,11 @@
         let inventory = { teas: [], accompaniments: [] };
         let featuredItems = [];
         let currentFilter = 'all';
+        let inventoryTab = 'all'; // all, teas, extras
         let storeStatus = { isOpen: true }; // Default to open
         let selectedBaseItem = null;
         let selectedExtras = []; // For featured modal
+        let editingItem = null; // For item editing
 
         try {
             app = initializeApp(firebaseConfig);
@@ -1294,6 +1499,169 @@
             }
         }
 
+        // Inventory Management Functions
+        window.switchInventoryTab = function(tab) {
+            inventoryTab = tab;
+            
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderInventory();
+        }
+
+        window.openAddItemModal = function() {
+            editingItem = null;
+            document.getElementById('item-modal-title').textContent = 'Add New Item';
+            document.getElementById('item-delete-btn').style.display = 'none';
+            document.getElementById('item-save-btn').textContent = 'Save Item';
+            
+            // Clear form
+            document.getElementById('item-name').value = '';
+            document.getElementById('item-description').value = '';
+            document.getElementById('item-price').value = '';
+            document.getElementById('item-stock').value = '';
+            document.getElementById('item-category').value = '';
+            document.getElementById('item-type').value = 'caffeinated';
+            document.getElementById('item-origin').value = '';
+            document.getElementById('tea-type-section').style.display = 'none';
+            
+            document.getElementById('item-modal').classList.add('active');
+        }
+
+        window.openEditItemModal = function(itemId) {
+            // Find the item
+            let item = inventory.teas.find(t => t.id === itemId || t.firebaseId === itemId);
+            let itemType = 'tea';
+            
+            if (!item) {
+                item = inventory.accompaniments.find(a => a.id === itemId || a.firebaseId === itemId);
+                itemType = 'accompaniment';
+            }
+            
+            if (!item) return;
+            
+            editingItem = { ...item, itemType: itemType };
+            
+            document.getElementById('item-modal-title').textContent = 'Edit Item';
+            document.getElementById('item-delete-btn').style.display = 'inline-block';
+            document.getElementById('item-save-btn').textContent = 'Update Item';
+            
+            // Populate form
+            document.getElementById('item-name').value = item.name || '';
+            document.getElementById('item-description').value = item.description || '';
+            document.getElementById('item-price').value = item.price || '';
+            document.getElementById('item-stock').value = item.stock || '';
+            document.getElementById('item-category').value = item.category || itemType;
+            document.getElementById('item-type').value = item.type || 'caffeinated';
+            document.getElementById('item-origin').value = item.origin || '';
+            
+            // Show/hide tea type section
+            if (item.category === 'tea' || itemType === 'tea') {
+                document.getElementById('tea-type-section').style.display = 'block';
+            } else {
+                document.getElementById('tea-type-section').style.display = 'none';
+            }
+            
+            document.getElementById('item-modal').classList.add('active');
+        }
+
+        window.closeItemModal = function() {
+            document.getElementById('item-modal').classList.remove('active');
+            editingItem = null;
+        }
+
+        window.saveItem = async function() {
+            const name = document.getElementById('item-name').value.trim();
+            const description = document.getElementById('item-description').value.trim();
+            const price = parseFloat(document.getElementById('item-price').value);
+            const stock = parseInt(document.getElementById('item-stock').value);
+            const category = document.getElementById('item-category').value;
+            const type = document.getElementById('item-type').value;
+            const origin = document.getElementById('item-origin').value.trim();
+            
+            // Validation
+            if (!name || !description || isNaN(price) || isNaN(stock) || !category) {
+                showMessage('Please fill in all required fields', 'error');
+                return;
+            }
+            
+            if (price < 0 || stock < 0) {
+                showMessage('Price and stock must be non-negative', 'error');
+                return;
+            }
+            
+            try {
+                const itemData = {
+                    name: name,
+                    description: description,
+                    price: price,
+                    stock: stock,
+                    category: category
+                };
+                
+                // Add tea-specific fields
+                if (category === 'tea') {
+                    itemData.type = type;
+                    if (origin) itemData.origin = origin;
+                }
+                
+                // Add origin for accompaniments too if provided
+                if (category === 'accompaniment' && origin) {
+                    itemData.origin = origin;
+                }
+                
+                if (editingItem) {
+                    // Update existing item
+                    const collectionName = editingItem.itemType === 'tea' ? 'teas' : 'accompaniments';
+                    await updateDoc(doc(db, collectionName, editingItem.firebaseId), itemData);
+                    showMessage(`Updated ${name} successfully`, 'success');
+                } else {
+                    // Create new item
+                    itemData.id = name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-');
+                    
+                    const collectionName = category === 'tea' ? 'teas' : 'accompaniments';
+                    await addDoc(collection(db, collectionName), itemData);
+                    showMessage(`Added ${name} successfully`, 'success');
+                }
+                
+                closeItemModal();
+                
+            } catch (error) {
+                console.error('Error saving item:', error);
+                showMessage('Error saving item', 'error');
+            }
+        }
+
+        window.deleteItem = async function() {
+            if (!editingItem || !confirm(`Are you sure you want to delete ${editingItem.name}? This cannot be undone.`)) {
+                return;
+            }
+            
+            try {
+                const collectionName = editingItem.itemType === 'tea' ? 'teas' : 'accompaniments';
+                await deleteDoc(doc(db, collectionName, editingItem.firebaseId));
+                showMessage(`Deleted ${editingItem.name} successfully`, 'success');
+                closeItemModal();
+                
+            } catch (error) {
+                console.error('Error deleting item:', error);
+                showMessage('Error deleting item', 'error');
+            }
+        }
+
+        // Category change handler
+        document.getElementById('item-category').addEventListener('change', function() {
+            const teaTypeSection = document.getElementById('tea-type-section');
+            if (this.value === 'tea') {
+                teaTypeSection.style.display = 'block';
+            } else {
+                teaTypeSection.style.display = 'none';
+            }
+        });
+
         async function loadInventory() {
             try {
                 // Load teas
@@ -1457,22 +1825,69 @@
             const container = document.getElementById('inventory-grid');
             container.innerHTML = '';
 
-            [...inventory.teas, ...inventory.accompaniments].forEach(item => {
+            let items = [];
+            if (inventoryTab === 'all') {
+                items = [...inventory.teas, ...inventory.accompaniments];
+            } else if (inventoryTab === 'teas') {
+                items = inventory.teas;
+            } else if (inventoryTab === 'extras') {
+                items = inventory.accompaniments;
+            }
+
+            items.forEach(item => {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'inventory-item';
                 
+                const itemId = item.id || item.firebaseId;
+                const itemCategory = item.category || (inventory.teas.includes(item) ? 'tea' : 'accompaniment');
+                
                 itemDiv.innerHTML = `
                     <h4>${item.name}</h4>
-                    <p style="color: #7f8c8d; margin-bottom: 10px;">$${item.price.toFixed(2)}</p>
+                    <div class="inventory-item-price">$${item.price.toFixed(2)}</div>
+                    ${item.type ? `<div class="inventory-item-type">${item.type} ${itemCategory}</div>` : `<div class="inventory-item-type">${itemCategory}</div>`}
+                    <div class="inventory-item-description">${item.description}</div>
                     <div class="stock-control">
-                        <span>Stock:</span>
-                        <input type="number" class="stock-input" value="${item.stock}" min="0" id="stock-${item.id}">
-                        <button class="update-btn" onclick="updateStock('${item.id}')">Update</button>
+                        <label>Stock:</label>
+                        <input type="number" class="stock-input" value="${item.stock}" min="0" id="stock-${itemId}">
+                        <button class="update-btn" onclick="updateStock('${itemId}')">Update</button>
+                    </div>
+                    <div class="inventory-actions">
+                        <button class="edit-btn" onclick="openEditItemModal('${itemId}')">Edit</button>
+                        <button class="delete-btn" onclick="confirmDeleteItem('${itemId}')">Delete</button>
                     </div>
                 `;
                 
                 container.appendChild(itemDiv);
             });
+        }
+
+        window.confirmDeleteItem = function(itemId) {
+            // Find the item
+            let item = inventory.teas.find(t => t.id === itemId || t.firebaseId === itemId);
+            let itemType = 'tea';
+            
+            if (!item) {
+                item = inventory.accompaniments.find(a => a.id === itemId || a.firebaseId === itemId);
+                itemType = 'accompaniment';
+            }
+            
+            if (!item) return;
+            
+            if (confirm(`Are you sure you want to delete ${item.name}? This cannot be undone.`)) {
+                deleteItemDirectly(item, itemType);
+            }
+        }
+
+        async function deleteItemDirectly(item, itemType) {
+            try {
+                const collectionName = itemType === 'tea' ? 'teas' : 'accompaniments';
+                await deleteDoc(doc(db, collectionName, item.firebaseId));
+                showMessage(`Deleted ${item.name} successfully`, 'success');
+                
+            } catch (error) {
+                console.error('Error deleting item:', error);
+                showMessage('Error deleting item', 'error');
+            }
         }
 
         function updateStats() {
@@ -1516,11 +1931,11 @@
             const newStock = parseInt(input.value) || 0;
             
             // Find the item
-            let item = inventory.teas.find(t => t.id === itemId);
+            let item = inventory.teas.find(t => (t.id === itemId) || (t.firebaseId === itemId));
             let collection_name = 'teas';
             
             if (!item) {
-                item = inventory.accompaniments.find(a => a.id === itemId);
+                item = inventory.accompaniments.find(a => (a.id === itemId) || (a.firebaseId === itemId));
                 collection_name = 'accompaniments';
             }
             
@@ -1565,10 +1980,16 @@
             }, 5000);
         }
 
-        // Close modal when clicking outside
+        // Close modals when clicking outside
         document.getElementById('featured-modal').addEventListener('click', (e) => {
             if (e.target.id === 'featured-modal') {
                 closeFeaturedModal();
+            }
+        });
+
+        document.getElementById('item-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'item-modal') {
+                closeItemModal();
             }
         });
     </script>
