@@ -223,10 +223,7 @@
         }
 
         .featured-price {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: #a8c4a8;
-            margin-bottom: 10px;
+            display: none;
         }
 
         .featured-description {
@@ -328,10 +325,7 @@
         }
 
         .item-price {
-            color: #a8c4a8;
-            font-weight: 600;
-            font-size: 1.2em;
-            white-space: nowrap;
+            display: none;
         }
 
         .item-description {
@@ -499,9 +493,7 @@
         }
 
         .modal-price {
-            font-size: 1.3em;
-            color: #a8c4a8;
-            font-weight: 600;
+            display: none;
         }
 
         .modal-description {
@@ -587,8 +579,7 @@
         }
 
         .extra-price {
-            font-weight: 600;
-            color: #a8c4a8;
+            display: none;
         }
 
         .quantity-section {
@@ -730,8 +721,7 @@
         }
 
         .cart-item-price {
-            font-weight: 600;
-            color: #a8c4a8;
+            display: none;
         }
 
         .cart-item-extras {
@@ -741,13 +731,7 @@
         }
 
         .cart-total {
-            font-size: 1.4em;
-            font-weight: 600;
-            color: #5f6b6d;
-            text-align: right;
-            margin-bottom: 25px;
-            padding: 15px 0;
-            border-top: 2px solid #a8c4a8;
+            display: none;
         }
 
         .order-form {
@@ -1728,7 +1712,6 @@
                     </div>
                     <div class="featured-content">
                         <div class="featured-name">${displayName}</div>
-                        <div class="featured-price">${totalPrice.toFixed(2)}</div>
                         ${extrasText ? `<div class="featured-extras">${extrasText}</div>` : ''}
                         <div class="featured-description">${item.description}</div>
                     </div>
@@ -1777,13 +1760,12 @@
                         <div class="item-content">
                             <div class="item-header">
                                 <span class="item-name">${item.name}</span>
-                                <span class="item-price">$${item.price.toFixed(2)}</span>
                             </div>
                             <div class="item-description">${item.description}</div>
                             <div class="item-controls">
                                 <div class="stock-info">
-                                    ${item.stock === 0 ? 
-                                        '<span class="sold-out-label">OUT OF STOCK</span>' : 
+                                    ${item.stock === 0 ?
+                                        '<span class="sold-out-label">OUT OF STOCK</span>' :
                                         ''
                                     }
                                 </div>
@@ -1837,13 +1819,12 @@
                         <div class="item-content">
                             <div class="item-header">
                                 <span class="item-name">${item.name}</span>
-                                <span class="item-price">$${item.price.toFixed(2)}</span>
                             </div>
                             <div class="item-description">${item.description}</div>
                             <div class="item-controls">
                                 <div class="stock-info">
-                                    ${item.stock === 0 ? 
-                                        '<span class="sold-out-label">OUT OF STOCK</span>' : 
+                                    ${item.stock === 0 ?
+                                        '<span class="sold-out-label">OUT OF STOCK</span>' :
                                         ''
                                     }
                                 </div>
@@ -1886,7 +1867,6 @@
             // Populate modal with tea info (use custom name if featured)
             const displayName = featuredConfig?.customName || tea.name;
             document.getElementById('modal-tea-name').textContent = displayName;
-            document.getElementById('modal-tea-price').textContent = `${tea.price.toFixed(2)}`;
             document.getElementById('modal-tea-description').textContent = tea.description;
             document.getElementById('modal-quantity').textContent = modalQuantity;
 
@@ -1914,7 +1894,6 @@
                             <div class="extra-description">${extra.description}</div>
                         </div>
                     </div>
-                    <div class="extra-price">+${extra.price.toFixed(2)}</div>
                 `;
 
                 extrasGrid.appendChild(extraDiv);
@@ -2047,7 +2026,6 @@
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
-                cartTotal.textContent = 'Total: $0.00';
                 submitBtn.disabled = true;
                 return;
             }
@@ -2058,28 +2036,26 @@
             cart.forEach(item => {
                 const cartItemDiv = document.createElement('div');
                 cartItemDiv.className = 'cart-item';
-                
+
                 const itemTotal = item.totalPrice || (item.price * item.quantity);
                 total += itemTotal;
-                
+
                 // Build extras text
                 let extrasText = '';
                 if (item.extras && item.extras.length > 0) {
                     extrasText = `<div class="cart-item-extras">Extras: ${item.extras.map(e => e.name).join(', ')}</div>`;
                 }
-                
+
                 cartItemDiv.innerHTML = `
                     <div class="cart-item-header">
                         <span class="cart-item-name">${item.name} × ${item.quantity}</span>
-                        <span class="cart-item-price">$${itemTotal.toFixed(2)}</span>
                     </div>
                     ${extrasText}
                 `;
-                
+
                 cartContainer.appendChild(cartItemDiv);
             });
 
-            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
             submitBtn.disabled = false;
         }
 
@@ -2189,7 +2165,7 @@
                 renderCart();
                 
                 // Show success message
-                showMessage(`Thank you ${customerName}! Your order has been placed. Total: $${order.total.toFixed(2)}`, 'success');
+                showMessage(`Thank you ${customerName}! Your order has been placed.`, 'success');
                 
                 console.log('Order placed:', order);
                 
