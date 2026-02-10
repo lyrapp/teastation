@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tea Station - Order Menu</title>
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Source+Sans+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,730 +12,179 @@
         }
 
         body {
-            font-family: 'Source Sans Pro', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #e8dcc0;
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 15px;
-            line-height: 1.6;
-        }
-
-        /* Headers use Merriweather */
-        h1, h2, h3, h4, h5, h6,
-        .header h1,
-        .header p,
-        .section h2,
-        .modal-title,
-        .item-name,
-        .customer-name {
-            font-family: 'Merriweather', Georgia, serif;
+            padding: 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 0 auto;
-            background: #fefefe;
-            border-radius: 24px;
-            box-shadow: 
-                0 4px 12px rgba(95, 107, 109, 0.1),
-                0 16px 48px rgba(95, 107, 109, 0.06),
-                0 32px 64px rgba(95, 107, 109, 0.04);
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             overflow: hidden;
         }
 
         .header {
-            background: #5f6b6d;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
             color: white;
-            padding: 40px 30px;
+            padding: 30px;
             text-align: center;
-            position: relative;
-        }
-
-        .header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="80" cy="40" r="1.5" fill="rgba(255,255,255,0.1)"/><circle cx="40" cy="80" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="70" cy="20" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="30" cy="60" r="1.5" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            opacity: 0.3;
         }
 
         .header h1 {
-            font-size: 3em;
-            margin-bottom: 8px;
-            font-weight: 300;
-            letter-spacing: 1px;
-            position: relative;
-            z-index: 1;
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
 
         .header p {
             opacity: 0.9;
-            font-size: 1.2em;
-            font-weight: 300;
-            position: relative;
-            z-index: 1;
+            font-size: 1.1em;
         }
 
         .main-content {
-            padding: 40px 30px;
-            background: #fefefe;
+            padding: 30px;
         }
 
         .section {
-            margin-bottom: 50px;
+            margin-bottom: 40px;
         }
 
         .section h2 {
-            color: #5f6b6d;
-            margin-bottom: 25px;
-            font-size: 2em;
-            font-weight: 400;
-            text-align: center;
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        .section h2::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: #d4a5a5;
-            border-radius: 2px;
-        }
-
-        /* Featured Section Styles */
-        .featured-section {
-            margin-bottom: 50px;
-        }
-
-        .featured-container {
-            position: relative;
-            overflow: hidden;
-            border-radius: 20px;
-            background: linear-gradient(135deg, #f8f6f2, #f0f4f0);
-            padding: 20px 0;
-        }
-
-        .featured-scroll {
-            display: flex;
-            gap: 20px;
-            overflow-x: auto;
-            scroll-behavior: smooth;
-            padding: 0 30px 20px 30px;
-            scrollbar-width: thin;
-            scrollbar-color: #d4a5a5 #f0f0f0;
-        }
-
-        .featured-scroll::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .featured-scroll::-webkit-scrollbar-track {
-            background: #f0f0f0;
-            border-radius: 4px;
-            margin: 0 30px;
-        }
-
-        .featured-scroll::-webkit-scrollbar-thumb {
-            background: #d4a5a5;
-            border-radius: 4px;
-        }
-
-        .featured-scroll::-webkit-scrollbar-thumb:hover {
-            background: #c49494;
-        }
-
-        .featured-item {
-            flex: 0 0 280px;
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 
-                0 2px 8px rgba(95, 107, 109, 0.08),
-                0 8px 24px rgba(95, 107, 109, 0.04);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .featured-item::before {
-            content: '⭐';
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 1.2em;
-            color: #d4a5a5;
-        }
-
-        .featured-item:hover {
-            transform: translateY(-6px);
-            box-shadow: 
-                0 8px 25px rgba(95, 107, 109, 0.15),
-                0 15px 45px rgba(95, 107, 109, 0.1);
-        }
-
-        .featured-item.sold-out {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .featured-item.sold-out:hover {
-            transform: translateY(-2px);
-        }
-
-        .featured-image-container {
-            width: 100%;
-            height: 140px;
-            background: #f0f4f0;
-            border-radius: 16px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .featured-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 16px;
-        }
-
-        .featured-content {
-            text-align: center;
-        }
-
-        .featured-name {
-            font-family: 'Merriweather', Georgia, serif;
-            font-size: 1.3em;
-            font-weight: 500;
-            color: #5f6b6d;
-            margin-bottom: 8px;
-        }
-
-        .featured-price {
-            display: none;
-        }
-
-        .featured-description {
-            color: #6c7b7d;
-            font-size: 0.9em;
-            line-height: 1.4;
-            margin-bottom: 15px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .featured-extras {
-            color: #8a9a8c;
-            font-size: 0.85em;
-            font-style: italic;
-            margin-bottom: 8px;
-        }
-
-        .no-featured {
-            text-align: center;
-            color: #6c7b7d;
-            font-style: italic;
-            padding: 40px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 25px;
-            justify-items: center;
-            max-width: 100%;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
         }
 
         .menu-item {
-            border: none;
-            border-radius: 20px;
-            padding: 30px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: white;
-            width: 100%;
-            max-width: 380px;
-            box-shadow: 
-                0 1px 3px rgba(95, 107, 109, 0.08),
-                0 4px 12px rgba(95, 107, 109, 0.04),
-                0 16px 24px rgba(95, 107, 109, 0.02);
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
         }
 
-        .menu-item.clickable {
-            cursor: pointer;
-        }
-
-        .menu-item.clickable:hover {
-            transform: translateY(-4px);
-            box-shadow: 
-                0 4px 12px rgba(95, 107, 109, 0.12),
-                0 12px 32px rgba(95, 107, 109, 0.08),
-                0 24px 48px rgba(95, 107, 109, 0.04);
-        }
-
-        .menu-item:not(.clickable):hover {
+        .menu-item:hover {
+            border-color: #3498db;
             transform: translateY(-2px);
-            box-shadow: 
-                0 4px 12px rgba(95, 107, 109, 0.12),
-                0 12px 32px rgba(95, 107, 109, 0.08),
-                0 24px 48px rgba(95, 107, 109, 0.04);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
         .menu-item.sold-out {
             opacity: 0.6;
-            background: #fafafa;
-            box-shadow: 
-                0 1px 3px rgba(95, 107, 109, 0.04),
-                0 4px 12px rgba(95, 107, 109, 0.02);
-            cursor: not-allowed;
-        }
-
-        .menu-item.sold-out:hover {
-            transform: none;
-            box-shadow: 
-                0 1px 3px rgba(95, 107, 109, 0.04),
-                0 4px 12px rgba(95, 107, 109, 0.02);
+            background: #f8f9fa;
         }
 
         .item-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            gap: 15px;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         .item-name {
-            font-weight: 500;
-            font-size: 1.3em;
-            color: #5f6b6d;
-            line-height: 1.3;
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #2c3e50;
         }
 
         .item-price {
-            display: none;
+            color: #27ae60;
+            font-weight: bold;
         }
 
         .item-description {
-            color: #6c7b7d;
-            margin-bottom: 20px;
-            line-height: 1.5;
-            font-size: 0.95em;
-        }
-
-        .item-layout {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            height: 120px;
-        }
-
-        .item-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 100%;
-        }
-
-        .item-image-container {
-            width: 120px;
-            height: 120px;
-            background: #f0f4f0;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .item-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 16px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
 
         .item-controls {
             display: flex;
-            justify-content: flex-start;
+            justify-content: space-between;
             align-items: center;
-            margin-top: auto;
         }
 
         .stock-info {
             font-size: 0.9em;
-            color: #6c7b7d;
+            color: #7f8c8d;
         }
 
         .sold-out-label {
-            color: #d4a5a5;
-            font-weight: 600;
-            font-size: 0.85em;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: #e74c3c;
+            font-weight: bold;
         }
 
         .quantity-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
         .qty-btn {
-            background: #a8c4a8;
+            background: #3498db;
             color: white;
             border: none;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1.1em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-weight: bold;
         }
 
         .qty-btn:hover {
-            background: #8fb88f;
-            transform: scale(1.05);
-            box-shadow: 
-                0 2px 8px rgba(168, 196, 168, 0.2),
-                0 8px 16px rgba(168, 196, 168, 0.1);
+            background: #2980b9;
         }
 
         .qty-btn:disabled {
-            background: #e8dcc0;
+            background: #bdc3c7;
             cursor: not-allowed;
-            transform: none;
-            color: #999;
         }
 
         .quantity {
-            font-weight: 600;
-            min-width: 25px;
+            font-weight: bold;
+            min-width: 20px;
             text-align: center;
-            color: #5f6b6d;
-            font-size: 1.1em;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            padding: 20px;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 24px;
-            padding: 30px;
-            width: 100%;
-            max-width: 500px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 
-                0 10px 30px rgba(95, 107, 109, 0.2),
-                0 30px 60px rgba(95, 107, 109, 0.1);
-            transform: scale(0.9) translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .modal-overlay.active .modal {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #f0f0f0;
-        }
-
-        .modal-title {
-            font-size: 1.8em;
-            color: #5f6b6d;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .modal-price {
-            display: none;
-        }
-
-        .modal-description {
-            color: #6c7b7d;
-            line-height: 1.5;
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .extras-section {
-            margin-bottom: 25px;
-        }
-
-        .extras-title {
-            font-size: 1.2em;
-            color: #5f6b6d;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .extras-grid {
-            display: grid;
-            gap: 12px;
-        }
-
-        .extra-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px;
-            border: 2px solid #f0f0f0;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .extra-item:hover {
-            border-color: #a8c4a8;
-            background: rgba(168, 196, 168, 0.05);
-        }
-
-        .extra-item.selected {
-            border-color: #a8c4a8;
-            background: rgba(168, 196, 168, 0.1);
-        }
-
-        .extra-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .extra-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid #ddd;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .extra-item.selected .extra-checkbox {
-            background: #a8c4a8;
-            border-color: #a8c4a8;
-            color: white;
-        }
-
-        .extra-details {
-            flex: 1;
-        }
-
-        .extra-name {
-            font-weight: 500;
-            color: #5f6b6d;
-            margin-bottom: 2px;
-        }
-
-        .extra-description {
-            font-size: 0.85em;
-            color: #6c7b7d;
-        }
-
-        .extra-price {
-            display: none;
-        }
-
-        .quantity-section {
-            margin-bottom: 25px;
-            text-align: center;
-        }
-
-        .quantity-title {
-            font-size: 1.2em;
-            color: #5f6b6d;
-            font-weight: 500;
-            margin-bottom: 15px;
-        }
-
-        .modal-quantity-controls {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .modal-qty-btn {
-            background: #a8c4a8;
-            color: white;
-            border: none;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1.3em;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-qty-btn:hover {
-            background: #8fb88f;
-            transform: scale(1.05);
-        }
-
-        .modal-qty-btn:disabled {
-            background: #e8dcc0;
-            cursor: not-allowed;
-            transform: none;
-            color: #999;
-        }
-
-        .modal-quantity {
-            font-weight: 600;
-            font-size: 1.5em;
-            color: #5f6b6d;
-            min-width: 40px;
-            text-align: center;
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 15px;
-            justify-content: space-between;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Source Sans Pro', sans-serif;
-        }
-
-        .modal-btn.cancel {
-            background: #f0f0f0;
-            color: #6c7b7d;
-        }
-
-        .modal-btn.cancel:hover {
-            background: #e8dcc0;
-        }
-
-        .modal-btn.add-to-cart {
-            background: #a8c4a8;
-            color: white;
-        }
-
-        .modal-btn.add-to-cart:hover {
-            background: #8fb88f;
-            transform: translateY(-2px);
-            box-shadow: 
-                0 4px 12px rgba(168, 196, 168, 0.25),
-                0 12px 32px rgba(168, 196, 168, 0.15);
         }
 
         .cart-section {
-            background: #f8f6f2;
-            padding: 32px;
-            border-radius: 20px;
-            margin-top: 40px;
-            border: none;
-            box-shadow: 
-                0 2px 8px rgba(95, 107, 109, 0.06),
-                0 8px 24px rgba(95, 107, 109, 0.04),
-                0 16px 32px rgba(95, 107, 109, 0.02);
-        }
-
-        .cart-section h2 {
-            color: #5f6b6d;
-            margin-bottom: 25px;
-            font-size: 1.8em;
-            font-weight: 400;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
         }
 
         .cart-items {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .cart-item {
-            background: white;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 12px;
-            border: 1px solid #e8dcc0;
-        }
-
-        .cart-item-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .cart-item-name {
-            font-weight: 600;
-            color: #5f6b6d;
-        }
-
-        .cart-item-price {
-            display: none;
-        }
-
-        .cart-item-extras {
-            color: #6c7b7d;
-            font-size: 0.9em;
-            line-height: 1.4;
+            padding: 10px 0;
+            border-bottom: 1px solid #dee2e6;
         }
 
         .cart-total {
-            display: none;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: right;
+            margin-bottom: 20px;
         }
 
         .order-form {
             display: grid;
-            gap: 20px;
+            gap: 15px;
         }
 
         .form-group {
@@ -745,277 +193,496 @@
         }
 
         .form-group label {
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #5f6b6d;
-            font-size: 1.05em;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #2c3e50;
         }
 
         .form-group input {
-            padding: 15px;
-            border: 2px solid #e8dcc0;
-            border-radius: 10px;
+            padding: 10px;
+            border: 2px solid #ecf0f1;
+            border-radius: 5px;
             font-size: 1em;
-            transition: border-color 0.3s ease;
-            font-family: 'Source Sans Pro', sans-serif;
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: #a8c4a8;
-            box-shadow: 0 0 0 3px rgba(168, 196, 168, 0.1);
+            border-color: #3498db;
         }
 
         .submit-btn {
-            background: #a8c4a8;
+            background: #27ae60;
             color: white;
             border: none;
-            padding: 18px;
-            border-radius: 10px;
-            font-size: 1.15em;
-            font-weight: 600;
+            padding: 15px;
+            border-radius: 5px;
+            font-size: 1.1em;
+            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-family: 'Source Sans Pro', sans-serif;
+            transition: background 0.3s ease;
         }
 
         .submit-btn:hover {
-            background: #8fb88f;
-            transform: translateY(-2px);
-            box-shadow: 
-                0 4px 12px rgba(168, 196, 168, 0.25),
-                0 12px 32px rgba(168, 196, 168, 0.15),
-                0 24px 48px rgba(168, 196, 168, 0.08);
+            background: #219a52;
         }
 
         .submit-btn:disabled {
             background: #bdc3c7;
             cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
         }
 
+
+
         .message {
-            padding: 20px;
-            margin: 25px 0;
-            border-radius: 16px;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
             text-align: center;
-            font-weight: 500;
-            border: none;
-            box-shadow: 
-                0 2px 8px rgba(0, 0, 0, 0.06),
-                0 8px 24px rgba(0, 0, 0, 0.04);
+            font-weight: bold;
         }
 
         .success {
-            background: #e8f5e8;
+            background: #d4edda;
             color: #155724;
+            border: 1px solid #c3e6cb;
         }
 
         .error {
-            background: #f8e8e8;
+            background: #f8d7da;
             color: #721c24;
+            border: 1px solid #f5c6cb;
         }
 
         .empty-cart {
             text-align: center;
-            color: #6c7b7d;
+            color: #7f8c8d;
             font-style: italic;
-            padding: 20px;
         }
 
         .loading {
             text-align: center;
-            padding: 50px;
-            color: #6c7b7d;
-            font-size: 1.1em;
-        }
-
-        .closed-message {
-            background: linear-gradient(135deg, #f8e8e8, #f0e0e0);
-            border: 2px solid #d4a5a5;
-            border-radius: 20px;
             padding: 40px;
-            text-align: center;
-            margin: 40px 0;
-            box-shadow: 
-                0 4px 12px rgba(212, 165, 165, 0.2),
-                0 16px 48px rgba(212, 165, 165, 0.1);
+            color: #7f8c8d;
         }
 
-        .closed-message h2 {
-            color: #d4a5a5;
-            font-size: 2.2em;
-            margin-bottom: 15px;
-            font-weight: 500;
-        }
+        /* ===== FIND YOUR TEA-MATE QUIZ ===== */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lora:wght@400;600&display=swap');
 
-        .closed-message p {
-            color: #8a5a5a;
-            font-size: 1.3em;
-            line-height: 1.5;
-            margin-bottom: 20px;
+        .teammate-callout {
+            background: linear-gradient(135deg, #1a0a0e 0%, #2d1118 40%, #1a0a1e 100%);
+            margin: 0;
+            padding: 24px 30px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
         }
-
-        .closed-message .tea-emoji {
-            font-size: 3em;
-            margin: 20px 0;
-        }
-
-        .menu-disabled {
-            opacity: 0.6;
+        .teammate-callout::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(200,50,80,0.15) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 50%, rgba(200,150,50,0.1) 0%, transparent 60%);
             pointer-events: none;
         }
+        .teammate-callout::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200,130,100,0.4), transparent);
+        }
+        .callout-compact {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+        .callout-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .callout-heart {
+            font-size: 1.6em;
+            animation: heartPulse 1.8s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(200,150,80,0.5));
+        }
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .callout-text h3 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.15em;
+            color: #e8c4a0;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .callout-text p {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 0.82em;
+            color: rgba(220,180,160,0.7);
+            font-style: italic;
+        }
+        .callout-btn {
+            background: linear-gradient(135deg, #8b2240, #a8304e);
+            color: #f0d5c0;
+            border: 1px solid rgba(200,130,100,0.3);
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.9em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        .callout-btn:hover {
+            background: linear-gradient(135deg, #a8304e, #c0405e);
+            box-shadow: 0 4px 20px rgba(168,48,78,0.4);
+            transform: translateY(-1px);
+        }
+        .teammate-callout.expanded {
+            padding: 30px;
+            cursor: default;
+        }
+        .quiz-container { display: none; position: relative; z-index: 1; }
+        .teammate-callout.expanded .callout-compact { display: none; }
+        .teammate-callout.expanded .quiz-container { display: block; }
 
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                border-radius: 20px;
-            }
-            
-            .header {
-                padding: 30px 20px;
-            }
-            
-            .header h1 {
-                font-size: 2.2em;
-            }
-            
-            .main-content {
-                padding: 30px 20px;
-            }
+        .quiz-header { text-align: center; margin-bottom: 28px; }
+        .quiz-header h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.8em;
+            color: #e8c4a0;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        .quiz-header p {
+            font-family: 'Lora', Georgia, serif;
+            color: rgba(220,180,160,0.6);
+            font-style: italic;
+            font-size: 0.9em;
+        }
+        .quiz-progress {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .progress-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(200,130,100,0.2);
+            transition: all 0.4s ease;
+        }
+        .progress-dot.active {
+            background: #a8304e;
+            box-shadow: 0 0 10px rgba(168,48,78,0.5);
+            transform: scale(1.2);
+        }
+        .progress-dot.completed { background: #e8c4a0; }
 
-            .featured-scroll {
-                padding: 0 20px 20px 20px;
-            }
+        .quiz-step {
+            display: none;
+            animation: fadeSlideIn 0.5s ease;
+        }
+        .quiz-step.active { display: block; }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .quiz-question {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.35em;
+            color: #e8c4a0;
+            text-align: center;
+            margin-bottom: 24px;
+            line-height: 1.3;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .quiz-option {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(200,130,100,0.2);
+            border-radius: 12px;
+            padding: 16px 14px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(168,48,78,0.3), rgba(200,130,100,0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .quiz-option:hover::before { opacity: 1; }
+        .quiz-option:hover {
+            border-color: rgba(200,130,100,0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        .quiz-option.selected {
+            border-color: #a8304e;
+            background: rgba(168,48,78,0.15);
+        }
+        .quiz-option.selected::before { opacity: 1; }
+        .option-emoji {
+            font-size: 1.8em;
+            display: block;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .option-label {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 0.88em;
+            color: #ddb89a;
+            position: relative;
+            z-index: 1;
+            line-height: 1.3;
+        }
+        .quiz-close {
+            position: absolute;
+            top: 14px; right: 18px;
+            background: none;
+            border: none;
+            color: rgba(220,180,160,0.4);
+            font-size: 1.4em;
+            cursor: pointer;
+            z-index: 2;
+            transition: color 0.3s;
+            line-height: 1;
+        }
+        .quiz-close:hover { color: rgba(220,180,160,0.8); }
 
-            .featured-item {
-                flex: 0 0 250px;
-            }
-            
-            .menu-grid {
-                grid-template-columns: 1fr;
-                gap: 20px;
-                justify-items: center;
-            }
-            
-            .menu-item {
-                max-width: 100%;
-                width: 100%;
-                border-radius: 16px;
-                padding: 25px;
-            }
-            
-            .item-layout {
-                gap: 15px;
-                height: auto;
-                min-height: 100px;
-            }
-
-            .item-image-container {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .item-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 4px;
-                margin-bottom: 8px;
-            }
-            
-            .cart-section {
-                padding: 25px 20px;
-                border-radius: 16px;
-            }
-            
-            .section h2 {
-                font-size: 1.7em;
-            }
-
-            .modal {
-                margin: 10px;
-                padding: 25px;
-                border-radius: 20px;
-            }
-
-            .modal-actions {
-                flex-direction: column;
-            }
+        /* Reveal / Result */
+        .quiz-reveal { display: none; text-align: center; animation: fadeSlideIn 0.6s ease; }
+        .quiz-reveal.active { display: block; }
+        .reveal-curtain { animation: curtainOpen 1.2s ease forwards; }
+        @keyframes curtainOpen {
+            0% { opacity: 0; transform: scale(0.8); }
+            40% { opacity: 1; transform: scale(1.02); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        .reveal-sparkles {
+            font-size: 1.4em;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+        @keyframes sparkle { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+        .reveal-title {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.1em;
+            color: rgba(220,180,160,0.6);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+        }
+        .match-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+            border: 1px solid rgba(200,130,100,0.25);
+            border-radius: 16px;
+            padding: 28px 24px;
+            max-width: 380px;
+            margin: 0 auto 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .match-card::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: 20%; right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #a8304e, transparent);
+        }
+        .match-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 16px;
+            display: block;
+            border: 3px solid rgba(200,130,100,0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        .match-image-placeholder {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            background: rgba(168,48,78,0.15);
+            border: 3px solid rgba(200,130,100,0.3);
+        }
+        .match-name {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.9em;
+            color: #e8c4a0;
+            margin-bottom: 4px;
+        }
+        .match-origin {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 0.85em;
+            color: rgba(220,180,160,0.5);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+        .compatibility-meter { margin: 16px auto 20px; max-width: 220px; }
+        .compat-label {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.8em;
+            color: rgba(220,180,160,0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        .compat-bar-bg {
+            height: 6px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 6px;
+        }
+        .compat-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #a8304e, #e8c4a0);
+            border-radius: 3px;
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .compat-percent {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #e8c4a0;
+            opacity: 0;
+            animation: fadeInPercent 0.5s ease 1.2s forwards;
+        }
+        @keyframes fadeInPercent { to { opacity: 1; } }
+        .match-bio {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 0.92em;
+            color: rgba(220,180,160,0.75);
+            line-height: 1.6;
+            font-style: italic;
+            margin-bottom: 16px;
+            padding: 0 8px;
+        }
+        .match-traits {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .trait-tag {
+            background: rgba(168,48,78,0.2);
+            border: 1px solid rgba(168,48,78,0.3);
+            color: #ddb89a;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: 'Lora', Georgia, serif;
+            font-size: 0.75em;
+            letter-spacing: 0.5px;
+        }
+        .match-price {
+            font-family: 'Lora', Georgia, serif;
+            color: rgba(220,180,160,0.5);
+            font-size: 0.9em;
+            margin-bottom: 18px;
+        }
+        .match-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .match-add-btn {
+            background: linear-gradient(135deg, #8b2240, #a8304e);
+            color: #f0d5c0;
+            border: 1px solid rgba(200,130,100,0.3);
+            padding: 12px 28px;
+            border-radius: 30px;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 0.95em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+        .match-add-btn:hover {
+            background: linear-gradient(135deg, #a8304e, #c0405e);
+            box-shadow: 0 4px 20px rgba(168,48,78,0.4);
+            transform: translateY(-1px);
+        }
+        .match-retry-btn {
+            background: transparent;
+            color: rgba(220,180,160,0.5);
+            border: 1px solid rgba(200,130,100,0.15);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-family: 'Lora', Georgia, serif;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .match-retry-btn:hover {
+            color: rgba(220,180,160,0.8);
+            border-color: rgba(200,130,100,0.35);
+        }
+        .floating-hearts {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .float-heart {
+            position: absolute;
+            bottom: -20px;
+            font-size: 1em;
+            opacity: 0;
+            animation: floatUp 3s ease-in forwards;
+        }
+        @keyframes floatUp {
+            0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+            20% { opacity: 0.7; }
+            100% { opacity: 0; transform: translateY(-300px) rotate(45deg); }
+        }
+        @media (max-width: 500px) {
+            .callout-compact { flex-direction: column; text-align: center; gap: 12px; }
+            .callout-left { justify-content: center; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .quiz-question { font-size: 1.15em; }
+            .match-name { font-size: 1.5em; }
         }
 
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.8em;
-            }
-            
-            .header p {
-                font-size: 1em;
-            }
-            
-            .main-content {
-                padding: 20px 15px;
-            }
-
-            .featured-scroll {
-                padding: 0 15px 20px 15px;
-            }
-
-            .featured-item {
-                flex: 0 0 220px;
-                padding: 20px;
-            }
-            
-            .menu-item {
-                padding: 20px;
-                border-radius: 12px;
-            }
-
-            .item-layout {
-                gap: 12px;
-                height: auto;
-            }
-
-            .item-image-container {
-                width: 80px;
-                height: 80px;
-            }
-
-            .item-name {
-                font-size: 1.1em;
-            }
-
-            .item-description {
-                font-size: 0.9em;
-                line-height: 1.4;
-            }
-            
-            .cart-section {
-                padding: 20px 15px;
-                border-radius: 12px;
-            }
-            
-            .container {
-                border-radius: 16px;
-            }
-
-            .modal {
-                margin: 5px;
-                padding: 20px;
-                border-radius: 16px;
-            }
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>🍵 Tea Station</h1>
-            <p>Because real cafes are too expensive</p>
+            <p>Welcome to our cozy apartment tea corner!</p>
         </div>
 
         <div class="main-content">
@@ -1026,73 +693,199 @@
 
             <!-- Main Content (hidden until loaded) -->
             <div id="main-app" style="display: none;">
-                
-                <!-- Closed Message (shown when store is closed) -->
-                <div class="closed-message" id="closed-message" style="display: none;">
-                    <h2>We're Closed Right Now</h2>
-                    <div class="tea-emoji">🍵</div>
-                    <p>But come back soon!</p>
-                    <p style="font-size: 1em; color: #6c7b7d; margin-top: 20px;">
-                        We'll be back to serve you delicious teas soon. Check back later!
-                    </p>
+
+                <!-- Find Your Tea-mate Quiz -->
+                <div class="teammate-callout" id="teammate-callout" onclick="startQuiz(event)">
+                    <div class="callout-compact">
+                        <div class="callout-left">
+                            <span class="callout-heart">☕</span>
+                            <div class="callout-text">
+                                <h3>Find Your Tea‑mate</h3>
+                                <p>Take the quiz. Meet your new best brew.</p>
+                            </div>
+                        </div>
+                        <button class="callout-btn">Find My Match</button>
+                    </div>
+
+                    <div class="quiz-container" id="quiz-container">
+                        <button class="quiz-close" onclick="closeQuiz(event)">✕</button>
+                        <div class="quiz-header">
+                            <h2>☕ Find Your Tea‑mate</h2>
+                            <p>Answer 4 questions. Find your perfect brew buddy.</p>
+                        </div>
+
+                        <div class="quiz-progress">
+                            <div class="progress-dot active" id="dot-0"></div>
+                            <div class="progress-dot" id="dot-1"></div>
+                            <div class="progress-dot" id="dot-2"></div>
+                            <div class="progress-dot" id="dot-3"></div>
+                        </div>
+
+                        <!-- Step 1: Caffeine -->
+                        <div class="quiz-step active" id="step-0">
+                            <div class="quiz-question">What are you looking for tonight?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectOption(event, 0, 'caffeinated')">
+                                    <span class="option-emoji">⚡</span>
+                                    <span class="option-label">Keep me up all night</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 0, 'decaf')">
+                                    <span class="option-emoji">🌙</span>
+                                    <span class="option-label">Chill & low‑key</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 0, 'adventurous')">
+                                    <span class="option-emoji">🎲</span>
+                                    <span class="option-label">Surprise me</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 0, 'balanced')">
+                                    <span class="option-emoji">☯️</span>
+                                    <span class="option-label">Something balanced</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Mood -->
+                        <div class="quiz-step" id="step-1">
+                            <div class="quiz-question">Describe your ideal hangout.</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectOption(event, 1, 'cozy')">
+                                    <span class="option-emoji">🔥</span>
+                                    <span class="option-label">Cozy night by the fire</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 1, 'exotic')">
+                                    <span class="option-emoji">✈️</span>
+                                    <span class="option-label">Adventure somewhere exotic</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 1, 'classy')">
+                                    <span class="option-emoji">🥂</span>
+                                    <span class="option-label">Something classic & elegant</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 1, 'peaceful')">
+                                    <span class="option-emoji">🌿</span>
+                                    <span class="option-label">A peaceful nature walk</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Flavor -->
+                        <div class="quiz-step" id="step-2">
+                            <div class="quiz-question">What's your vibe?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectOption(event, 2, 'sweet')">
+                                    <span class="option-emoji">🌸</span>
+                                    <span class="option-label">Sweet nothings</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 2, 'spicy')">
+                                    <span class="option-emoji">🌶️</span>
+                                    <span class="option-label">Spice things up</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 2, 'fresh')">
+                                    <span class="option-emoji">🍋</span>
+                                    <span class="option-label">Keep things fresh</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 2, 'deep')">
+                                    <span class="option-emoji">🌑</span>
+                                    <span class="option-label">Deep & mysterious</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Personality -->
+                        <div class="quiz-step" id="step-3">
+                            <div class="quiz-question">Who do you gravitate toward at a party?</div>
+                            <div class="quiz-options">
+                                <div class="quiz-option" onclick="selectOption(event, 3, 'classic')">
+                                    <span class="option-emoji">🌹</span>
+                                    <span class="option-label">The dependable one</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 3, 'bold')">
+                                    <span class="option-emoji">🎉</span>
+                                    <span class="option-label">The life of the party</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 3, 'gentle')">
+                                    <span class="option-emoji">🕊️</span>
+                                    <span class="option-label">The good listener</span>
+                                </div>
+                                <div class="quiz-option" onclick="selectOption(event, 3, 'unique')">
+                                    <span class="option-emoji">🦋</span>
+                                    <span class="option-label">The wildcard</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Reveal -->
+                        <div class="quiz-reveal" id="quiz-reveal">
+                            <div class="reveal-curtain">
+                                <div class="floating-hearts" id="floating-hearts"></div>
+                                <div class="reveal-sparkles">✨ ☕ ✨</div>
+                                <div class="reveal-title">Meet Your Tea‑mate</div>
+                                <div class="match-card">
+                                    <div id="match-image-container"></div>
+                                    <div class="match-name" id="match-name"></div>
+                                    <div class="match-origin" id="match-origin"></div>
+                                    <div class="compatibility-meter">
+                                        <div class="compat-label">Compatibility</div>
+                                        <div class="compat-bar-bg">
+                                            <div class="compat-bar-fill" id="compat-fill"></div>
+                                        </div>
+                                        <div class="compat-percent" id="compat-percent"></div>
+                                    </div>
+                                    <div class="match-bio" id="match-bio"></div>
+                                    <div class="match-traits" id="match-traits"></div>
+                                    <div class="match-price" id="match-price"></div>
+                                </div>
+                                <div class="match-actions">
+                                    <button class="match-add-btn" id="match-add-btn">☕ Add to Order</button>
+                                    <button class="match-retry-btn" onclick="retryQuiz(event)">Try Again</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- Menu Content -->
-                <div id="menu-content">
-                    <!-- Featured Section -->
-                    <div class="featured-section" id="featured-section" style="display: none;">
-                        <h2>✨ Seasonal</h2>
-                        <div class="featured-container">
-                            <div class="featured-scroll" id="featured-scroll">
-                                <!-- Featured items will be populated here -->
-                            </div>
-                        </div>
+                <!-- Caffeinated Tea Menu Section -->
+                <div class="section">
+                    <h2>☕ Caffeinated Teas</h2>
+                    <div class="menu-grid" id="caffeinated-menu">
+                        <!-- Caffeinated tea items will be populated from Firebase -->
                     </div>
+                </div>
 
-                    <!-- Caffeinated Tea Menu Section -->
-                    <div class="section">
-                        <h2>☕ Caffeinated Teas</h2>
-                        <div class="menu-grid" id="caffeinated-menu">
-                            <!-- Caffeinated tea items will be populated from Firebase -->
-                        </div>
+                <!-- Decaf Tea Menu Section -->
+                <div class="section">
+                    <h2>🌙 Decaf & Herbal Teas</h2>
+                    <div class="menu-grid" id="decaf-menu">
+                        <!-- Decaf tea items will be populated from Firebase -->
                     </div>
+                </div>
 
-                    <!-- Decaf Tea Menu Section -->
-                    <div class="section">
-                        <h2>🌙 Decaf & Herbal Teas</h2>
-                        <div class="menu-grid" id="decaf-menu">
-                            <!-- Decaf tea items will be populated from Firebase -->
-                        </div>
+                <!-- Accompaniments Section -->
+                <div class="section">
+                    <h2>🍯 Accompaniments</h2>
+                    <div class="menu-grid" id="accompaniments-menu">
+                        <!-- Accompaniment items will be populated from Firebase -->
                     </div>
+                </div>
 
-                    <!-- Extras Section -->
-                    <div class="section">
-                        <h2>🍯 Extras</h2>
-                        <div class="menu-grid" id="accompaniments-menu">
-                            <!-- Accompaniment items will be populated from Firebase -->
-                        </div>
+                <!-- Cart Section -->
+                <div class="cart-section">
+                    <h2>Your Order</h2>
+                    <div class="cart-items" id="cart-items">
+                        <div class="empty-cart">Your cart is empty</div>
                     </div>
-
-                    <!-- Cart Section -->
-                    <div class="cart-section">
-                        <h2>Your Order</h2>
-                        <div class="cart-items" id="cart-items">
-                            <div class="empty-cart">Your cart is empty</div>
+                    <div class="cart-total" id="cart-total">Total: $0.00</div>
+                    
+                    <form class="order-form" id="order-form">
+                        <div class="form-group">
+                            <label for="customer-name">Your Name:</label>
+                            <input type="text" id="customer-name" required>
                         </div>
-                        <div class="cart-total" id="cart-total">Total: $0.00</div>
-                        
-                        <form class="order-form" id="order-form">
-                            <div class="form-group">
-                                <label for="customer-name">Name:</label>
-                                <input type="text" id="customer-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="special-requests">Special Requests:</label>
-                                <input type="text" id="special-requests" placeholder="Extra honey, no sugar, etc.">
-                            </div>
-                            <button type="submit" class="submit-btn" id="submit-order" disabled>Place Order</button>
-                        </form>
-                    </div>
+                        <div class="form-group">
+                            <label for="special-requests">Special Requests:</label>
+                            <input type="text" id="special-requests" placeholder="Extra honey, no sugar, etc.">
+                        </div>
+                        <button type="submit" class="submit-btn" id="submit-order" disabled>Place Order</button>
+                    </form>
                 </div>
             </div>
 
@@ -1100,53 +893,27 @@
         </div>
     </div>
 
-    <!-- Customization Modal -->
-    <div class="modal-overlay" id="customization-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title" id="modal-tea-name">Tea Name</div>
-                <div class="modal-price" id="modal-tea-price">$0.00</div>
-            </div>
-            <div class="modal-description" id="modal-tea-description">Tea description</div>
-            
-            <div class="extras-section">
-                <div class="extras-title">Add Extras</div>
-                <div class="extras-grid" id="modal-extras-grid">
-                    <!-- Extras will be populated here -->
-                </div>
-            </div>
-
-            <div class="quantity-section">
-                <div class="quantity-title">Quantity</div>
-                <div class="modal-quantity-controls">
-                    <button class="modal-qty-btn" id="modal-qty-decrease">-</button>
-                    <span class="modal-quantity" id="modal-quantity">1</span>
-                    <button class="modal-qty-btn" id="modal-qty-increase">+</button>
-                </div>
-            </div>
-
-            <div class="modal-actions">
-                <button class="modal-btn cancel" id="modal-cancel">Cancel</button>
-                <button class="modal-btn add-to-cart" id="modal-add-to-cart">Add to Cart</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Firebase SDKs -->
     <script type="module">
-        // Import Firebase modules
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { 
-            getFirestore, 
-            collection, 
-            doc, 
-            getDocs, 
-            updateDoc, 
-            addDoc, 
-            onSnapshot,
-            getDoc,
-            setDoc
-        } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        // Dynamic Firebase imports with fallback
+        let initializeApp, getFirestore, collection, doc, getDocs, updateDoc, addDoc, onSnapshot;
+        let firebaseLoaded = false;
+
+        try {
+            const appModule = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+            const fsModule = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+            initializeApp = appModule.initializeApp;
+            getFirestore = fsModule.getFirestore;
+            collection = fsModule.collection;
+            doc = fsModule.doc;
+            getDocs = fsModule.getDocs;
+            updateDoc = fsModule.updateDoc;
+            addDoc = fsModule.addDoc;
+            onSnapshot = fsModule.onSnapshot;
+            firebaseLoaded = true;
+        } catch (e) {
+            console.warn('Firebase CDN unavailable, using demo data');
+        }
 
         // Firebase configuration
         const firebaseConfig = {
@@ -1162,62 +929,58 @@
         // Initialize Firebase
         let app, db;
         let inventory = { teas: [], accompaniments: [] };
-        let featuredItems = [];
         let cart = [];
-        let currentTea = null;
-        let selectedExtras = [];
-        let modalQuantity = 1;
-        let storeStatus = { isOpen: true }; // Default to open
 
         // Try to initialize Firebase
         try {
-            app = initializeApp(firebaseConfig);
-            db = getFirestore(app);
-            
-            // Initialize the app with demo data
-            await initializeData();
-            
+            if (firebaseLoaded) {
+                app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                await initializeData();
+            } else {
+                initializeDemoData();
+            }
         } catch (error) {
             console.error('Firebase initialization error:', error);
-            
-            // Fall back to demo data
             initializeDemoData();
         }
 
         // Initialize with real data (for when Firebase isn't configured)
         function initializeDemoData() {
-            storeStatus = { isOpen: true }; // Default to open in demo mode
-            updateStoreUI();
-            
             inventory = {
                 teas: [
-                    {
-                        id: 'chai-tea',
-                        name: 'Chai Tea',
-                        description: 'Traditional Indian spiced tea blend with warming cardamom, cinnamon, and ginger.',
-                        price: 3.25,
-                        stock: 8,
-                        category: 'tea',
-                        type: 'caffeinated'
-                    },
-                    {
-                        id: 'green-tea',
-                        name: 'Green Tea',
-                        description: 'Pure Japanese green tea with fresh, grassy notes and natural antioxidants.',
-                        price: 3.25,
-                        stock: 9,
-                        category: 'tea',
-                        type: 'caffeinated'
-                    },
-                    {
-                        id: 'butterfly-pea',
-                        name: 'Butterfly Pea',
-                        description: 'Magical Thai herbal tea that changes color! Naturally blue, turns purple with lemon.',
-                        price: 3.50,
-                        stock: 4,
-                        category: 'tea',
-                        type: 'decaf'
-                    }
+                    // === CAFFEINATED (17) ===
+                    { id: 'chai-tea', name: 'Chai Tea', description: 'Traditional Indian spiced tea blend with warming cardamom, cinnamon, and ginger.', price: 3.25, stock: 8, category: 'tea', type: 'caffeinated', origin: 'Indian' },
+                    { id: 'thai-tea', name: 'Thai Tea', description: 'Bold and vibrant Thai black tea with distinctive orange color and sweet flavor.', price: 3.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Thai' },
+                    { id: 'cinnamon-apple-spice', name: 'Cinnamon Apple Spice', description: 'Cozy American blend with sweet apple pieces and warming cinnamon spices.', price: 3.00, stock: 6, category: 'tea', type: 'caffeinated', origin: 'American' },
+                    { id: 'royal-blend', name: 'Royal Blend', description: 'Classic British black tea blend, perfect for a proper afternoon tea.', price: 3.75, stock: 7, category: 'tea', type: 'caffeinated', origin: 'British' },
+                    { id: 'earl-gray', name: 'Earl Gray', description: 'Classic British bergamot-scented black tea, bold and aromatic.', price: 3.25, stock: 6, category: 'tea', type: 'caffeinated', origin: 'British' },
+                    { id: 'maple-black-tea', name: 'Maple Black Tea', description: 'Rich black tea infused with warm maple sweetness. A comforting autumn-in-a-cup.', price: 3.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Canadian' },
+                    { id: 'green-tea', name: 'Green Tea', description: 'Pure Japanese green tea with fresh, grassy notes and natural antioxidants.', price: 3.25, stock: 9, category: 'tea', type: 'caffeinated', origin: 'Japanese' },
+                    { id: 'maple-green-tea', name: 'Maple Green Tea', description: 'Delicate green tea kissed with light maple sweetness. Fresh and subtly sweet.', price: 3.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Japanese-Canadian' },
+                    { id: 'high-mountain-dragon-well', name: 'High Mountain Dragon Well', description: 'Premium Chinese green tea with chestnut notes and a smooth, mellow sweetness.', price: 4.50, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                    { id: 'beautys-waist', name: "Beauty's Waist", description: 'Elegant Chinese green tea with a floral aroma and delicate, graceful flavor.', price: 4.00, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                    { id: 'candy-cane-green-tea', name: 'Candy Cane Green Tea', description: 'Festive green tea with cool peppermint and a hint of sweetness.', price: 3.25, stock: 5, category: 'tea', type: 'caffeinated', origin: 'American' },
+                    { id: 'white-flower-blend', name: 'White Flower Blend', description: 'Fragrant white tea blend with jasmine and chrysanthemum petals.', price: 4.00, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                    { id: 'oolong-tea', name: 'Oolong Tea', description: 'Traditional oolong with complex, semi-oxidized flavor profile.', price: 4.00, stock: 3, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                    { id: 'king-of-hearts', name: 'King of Hearts', description: 'Richly aromatic wulong (oolong) tea with deep, toasty character and smooth finish.', price: 4.25, stock: 3, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                    { id: 'hojicha', name: 'Hojicha', description: 'Roasted Japanese green tea with nutty, caramel-like flavor and lower caffeine.', price: 3.75, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Japanese' },
+                    { id: 'right-heart', name: 'Right Heart', description: 'Subtle white tea with gentle, pillowy softness and delicate floral whispers.', price: 4.00, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                    { id: 'drinking-chocolate', name: 'Drinking Chocolate', description: 'Rich, velvety European-style drinking chocolate. Indulgent and deeply comforting.', price: 4.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'European' },
+                    // === DECAF / HERBAL (13) ===
+                    { id: 'chamomile', name: 'Chamomile', description: 'Soothing herbal tea with gentle floral notes, perfect for evening relaxation.', price: 2.75, stock: 8, category: 'tea', type: 'decaf', origin: 'American' },
+                    { id: 'butterfly-pea', name: 'Butterfly Pea', description: 'Magical Thai herbal tea that changes color! Naturally blue, turns purple with lemon.', price: 3.50, stock: 4, category: 'tea', type: 'decaf', origin: 'Thai' },
+                    { id: 'ssanghwacha', name: 'Ssanghwacha', description: 'Traditional Korean herbal blend with warming properties and earthy flavor.', price: 3.25, stock: 3, category: 'tea', type: 'decaf', origin: 'Korean' },
+                    { id: 'lemongrass-pandan', name: 'Lemongrass Pandan', description: 'Exotic Thai blend with citrusy lemongrass and sweet, nutty pandan leaf.', price: 3.25, stock: 5, category: 'tea', type: 'decaf', origin: 'Thai' },
+                    { id: 'lemongrass', name: 'Lemongrass', description: 'Pure Thai lemongrass tea with bright, citrusy flavor and digestive benefits.', price: 2.75, stock: 7, category: 'tea', type: 'decaf', origin: 'Thai' },
+                    { id: 'corn-silk', name: 'Corn Silk', description: 'Traditional Korean herbal tea known for its subtle sweetness and wellness properties.', price: 2.75, stock: 4, category: 'tea', type: 'decaf', origin: 'Korean' },
+                    { id: 'ginger-tea', name: 'Ginger Tea', description: 'Warming, spicy ginger root tea that soothes and invigorates.', price: 2.75, stock: 6, category: 'tea', type: 'decaf', origin: 'Asian' },
+                    { id: 'burdock-root', name: 'Burdock Root', description: 'Earthy, grounding herbal tea with a deep, woodsy flavor and cleansing properties.', price: 3.00, stock: 4, category: 'tea', type: 'decaf', origin: 'Japanese' },
+                    { id: 'pumpkin-spice-rooibos', name: 'Pumpkin Spice Rooibos', description: 'Caffeine-free South African rooibos with autumn pumpkin spice warmth.', price: 3.25, stock: 5, category: 'tea', type: 'decaf', origin: 'South African' },
+                    { id: 'wild-sweet-orange', name: 'Wild Sweet Orange', description: 'Bright and uplifting herbal blend bursting with sweet orange citrus.', price: 3.00, stock: 6, category: 'tea', type: 'decaf', origin: 'American' },
+                    { id: 'jujube-tea', name: 'Jujube Tea', description: 'Traditional Korean red date tea with natural sweetness and calming warmth.', price: 3.25, stock: 4, category: 'tea', type: 'decaf', origin: 'Korean' },
+                    { id: 'bellflower-root-ginger', name: 'Bellflower Root & Ginger Tea', description: 'Korean herbal blend combining bellflower root with warming ginger.', price: 3.25, stock: 4, category: 'tea', type: 'decaf', origin: 'Korean' },
+                    { id: 'maple-herbal-tea', name: 'Maple Herbal Tea', description: 'Caffeine-free herbal blend with sweet maple warmth and gentle spice.', price: 3.00, stock: 5, category: 'tea', type: 'decaf', origin: 'Canadian' }
                 ],
                 accompaniments: [
                     {
@@ -1239,24 +1002,14 @@
                 ]
             };
             
-            // Demo featured items
-            featuredItems = [
-                { itemId: 'butterfly-pea', itemType: 'tea' },
-                { itemId: 'chai-tea', itemType: 'tea' }
-            ];
-            
             hideLoading();
             renderMenu();
-            renderFeatured();
             renderCart();
         }
 
         // Initialize Firebase data
         async function initializeData() {
             try {
-                // Load store status first
-                await loadStoreStatus();
-                
                 // Check if we have existing data
                 const teaSnapshot = await getDocs(collection(db, 'teas'));
                 const accompanimentSnapshot = await getDocs(collection(db, 'accompaniments'));
@@ -1269,7 +1022,6 @@
                 
                 // Load data from Firebase
                 await loadInventoryFromFirebase();
-                await loadFeaturedFromFirebase();
                 
                 // Set up real-time listeners for inventory changes
                 setupRealtimeListeners();
@@ -1280,246 +1032,41 @@
             }
         }
 
-        async function loadStoreStatus() {
-            try {
-                const statusRef = doc(db, 'settings', 'store-status');
-                const statusDoc = await getDoc(statusRef);
-                
-                if (statusDoc.exists()) {
-                    storeStatus = statusDoc.data();
-                } else {
-                    // Create default status if it doesn't exist
-                    storeStatus = { isOpen: true };
-                    await setDoc(statusRef, storeStatus);
-                }
-                
-                updateStoreUI();
-                
-            } catch (error) {
-                console.error('Error loading store status:', error);
-                storeStatus = { isOpen: true }; // Default to open on error
-                updateStoreUI();
-            }
-        }
-
-        async function loadFeaturedFromFirebase() {
-            try {
-                const featuredSnapshot = await getDocs(collection(db, 'featured'));
-                featuredItems = [];
-                featuredSnapshot.forEach((doc) => {
-                    featuredItems.push({ firebaseId: doc.id, ...doc.data() });
-                });
-
-                renderFeatured();
-                
-            } catch (error) {
-                console.error('Error loading featured items:', error);
-            }
-        }
-
-        function updateStoreUI() {
-            const closedMessage = document.getElementById('closed-message');
-            const menuContent = document.getElementById('menu-content');
-            
-            if (storeStatus.isOpen) {
-                closedMessage.style.display = 'none';
-                menuContent.style.display = 'block';
-                menuContent.classList.remove('menu-disabled');
-            } else {
-                closedMessage.style.display = 'block';
-                menuContent.style.display = 'none';
-                // Clear any ongoing orders when store closes
-                cart = [];
-                renderCart();
-            }
-        }
-
         // Create real tea inventory
         async function createDemoData() {
             const realTeas = [
-                // Caffeinated Teas
-                {
-                    id: 'chai-tea',
-                    name: 'Chai Tea',
-                    description: 'Traditional Indian spiced tea blend with warming cardamom, cinnamon, and ginger.',
-                    price: 3.25,
-                    stock: 8,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Indian'
-                },
-                {
-                    id: 'cinnamon-apple-spice',
-                    name: 'Cinnamon Apple Spice',
-                    description: 'Cozy American blend with sweet apple pieces and warming cinnamon spices.',
-                    price: 3.00,
-                    stock: 6,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'American'
-                },
-                {
-                    id: 'thai-tea-red',
-                    name: 'Thai Tea (Red)',
-                    description: 'Bold and vibrant Thai black tea with distinctive orange color and sweet flavor.',
-                    price: 3.50,
-                    stock: 5,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'thai-tea-yellow',
-                    name: 'Thai Tea (Yellow)',
-                    description: 'Smooth Thai tea blend with a mellow, golden flavor profile.',
-                    price: 3.50,
-                    stock: 4,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'royal-blend',
-                    name: 'Royal Blend',
-                    description: 'Classic British black tea blend, perfect for a proper afternoon tea.',
-                    price: 3.75,
-                    stock: 7,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'British'
-                },
-                {
-                    id: 'green-tea',
-                    name: 'Green Tea',
-                    description: 'Pure Japanese green tea with fresh, grassy notes and natural antioxidants.',
-                    price: 3.25,
-                    stock: 9,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Japanese'
-                },
-                {
-                    id: 'oolong-tea',
-                    name: 'Oolong Tea',
-                    description: 'Traditional Japanese oolong with complex, semi-oxidized flavor profile.',
-                    price: 4.00,
-                    stock: 3,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Japanese'
-                },
-                {
-                    id: 'hojicha',
-                    name: 'Hojicha',
-                    description: 'Roasted Japanese green tea with nutty, caramel-like flavor and lower caffeine.',
-                    price: 3.75,
-                    stock: 5,
-                    category: 'tea',
-                    type: 'caffeinated',
-                    origin: 'Japanese'
-                },
-                
-                // Decaf/Herbal Teas
-                {
-                    id: 'chamomile',
-                    name: 'Chamomile',
-                    description: 'Soothing herbal tea with gentle floral notes, perfect for evening relaxation.',
-                    price: 2.75,
-                    stock: 8,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'American'
-                },
-                {
-                    id: 'lemon-ginger',
-                    name: 'Lemon Ginger',
-                    description: 'Zesty French herbal blend with bright lemon and warming ginger spice.',
-                    price: 3.00,
-                    stock: 6,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'French'
-                },
-                {
-                    id: 'butterfly-pea',
-                    name: 'Butterfly Pea',
-                    description: 'Magical Thai herbal tea that changes color! Naturally blue, turns purple with lemon.',
-                    price: 3.50,
-                    stock: 4,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'ssanghwacha',
-                    name: 'Ssanghwacha',
-                    description: 'Traditional Korean herbal blend with warming properties and earthy flavor.',
-                    price: 3.25,
-                    stock: 3,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Korean'
-                },
-                {
-                    id: 'mint',
-                    name: 'Mint',
-                    description: 'Refreshing American peppermint tea, naturally caffeine-free and cooling.',
-                    price: 2.50,
-                    stock: 10,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'American'
-                },
-                {
-                    id: 'lemongrass-pandan',
-                    name: 'Lemongrass Pandan',
-                    description: 'Exotic Thai blend with citrusy lemongrass and sweet, nutty pandan leaf.',
-                    price: 3.25,
-                    stock: 5,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'lemongrass',
-                    name: 'Lemongrass',
-                    description: 'Pure Thai lemongrass tea with bright, citrusy flavor and digestive benefits.',
-                    price: 2.75,
-                    stock: 7,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Thai'
-                },
-                {
-                    id: 'corn-silk',
-                    name: 'Corn Silk',
-                    description: 'Traditional Korean herbal tea known for its subtle sweetness and wellness properties.',
-                    price: 2.75,
-                    stock: 4,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'Korean'
-                },
-                {
-                    id: 'earl-gray-decaf',
-                    name: 'Earl Gray (Decaf)',
-                    description: 'Classic British bergamot-scented tea, decaffeinated for evening enjoyment.',
-                    price: 3.00,
-                    stock: 6,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'British'
-                },
-                {
-                    id: 'sleepytime',
-                    name: 'Sleepytime',
-                    description: 'Calming American herbal blend with chamomile and lavender for peaceful rest.',
-                    price: 2.75,
-                    stock: 8,
-                    category: 'tea',
-                    type: 'decaf',
-                    origin: 'American'
-                }
+                // === CAFFEINATED (17) ===
+                { id: 'chai-tea', name: 'Chai Tea', description: 'Traditional Indian spiced tea blend with warming cardamom, cinnamon, and ginger.', price: 3.25, stock: 8, category: 'tea', type: 'caffeinated', origin: 'Indian' },
+                { id: 'thai-tea', name: 'Thai Tea', description: 'Bold and vibrant Thai black tea with distinctive orange color and sweet flavor.', price: 3.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Thai' },
+                { id: 'cinnamon-apple-spice', name: 'Cinnamon Apple Spice', description: 'Cozy American blend with sweet apple pieces and warming cinnamon spices.', price: 3.00, stock: 6, category: 'tea', type: 'caffeinated', origin: 'American' },
+                { id: 'royal-blend', name: 'Royal Blend', description: 'Classic British black tea blend, perfect for a proper afternoon tea.', price: 3.75, stock: 7, category: 'tea', type: 'caffeinated', origin: 'British' },
+                { id: 'earl-gray', name: 'Earl Gray', description: 'Classic British bergamot-scented black tea, bold and aromatic.', price: 3.25, stock: 6, category: 'tea', type: 'caffeinated', origin: 'British' },
+                { id: 'maple-black-tea', name: 'Maple Black Tea', description: 'Rich black tea infused with warm maple sweetness. A comforting autumn-in-a-cup.', price: 3.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Canadian' },
+                { id: 'green-tea', name: 'Green Tea', description: 'Pure Japanese green tea with fresh, grassy notes and natural antioxidants.', price: 3.25, stock: 9, category: 'tea', type: 'caffeinated', origin: 'Japanese' },
+                { id: 'maple-green-tea', name: 'Maple Green Tea', description: 'Delicate green tea kissed with light maple sweetness. Fresh and subtly sweet.', price: 3.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Japanese-Canadian' },
+                { id: 'high-mountain-dragon-well', name: 'High Mountain Dragon Well', description: 'Premium Chinese green tea with chestnut notes and a smooth, mellow sweetness.', price: 4.50, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                { id: 'beautys-waist', name: "Beauty's Waist", description: 'Elegant Chinese green tea with a floral aroma and delicate, graceful flavor.', price: 4.00, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                { id: 'candy-cane-green-tea', name: 'Candy Cane Green Tea', description: 'Festive green tea with cool peppermint and a hint of sweetness.', price: 3.25, stock: 5, category: 'tea', type: 'caffeinated', origin: 'American' },
+                { id: 'white-flower-blend', name: 'White Flower Blend', description: 'Fragrant white tea blend with jasmine and chrysanthemum petals.', price: 4.00, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                { id: 'oolong-tea', name: 'Oolong Tea', description: 'Traditional oolong with complex, semi-oxidized flavor profile.', price: 4.00, stock: 3, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                { id: 'king-of-hearts', name: 'King of Hearts', description: 'Richly aromatic wulong (oolong) tea with deep, toasty character and smooth finish.', price: 4.25, stock: 3, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                { id: 'hojicha', name: 'Hojicha', description: 'Roasted Japanese green tea with nutty, caramel-like flavor and lower caffeine.', price: 3.75, stock: 5, category: 'tea', type: 'caffeinated', origin: 'Japanese' },
+                { id: 'right-heart', name: 'Right Heart', description: 'Subtle white tea with gentle, pillowy softness and delicate floral whispers.', price: 4.00, stock: 4, category: 'tea', type: 'caffeinated', origin: 'Chinese' },
+                { id: 'drinking-chocolate', name: 'Drinking Chocolate', description: 'Rich, velvety European-style drinking chocolate. Indulgent and deeply comforting.', price: 4.50, stock: 5, category: 'tea', type: 'caffeinated', origin: 'European' },
+                // === DECAF / HERBAL (13) ===
+                { id: 'chamomile', name: 'Chamomile', description: 'Soothing herbal tea with gentle floral notes, perfect for evening relaxation.', price: 2.75, stock: 8, category: 'tea', type: 'decaf', origin: 'American' },
+                { id: 'butterfly-pea', name: 'Butterfly Pea', description: 'Magical Thai herbal tea that changes color! Naturally blue, turns purple with lemon.', price: 3.50, stock: 4, category: 'tea', type: 'decaf', origin: 'Thai' },
+                { id: 'ssanghwacha', name: 'Ssanghwacha', description: 'Traditional Korean herbal blend with warming properties and earthy flavor.', price: 3.25, stock: 3, category: 'tea', type: 'decaf', origin: 'Korean' },
+                { id: 'lemongrass-pandan', name: 'Lemongrass Pandan', description: 'Exotic Thai blend with citrusy lemongrass and sweet, nutty pandan leaf.', price: 3.25, stock: 5, category: 'tea', type: 'decaf', origin: 'Thai' },
+                { id: 'lemongrass', name: 'Lemongrass', description: 'Pure Thai lemongrass tea with bright, citrusy flavor and digestive benefits.', price: 2.75, stock: 7, category: 'tea', type: 'decaf', origin: 'Thai' },
+                { id: 'corn-silk', name: 'Corn Silk', description: 'Traditional Korean herbal tea known for its subtle sweetness and wellness properties.', price: 2.75, stock: 4, category: 'tea', type: 'decaf', origin: 'Korean' },
+                { id: 'ginger-tea', name: 'Ginger Tea', description: 'Warming, spicy ginger root tea that soothes and invigorates.', price: 2.75, stock: 6, category: 'tea', type: 'decaf', origin: 'Asian' },
+                { id: 'burdock-root', name: 'Burdock Root', description: 'Earthy, grounding herbal tea with a deep, woodsy flavor and cleansing properties.', price: 3.00, stock: 4, category: 'tea', type: 'decaf', origin: 'Japanese' },
+                { id: 'pumpkin-spice-rooibos', name: 'Pumpkin Spice Rooibos', description: 'Caffeine-free South African rooibos with autumn pumpkin spice warmth.', price: 3.25, stock: 5, category: 'tea', type: 'decaf', origin: 'South African' },
+                { id: 'wild-sweet-orange', name: 'Wild Sweet Orange', description: 'Bright and uplifting herbal blend bursting with sweet orange citrus.', price: 3.00, stock: 6, category: 'tea', type: 'decaf', origin: 'American' },
+                { id: 'jujube-tea', name: 'Jujube Tea', description: 'Traditional Korean red date tea with natural sweetness and calming warmth.', price: 3.25, stock: 4, category: 'tea', type: 'decaf', origin: 'Korean' },
+                { id: 'bellflower-root-ginger', name: 'Bellflower Root & Ginger Tea', description: 'Korean herbal blend combining bellflower root with warming ginger.', price: 3.25, stock: 4, category: 'tea', type: 'decaf', origin: 'Korean' },
+                { id: 'maple-herbal-tea', name: 'Maple Herbal Tea', description: 'Caffeine-free herbal blend with sweet maple warmth and gentle spice.', price: 3.00, stock: 5, category: 'tea', type: 'decaf', origin: 'Canadian' }
             ];
 
             const teaAccompaniments = [
@@ -1617,14 +1164,6 @@
 
         // Set up real-time listeners
         function setupRealtimeListeners() {
-            // Listen for store status changes
-            onSnapshot(doc(db, 'settings', 'store-status'), (doc) => {
-                if (doc.exists()) {
-                    storeStatus = doc.data();
-                    updateStoreUI();
-                }
-            });
-
             // Listen for tea changes
             onSnapshot(collection(db, 'teas'), (snapshot) => {
                 inventory.teas = [];
@@ -1632,7 +1171,6 @@
                     inventory.teas.push({ firebaseId: doc.id, ...doc.data() });
                 });
                 renderMenu();
-                renderFeatured(); // Re-render featured when inventory changes
             });
 
             // Listen for accompaniment changes
@@ -1642,16 +1180,6 @@
                     inventory.accompaniments.push({ firebaseId: doc.id, ...doc.data() });
                 });
                 renderMenu();
-                renderFeatured(); // Re-render featured when inventory changes
-            });
-
-            // Listen for featured changes
-            onSnapshot(collection(db, 'featured'), (snapshot) => {
-                featuredItems = [];
-                snapshot.forEach((doc) => {
-                    featuredItems.push({ firebaseId: doc.id, ...doc.data() });
-                });
-                renderFeatured();
             });
         }
 
@@ -1660,147 +1188,18 @@
             document.getElementById('main-app').style.display = 'block';
         }
 
-        // Function to render featured items
-        function renderFeatured() {
-            const featuredSection = document.getElementById('featured-section');
-            const featuredContainer = document.getElementById('featured-scroll');
-
-            if (featuredItems.length === 0) {
-                featuredSection.style.display = 'none';
-                return;
-            }
-
-            featuredSection.style.display = 'block';
-            featuredContainer.innerHTML = '';
-
-            featuredItems.forEach(featuredItem => {
-                let item = null;
-                
-                // Find the actual item from inventory
-                if (featuredItem.itemType === 'tea') {
-                    item = inventory.teas.find(t => t.id === featuredItem.itemId || t.firebaseId === featuredItem.itemId);
-                } else if (featuredItem.itemType === 'accompaniment') {
-                    item = inventory.accompaniments.find(a => a.id === featuredItem.itemId || a.firebaseId === featuredItem.itemId);
-                }
-
-                if (!item) return; // Skip if item not found
-
-                const featuredDiv = document.createElement('div');
-                featuredDiv.className = `featured-item ${item.stock === 0 ? 'sold-out' : ''}`;
-                
-                // Generate image for the item
-                const imageUrl = generatePlaceholderImage(item);
-                
-                // Calculate total price including extras
-                let totalPrice = item.price;
-                let extrasText = '';
-                
-                if (featuredItem.extras && featuredItem.extras.length > 0) {
-                    const extraItems = featuredItem.extras.map(extraId => {
-                        return inventory.accompaniments.find(a => a.id === extraId || a.firebaseId === extraId);
-                    }).filter(Boolean);
-                    
-                    totalPrice += extraItems.reduce((sum, extra) => sum + extra.price, 0);
-                    extrasText = `with ${extraItems.map(e => e.name).join(', ')}`;
-                }
-                
-                const displayName = featuredItem.customName || item.name;
-                
-                featuredDiv.innerHTML = `
-                    <div class="featured-image-container">
-                        <img src="${imageUrl}" alt="${displayName}" class="featured-image" />
-                    </div>
-                    <div class="featured-content">
-                        <div class="featured-name">${displayName}</div>
-                        ${extrasText ? `<div class="featured-extras">${extrasText}</div>` : ''}
-                        <div class="featured-description">${item.description}</div>
-                    </div>
-                `;
-
-                // Add click handler
-                if (item.stock > 0) {
-                    if (item.category === 'tea') {
-                        featuredDiv.addEventListener('click', () => openCustomizationModal(item, featuredItem));
-                    } else {
-                        featuredDiv.addEventListener('click', () => {
-                            updateExtrasCart(item.id, 1);
-                            showMessage(`Added ${featuredItem.customName || item.name} to cart!`, 'success');
-                        });
-                    }
-                }
-
-                featuredContainer.appendChild(featuredDiv);
-            });
-        }
-
         // Function to render menu items
         function renderMenu() {
             // Separate teas by caffeine content
             const caffeinatedTeas = inventory.teas.filter(tea => tea.type === 'caffeinated');
             const decafTeas = inventory.teas.filter(tea => tea.type === 'decaf');
             
-            renderTeaSection('caffeinated-menu', caffeinatedTeas);
-            renderTeaSection('decaf-menu', decafTeas);
-            renderExtrasSection('accompaniments-menu', inventory.accompaniments);
+            renderSection('caffeinated-menu', caffeinatedTeas);
+            renderSection('decaf-menu', decafTeas);
+            renderSection('accompaniments-menu', inventory.accompaniments);
         }
 
-        function renderTeaSection(containerId, items) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-
-            items.forEach(item => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = `menu-item ${item.stock === 0 ? 'sold-out' : 'clickable'}`;
-                
-                // Generate a placeholder image URL based on tea type and name
-                const imageUrl = generatePlaceholderImage(item);
-                
-                itemDiv.innerHTML = `
-                    <div class="item-layout">
-                        <div class="item-content">
-                            <div class="item-header">
-                                <span class="item-name">${item.name}</span>
-                            </div>
-                            <div class="item-description">${item.description}</div>
-                            <div class="item-controls">
-                                <div class="stock-info">
-                                    ${item.stock === 0 ?
-                                        '<span class="sold-out-label">OUT OF STOCK</span>' :
-                                        ''
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        <div class="item-image-container">
-                            <img src="${imageUrl}" alt="${item.name}" class="item-image" />
-                        </div>
-                    </div>
-                `;
-                
-                // Add click handler for tea items
-                if (item.stock > 0) {
-                    itemDiv.addEventListener('click', () => openCustomizationModal(item));
-                }
-                
-                container.appendChild(itemDiv);
-            });
-        }
-
-        // Function to automatically generate image paths based on item names
-        function generatePlaceholderImage(item) {
-            // Convert item name to filename format
-            const filename = item.name
-                .toLowerCase()
-                .replace(/[^a-z0-9\s]/g, '') // Remove special characters except spaces
-                .replace(/\s+/g, '-') // Replace spaces with dashes
-                .replace(/-+/g, '-') // Replace multiple dashes with single dash
-                .replace(/^-|-$/g, ''); // Remove leading/trailing dashes
-            
-            // Return the automatically generated image path
-            return `./images/${filename}.jpg`;
-        }
-
-        function renderExtrasSection(containerId, items) {
+        function renderSection(containerId, items) {
             const container = document.getElementById(containerId);
             container.innerHTML = '';
 
@@ -1811,35 +1210,26 @@
                 const cartItem = cart.find(c => c.id === item.id);
                 const cartQuantity = cartItem ? cartItem.quantity : 0;
                 
-                // Generate image for accompaniments too
-                const imageUrl = generatePlaceholderImage(item);
-                
                 itemDiv.innerHTML = `
-                    <div class="item-layout">
-                        <div class="item-content">
-                            <div class="item-header">
-                                <span class="item-name">${item.name}</span>
-                            </div>
-                            <div class="item-description">${item.description}</div>
-                            <div class="item-controls">
-                                <div class="stock-info">
-                                    ${item.stock === 0 ?
-                                        '<span class="sold-out-label">OUT OF STOCK</span>' :
-                                        ''
-                                    }
-                                </div>
-                                ${item.stock > 0 ? `
-                                    <div class="quantity-controls">
-                                        <button class="qty-btn" onclick="updateExtrasCart('${item.id}', -1)" ${cartQuantity === 0 ? 'disabled' : ''}>-</button>
-                                        <span class="quantity">${cartQuantity}</span>
-                                        <button class="qty-btn" onclick="updateExtrasCart('${item.id}', 1)" ${cartQuantity >= item.stock ? 'disabled' : ''}>+</button>
-                                    </div>
-                                ` : ''}
-                            </div>
+                    <div class="item-header">
+                        <span class="item-name">${item.name}</span>
+                        <span class="item-price">${item.price.toFixed(2)}</span>
+                    </div>
+                    <div class="item-description">${item.description}</div>
+                    <div class="item-controls">
+                        <div class="stock-info">
+                            ${item.stock === 0 ? 
+                                '<span class="sold-out-label">OUT OF STOCK</span>' : 
+                                '<span style="color: #27ae60; font-weight: bold;">Available</span>'
+                            }
                         </div>
-                        <div class="item-image-container">
-                            <img src="${imageUrl}" alt="${item.name}" class="item-image" />
-                        </div>
+                        ${item.stock > 0 ? `
+                            <div class="quantity-controls">
+                                <button class="qty-btn" onclick="updateCart('${item.id}', -1)" ${cartQuantity === 0 ? 'disabled' : ''}>-</button>
+                                <span class="quantity">${cartQuantity}</span>
+                                <button class="qty-btn" onclick="updateCart('${item.id}', 1)" ${cartQuantity >= item.stock ? 'disabled' : ''}>+</button>
+                            </div>
+                        ` : ''}
                     </div>
                 `;
                 
@@ -1847,170 +1237,28 @@
             });
         }
 
-        // Function to open customization modal
-        function openCustomizationModal(tea, featuredConfig = null) {
-            // Check if store is open
-            if (!storeStatus.isOpen) {
-                showMessage("We're closed right now, but come back soon! 🍵", 'error');
-                return;
-            }
-            
-            currentTea = tea;
-            selectedExtras = [];
-            modalQuantity = 1;
-
-            // If this is a featured item, pre-select the extras
-            if (featuredConfig && featuredConfig.extras) {
-                selectedExtras = [...featuredConfig.extras];
-            }
-
-            // Populate modal with tea info (use custom name if featured)
-            const displayName = featuredConfig?.customName || tea.name;
-            document.getElementById('modal-tea-name').textContent = displayName;
-            document.getElementById('modal-tea-description').textContent = tea.description;
-            document.getElementById('modal-quantity').textContent = modalQuantity;
-
-            // Populate extras
-            const extrasGrid = document.getElementById('modal-extras-grid');
-            extrasGrid.innerHTML = '';
-
-            inventory.accompaniments.filter(item => item.stock > 0).forEach(extra => {
-                const extraDiv = document.createElement('div');
-                extraDiv.className = 'extra-item';
-                
-                // Pre-select if this is part of the featured configuration
-                const isPreSelected = selectedExtras.includes(extra.id) || selectedExtras.includes(extra.firebaseId);
-                if (isPreSelected) {
-                    extraDiv.classList.add('selected');
-                }
-                
-                extraDiv.onclick = () => toggleExtra(extra.id);
-
-                extraDiv.innerHTML = `
-                    <div class="extra-info">
-                        <div class="extra-checkbox">${isPreSelected ? '✓' : ''}</div>
-                        <div class="extra-details">
-                            <div class="extra-name">${extra.name}</div>
-                            <div class="extra-description">${extra.description}</div>
-                        </div>
-                    </div>
-                `;
-
-                extrasGrid.appendChild(extraDiv);
-            });
-
-            // Show modal
-            document.getElementById('customization-modal').classList.add('active');
-        }
-
-        // Function to toggle extra selection
-        function toggleExtra(extraId) {
-            const index = selectedExtras.indexOf(extraId);
-            if (index > -1) {
-                selectedExtras.splice(index, 1);
-            } else {
-                selectedExtras.push(extraId);
-            }
-
-            // Update UI
-            const extraItems = document.querySelectorAll('.extra-item');
-            extraItems.forEach((item, i) => {
-                const extra = inventory.accompaniments.filter(item => item.stock > 0)[i];
-                if (selectedExtras.includes(extra.id)) {
-                    item.classList.add('selected');
-                    item.querySelector('.extra-checkbox').innerHTML = '✓';
-                } else {
-                    item.classList.remove('selected');
-                    item.querySelector('.extra-checkbox').innerHTML = '';
-                }
-            });
-        }
-
-        // Modal event listeners
-        document.getElementById('modal-qty-decrease').addEventListener('click', () => {
-            if (modalQuantity > 1) {
-                modalQuantity--;
-                document.getElementById('modal-quantity').textContent = modalQuantity;
-            }
-        });
-
-        document.getElementById('modal-qty-increase').addEventListener('click', () => {
-            if (modalQuantity < currentTea.stock) {
-                modalQuantity++;
-                document.getElementById('modal-quantity').textContent = modalQuantity;
-            }
-        });
-
-        document.getElementById('modal-cancel').addEventListener('click', () => {
-            document.getElementById('customization-modal').classList.remove('active');
-        });
-
-        document.getElementById('modal-add-to-cart').addEventListener('click', () => {
-            addCustomizedTeaToCart();
-        });
-
-        // Close modal when clicking outside
-        document.getElementById('customization-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'customization-modal') {
-                document.getElementById('customization-modal').classList.remove('active');
-            }
-        });
-
-        // Function to add customized tea to cart
-        function addCustomizedTeaToCart() {
-            if (!currentTea) return;
-
-            const extras = selectedExtras.map(extraId => {
-                return inventory.accompaniments.find(a => a.id === extraId);
-            }).filter(Boolean);
-
-            const cartItem = {
-                id: `${currentTea.id}-${Date.now()}`, // Unique ID for each customized tea
-                teaId: currentTea.id,
-                name: currentTea.name,
-                price: currentTea.price,
-                quantity: modalQuantity,
-                extras: extras,
-                totalPrice: (currentTea.price + extras.reduce((sum, extra) => sum + extra.price, 0)) * modalQuantity
-            };
-
-            cart.push(cartItem);
-
-            // Close modal
-            document.getElementById('customization-modal').classList.remove('active');
-
-            // Update display
-            renderMenu();
-            renderCart();
-
-            showMessage(`Added ${modalQuantity}x ${currentTea.name} to cart!`, 'success');
-        }
-
-        // Function to update extras cart (standalone extras)
-        window.updateExtrasCart = function(itemId, change) {
-            // Check if store is open
-            if (!storeStatus.isOpen) {
-                showMessage("We're closed right now, but come back soon! 🍵", 'error');
-                return;
-            }
-            
-            const item = inventory.accompaniments.find(i => i.id === itemId);
+        // Function to update cart
+        window.updateCart = function(itemId, change) {
+            // Find the item in inventory
+            const item = [...inventory.teas, ...inventory.accompaniments].find(i => i.id === itemId);
             if (!item) return;
 
+            // Find existing cart item
             const cartItemIndex = cart.findIndex(c => c.id === itemId);
             
             if (cartItemIndex >= 0) {
+                // Update existing cart item
                 cart[cartItemIndex].quantity += change;
                 if (cart[cartItemIndex].quantity <= 0) {
                     cart.splice(cartItemIndex, 1);
                 }
             } else if (change > 0) {
+                // Add new item to cart
                 cart.push({
                     id: itemId,
                     name: item.name,
                     price: item.price,
-                    quantity: change,
-                    totalPrice: item.price * change
+                    quantity: change
                 });
             }
 
@@ -2026,6 +1274,7 @@
 
             if (cart.length === 0) {
                 cartContainer.innerHTML = '<div class="empty-cart">Your cart is empty</div>';
+                cartTotal.textContent = 'Total: $0.00';
                 submitBtn.disabled = true;
                 return;
             }
@@ -2036,67 +1285,38 @@
             cart.forEach(item => {
                 const cartItemDiv = document.createElement('div');
                 cartItemDiv.className = 'cart-item';
-
-                const itemTotal = item.totalPrice || (item.price * item.quantity);
+                
+                const itemTotal = item.price * item.quantity;
                 total += itemTotal;
-
-                // Build extras text
-                let extrasText = '';
-                if (item.extras && item.extras.length > 0) {
-                    extrasText = `<div class="cart-item-extras">Extras: ${item.extras.map(e => e.name).join(', ')}</div>`;
-                }
-
+                
                 cartItemDiv.innerHTML = `
-                    <div class="cart-item-header">
-                        <span class="cart-item-name">${item.name} × ${item.quantity}</span>
-                    </div>
-                    ${extrasText}
+                    <span>${item.name} × ${item.quantity}</span>
+                    <span>$${itemTotal.toFixed(2)}</span>
                 `;
-
+                
                 cartContainer.appendChild(cartItemDiv);
             });
 
+            cartTotal.textContent = `Total: $${total.toFixed(2)}`;
             submitBtn.disabled = false;
         }
+
+
 
         // Function to handle order submission
         document.getElementById('order-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Check if store is open
-            if (!storeStatus.isOpen) {
-                showMessage("We're closed right now, but come back soon! 🍵", 'error');
-                return;
-            }
-            
             const customerName = document.getElementById('customer-name').value;
             const specialRequests = document.getElementById('special-requests').value;
             
-            // Convert cart to order format
-            const orderItems = cart.map(cartItem => {
-                if (cartItem.extras) {
-                    // Customized tea item
-                    return {
-                        name: `${cartItem.name}${cartItem.extras.length > 0 ? ` (+ ${cartItem.extras.map(e => e.name).join(', ')})` : ''}`,
-                        price: cartItem.totalPrice / cartItem.quantity,
-                        quantity: cartItem.quantity
-                    };
-                } else {
-                    // Regular item
-                    return {
-                        name: cartItem.name,
-                        price: cartItem.price,
-                        quantity: cartItem.quantity
-                    };
-                }
-            });
-
+            // Create the order object
             const order = {
                 id: Date.now(),
                 customer: customerName,
-                items: orderItems,
+                items: [...cart],
                 specialRequests: specialRequests,
-                total: cart.reduce((sum, item) => sum + (item.totalPrice || (item.price * item.quantity)), 0),
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
                 timestamp: new Date().toISOString(),
                 status: 'placed'
             };
@@ -2109,48 +1329,25 @@
 
                 // Update inventory (subtract ordered quantities)
                 for (const cartItem of cart) {
-                    if (cartItem.teaId) {
-                        // Customized tea - update tea stock
-                        const tea = inventory.teas.find(t => t.id === cartItem.teaId);
-                        if (tea && tea.firebaseId) {
-                            const newStock = tea.stock - cartItem.quantity;
-                            if (db) {
-                                await updateDoc(doc(db, 'teas', tea.firebaseId), {
-                                    stock: newStock
-                                });
-                            } else {
-                                tea.stock = newStock;
-                            }
-                        }
-
-                        // Update extras stock
-                        if (cartItem.extras) {
-                            for (const extra of cartItem.extras) {
-                                const accompaniment = inventory.accompaniments.find(a => a.id === extra.id);
-                                if (accompaniment && accompaniment.firebaseId) {
-                                    const newStock = accompaniment.stock - cartItem.quantity;
-                                    if (db) {
-                                        await updateDoc(doc(db, 'accompaniments', accompaniment.firebaseId), {
-                                            stock: newStock
-                                        });
-                                    } else {
-                                        accompaniment.stock = newStock;
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        // Regular accompaniment item
-                        const accompaniment = inventory.accompaniments.find(a => a.id === cartItem.id);
-                        if (accompaniment && accompaniment.firebaseId) {
-                            const newStock = accompaniment.stock - cartItem.quantity;
-                            if (db) {
-                                await updateDoc(doc(db, 'accompaniments', accompaniment.firebaseId), {
-                                    stock: newStock
-                                });
-                            } else {
-                                accompaniment.stock = newStock;
-                            }
+                    let item = inventory.teas.find(t => t.id === cartItem.id);
+                    let collection_name = 'teas';
+                    
+                    if (!item) {
+                        item = inventory.accompaniments.find(a => a.id === cartItem.id);
+                        collection_name = 'accompaniments';
+                    }
+                    
+                    if (item) {
+                        const newStock = item.stock - cartItem.quantity;
+                        
+                        if (db && item.firebaseId) {
+                            // Update in Firebase
+                            await updateDoc(doc(db, collection_name, item.firebaseId), {
+                                stock: newStock
+                            });
+                        } else {
+                            // Update locally for demo mode
+                            item.stock = newStock;
                         }
                     }
                 }
@@ -2161,11 +1358,10 @@
                 
                 // Update display
                 renderMenu();
-                renderFeatured();
                 renderCart();
                 
                 // Show success message
-                showMessage(`Thank you ${customerName}! Your order has been placed.`, 'success');
+                showMessage(`Thank you ${customerName}! Your order has been placed. Total: $${order.total.toFixed(2)}`, 'success');
                 
                 console.log('Order placed:', order);
                 
@@ -2183,6 +1379,210 @@
             setTimeout(() => {
                 messageArea.innerHTML = '';
             }, 5000);
+        }
+
+        // ===== FIND YOUR TEA-MATE QUIZ =====
+        let quizAnswers = [null, null, null, null];
+        const TOTAL_STEPS = 4;
+
+        // Tea profiles: caffeine, mood, flavor, personality
+        const teaProfiles = {
+            // === CAFFEINATED (17) ===
+            'chai-tea':                  { caffeine: 'caffeinated', mood: 'cozy',    flavor: 'spicy', personality: 'bold',    compat: 94, bio: "The friend who always brings the best snacks. Warm, bold, and down for anything.", traits: ['Warming', 'Spiced', 'Bold'], origin: 'Indian classic' },
+            'thai-tea':                  { caffeine: 'caffeinated', mood: 'exotic',  flavor: 'sweet', personality: 'bold',    compat: 92, bio: "Life of the party — bright, fun, and always brings the energy.", traits: ['Vibrant', 'Creamy', 'Exotic'], origin: 'Thai street favorite' },
+            'cinnamon-apple-spice':      { caffeine: 'caffeinated', mood: 'cozy',    flavor: 'sweet', personality: 'classic', compat: 90, bio: "Your cozy movie marathon partner. Brings blankets and good vibes.", traits: ['Autumnal', 'Sweet', 'Comforting'], origin: 'American cozy' },
+            'royal-blend':               { caffeine: 'caffeinated', mood: 'classy',  flavor: 'deep',  personality: 'classic', compat: 93, bio: "The friend with impeccable taste who introduces you to the finer things.", traits: ['Regal', 'Smooth', 'Timeless'], origin: 'British classic' },
+            'earl-gray':                 { caffeine: 'caffeinated', mood: 'classy',  flavor: 'fresh', personality: 'classic', compat: 91, bio: "Effortlessly cool, always reliable. The friend who somehow has their life together.", traits: ['Aromatic', 'Citrusy', 'Refined'], origin: 'British bergamot' },
+            'maple-black-tea':           { caffeine: 'caffeinated', mood: 'cozy',    flavor: 'sweet', personality: 'gentle',  compat: 89, bio: "Sweet and dependable — the one who remembers your birthday every year.", traits: ['Maple', 'Rich', 'Comforting'], origin: 'Canadian warmth' },
+            'green-tea':                 { caffeine: 'caffeinated', mood: 'peaceful', flavor: 'fresh', personality: 'gentle', compat: 88, bio: "Your chill workout buddy. Keeps it simple, keeps it real.", traits: ['Fresh', 'Clean', 'Zen'], origin: 'Japanese pure' },
+            'maple-green-tea':           { caffeine: 'caffeinated', mood: 'peaceful', flavor: 'sweet', personality: 'gentle', compat: 87, bio: "Easygoing with a sweet side. Perfect study buddy energy.", traits: ['Subtle', 'Sweet', 'Gentle'], origin: 'Japanese-Canadian fusion' },
+            'high-mountain-dragon-well': { caffeine: 'caffeinated', mood: 'classy',  flavor: 'deep',  personality: 'unique', compat: 96, bio: "The worldly friend who always has the best stories and advice.", traits: ['Premium', 'Nutty', 'Complex'], origin: 'Chinese highland' },
+            'beautys-waist':             { caffeine: 'caffeinated', mood: 'classy',  flavor: 'fresh', personality: 'gentle', compat: 92, bio: "Graceful and thoughtful — the friend who writes you handwritten notes.", traits: ['Floral', 'Elegant', 'Graceful'], origin: 'Chinese artisan' },
+            'candy-cane-green-tea':      { caffeine: 'caffeinated', mood: 'cozy',    flavor: 'fresh', personality: 'bold',   compat: 86, bio: "The fun one who makes every hangout feel like a celebration.", traits: ['Minty', 'Festive', 'Playful'], origin: 'American holiday' },
+            'white-flower-blend':        { caffeine: 'caffeinated', mood: 'peaceful', flavor: 'sweet', personality: 'unique', compat: 93, bio: "Quiet and elegant — the friend who makes you feel calm just being around them.", traits: ['Floral', 'Ethereal', 'Rare'], origin: 'Chinese garden' },
+            'oolong-tea':                { caffeine: 'caffeinated', mood: 'classy',  flavor: 'deep',  personality: 'bold',   compat: 91, bio: "Complex and fascinating. Every conversation reveals something new.", traits: ['Complex', 'Layered', 'Intriguing'], origin: 'Chinese traditional' },
+            'king-of-hearts':            { caffeine: 'caffeinated', mood: 'exotic',  flavor: 'deep',  personality: 'unique', compat: 95, bio: "Bold personality, warm heart. The friend everyone wants at their table.", traits: ['Toasty', 'Regal', 'Aromatic'], origin: 'Chinese wulong' },
+            'hojicha':                   { caffeine: 'balanced',    mood: 'cozy',    flavor: 'deep',  personality: 'unique', compat: 90, bio: "Laid-back and interesting. The cozy friend who always surprises you.", traits: ['Roasted', 'Nutty', 'Mellow'], origin: 'Japanese roasted' },
+            'right-heart':               { caffeine: 'caffeinated', mood: 'peaceful', flavor: 'sweet', personality: 'classic', compat: 91, bio: "Gentle and thoughtful — the friend who really listens.", traits: ['Delicate', 'Soft', 'Serene'], origin: 'Chinese white tea' },
+            'drinking-chocolate':        { caffeine: 'caffeinated', mood: 'exotic',  flavor: 'sweet', personality: 'gentle', compat: 94, bio: "Rich, indulgent, and unapologetically extra. The friend who goes all out.", traits: ['Velvety', 'Indulgent', 'Rich'], origin: 'European luxury' },
+
+            // === DECAF / HERBAL (13) ===
+            'chamomile':                 { caffeine: 'decaf', mood: 'peaceful', flavor: 'sweet', personality: 'classic', compat: 89, bio: "Your calm-down buddy. Always knows the right thing to say.", traits: ['Soothing', 'Floral', 'Golden'], origin: 'American herbal' },
+            'butterfly-pea':             { caffeine: 'decaf', mood: 'exotic',  flavor: 'sweet', personality: 'unique', compat: 95, bio: "The wildcard friend who makes ordinary hangouts magical. Just add lemon.", traits: ['Magical', 'Color-changing', 'Enchanting'], origin: 'Thai mystical' },
+            'ssanghwacha':               { caffeine: 'decaf', mood: 'cozy',    flavor: 'deep',  personality: 'unique', compat: 90, bio: "Old soul energy. The wise friend who gives the best advice.", traits: ['Medicinal', 'Earthy', 'Traditional'], origin: 'Korean heritage' },
+            'lemongrass-pandan':         { caffeine: 'decaf', mood: 'exotic',  flavor: 'fresh', personality: 'gentle', compat: 88, bio: "The adventurous friend who introduces you to amazing new things.", traits: ['Tropical', 'Citrusy', 'Aromatic'], origin: 'Thai tropical' },
+            'lemongrass':                { caffeine: 'decaf', mood: 'peaceful', flavor: 'fresh', personality: 'gentle', compat: 86, bio: "Refreshingly honest and low-maintenance. No drama, just good times.", traits: ['Bright', 'Citrusy', 'Clean'], origin: 'Thai herbal' },
+            'corn-silk':                 { caffeine: 'decaf', mood: 'peaceful', flavor: 'sweet', personality: 'unique', compat: 87, bio: "Underrated and surprising. The quiet friend who's secretly the funniest.", traits: ['Subtle', 'Sweet', 'Unexpected'], origin: 'Korean wellness' },
+            'ginger-tea':                { caffeine: 'decaf', mood: 'cozy',    flavor: 'spicy', personality: 'bold',   compat: 91, bio: "Fiery and upfront — the friend who always tells it like it is.", traits: ['Warming', 'Spicy', 'Invigorating'], origin: 'Asian tradition' },
+            'burdock-root':              { caffeine: 'decaf', mood: 'peaceful', flavor: 'deep',  personality: 'unique', compat: 88, bio: "Grounded and steady. The friend who keeps you centered.", traits: ['Earthy', 'Woodsy', 'Grounding'], origin: 'Japanese herbal' },
+            'pumpkin-spice-rooibos':     { caffeine: 'decaf', mood: 'cozy',    flavor: 'sweet', personality: 'classic', compat: 90, bio: "Cozy hangout energy. Brings the fall vibes all year round.", traits: ['Autumnal', 'Spiced', 'Caffeine-free'], origin: 'South African blend' },
+            'wild-sweet-orange':         { caffeine: 'decaf', mood: 'exotic',  flavor: 'fresh', personality: 'bold',   compat: 89, bio: "Bright and uplifting — the friend who always cheers you up.", traits: ['Citrus', 'Bright', 'Energizing'], origin: 'American herbal' },
+            'jujube-tea':                { caffeine: 'decaf', mood: 'cozy',    flavor: 'sweet', personality: 'gentle', compat: 91, bio: "Sweet and nurturing. The friend who makes sure everyone's taken care of.", traits: ['Sweet', 'Calming', 'Nourishing'], origin: 'Korean traditional' },
+            'bellflower-root-ginger':    { caffeine: 'decaf', mood: 'cozy',    flavor: 'spicy', personality: 'classic', compat: 88, bio: "Reliable with a little kick. The friend who pushes you to be better.", traits: ['Herbal', 'Warming', 'Traditional'], origin: 'Korean medicinal' },
+            'maple-herbal-tea':          { caffeine: 'decaf', mood: 'peaceful', flavor: 'sweet', personality: 'gentle', compat: 87, bio: "Gentle and sweet. The low-key friend who's always down to chill.", traits: ['Maple', 'Gentle', 'Caffeine-free'], origin: 'Canadian herbal' }
+        };
+
+        window.startQuiz = function(e) {
+            e.stopPropagation();
+            const callout = document.getElementById('teammate-callout');
+            if (!callout.classList.contains('expanded')) {
+                callout.classList.add('expanded');
+            }
+        };
+
+        window.closeQuiz = function(e) {
+            e.stopPropagation();
+            const callout = document.getElementById('teammate-callout');
+            callout.classList.remove('expanded');
+            resetQuiz();
+        };
+
+        function resetQuiz() {
+            quizAnswers = [null, null, null, null];
+            for (let i = 0; i < TOTAL_STEPS; i++) {
+                document.getElementById(`step-${i}`).classList.remove('active');
+                document.getElementById(`dot-${i}`).classList.remove('active', 'completed');
+            }
+            document.getElementById('step-0').classList.add('active');
+            document.getElementById('dot-0').classList.add('active');
+            document.getElementById('quiz-reveal').classList.remove('active');
+            document.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+        }
+
+        window.selectOption = function(e, step, value) {
+            e.stopPropagation();
+            quizAnswers[step] = value;
+
+            // Highlight selected
+            const stepEl = document.getElementById(`step-${step}`);
+            stepEl.querySelectorAll('.quiz-option').forEach(o => o.classList.remove('selected'));
+            e.currentTarget.classList.add('selected');
+
+            // Advance after short delay
+            setTimeout(() => {
+                document.getElementById(`dot-${step}`).classList.remove('active');
+                document.getElementById(`dot-${step}`).classList.add('completed');
+                document.getElementById(`step-${step}`).classList.remove('active');
+
+                if (step < TOTAL_STEPS - 1) {
+                    document.getElementById(`step-${step + 1}`).classList.add('active');
+                    document.getElementById(`dot-${step + 1}`).classList.add('active');
+                } else {
+                    showReveal();
+                }
+            }, 400);
+        };
+
+        window.retryQuiz = function(e) {
+            e.stopPropagation();
+            resetQuiz();
+        };
+
+        function findTeaMatch() {
+            const [cafPref, moodPref, flavorPref, personalityPref] = quizAnswers;
+            const allItems = [...inventory.teas, ...inventory.accompaniments];
+            let bestMatch = null;
+            let bestScore = -1;
+
+            for (const [teaId, profile] of Object.entries(teaProfiles)) {
+                // Check if in stock
+                const invItem = allItems.find(i => i.id === teaId);
+                if (invItem && invItem.stock <= 0) continue;
+
+                let score = 0;
+
+                // Caffeine match (weight 3)
+                if (cafPref === 'adventurous') {
+                    score += 2; // all teas are fair game
+                } else if (cafPref === 'balanced') {
+                    if (profile.caffeine === 'balanced') score += 4;
+                    else score += 1;
+                } else if (profile.caffeine === cafPref) {
+                    score += 3;
+                }
+
+                // Mood match (weight 2)
+                if (profile.mood === moodPref) score += 2;
+
+                // Flavor match (weight 2)
+                if (profile.flavor === flavorPref) score += 2;
+
+                // Personality match (weight 2)
+                if (profile.personality === personalityPref) score += 2;
+
+                // Tiny random factor for variety on retakes
+                score += Math.random() * 0.5;
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMatch = teaId;
+                }
+            }
+
+            return bestMatch || 'chamomile';
+        }
+
+        function showReveal() {
+            const teaId = findTeaMatch();
+            const profile = teaProfiles[teaId];
+            const allItems = [...inventory.teas, ...inventory.accompaniments];
+            const invItem = allItems.find(i => i.id === teaId);
+
+            document.getElementById('match-name').textContent = invItem ? invItem.name : teaId;
+            document.getElementById('match-origin').textContent = profile.origin;
+            document.getElementById('match-bio').textContent = `"${profile.bio}"`;
+            document.getElementById('match-price').textContent = invItem ? `$${invItem.price.toFixed(2)}` : '';
+
+            // Tea image
+            const imgContainer = document.getElementById('match-image-container');
+            imgContainer.innerHTML = `<img class="match-image" src="./images/quiz/${teaId}.jpg" alt="${invItem ? invItem.name : teaId}" onerror="this.outerHTML='<div class=\\'match-image-placeholder\\'>🍵</div>'">`;
+
+            // Traits
+            const traitsEl = document.getElementById('match-traits');
+            traitsEl.innerHTML = profile.traits.map(t => `<span class="trait-tag">${t}</span>`).join('');
+
+            // Compatibility bar
+            const fill = document.getElementById('compat-fill');
+            const pct = document.getElementById('compat-percent');
+            fill.style.width = '0%';
+            pct.textContent = `${profile.compat}%`;
+
+            // Add to cart button
+            const addBtn = document.getElementById('match-add-btn');
+            addBtn.onclick = function(e) {
+                e.stopPropagation();
+                if (typeof updateCart === 'function' && invItem) {
+                    updateCart(teaId, 1);
+                    addBtn.textContent = '✓ Added!';
+                    addBtn.style.background = 'linear-gradient(135deg, #2d6a30, #3a8a3e)';
+                    setTimeout(() => {
+                        addBtn.textContent = '☕ Add to Order';
+                        addBtn.style.background = '';
+                    }, 2000);
+                }
+            };
+
+            // Show reveal
+            document.getElementById('quiz-reveal').classList.add('active');
+            launchHearts();
+
+            // Animate compatibility bar
+            setTimeout(() => { fill.style.width = profile.compat + '%'; }, 300);
+        }
+
+        function launchHearts() {
+            const container = document.getElementById('floating-hearts');
+            container.innerHTML = '';
+            const hearts = ['✨', '⭐', '🌟', '☕', '🍵'];
+            for (let i = 0; i < 12; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'float-heart';
+                heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 2 + 's';
+                heart.style.fontSize = (0.8 + Math.random() * 0.8) + 'em';
+                container.appendChild(heart);
+            }
         }
 
         // Make functions available globally
